@@ -18,11 +18,10 @@ func main() {
 		password := c.PostForm("password")
 		u, err := gerUserByUserName(username)
 		if err != nil || u.password != password {
-			c.JSON(http.StatusOK, gin.H{"msg": "incorrect username or password", "data": ""})
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "incorrect username or password", "data": ""})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"msg": "ok", "data": ""})
-
+		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "ok", "data": ""})
 	})
 
 	r.POST("/api/register", func(c *gin.Context) {
@@ -30,15 +29,15 @@ func main() {
 		password := c.PostForm("password")
 		userType, err := strconv.Atoi(c.PostForm("usertype"))
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"msg": "invalid user type", "data": ""})
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "invalid user type", "data": ""})
 			return
 		}
 		err = register(username, password, userType)
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"msg": "register failed:" + err.Error(), "data": ""})
+			c.JSON(http.StatusOK, gin.H{"code": -2, "msg": "register failed:" + err.Error(), "data": ""})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"msg": "ok", "data": ""})
+		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "ok", "data": ""})
 	})
 
 	err := r.Run()
