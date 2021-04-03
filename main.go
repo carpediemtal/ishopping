@@ -1,30 +1,73 @@
 package main
 
 import (
-	"fmt"
+	"errors"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"log"
+	"net/http"
+	"strconv"
 )
 
 func main() {
-	db, err := sqlx.Connect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	r := gin.Default()
+
+	r.POST("/api/login", func(c *gin.Context) {
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		u, err := gerUserByUserName(username)
+		if err != nil || u.password != password {
+			c.JSON(http.StatusOK, gin.H{"msg": "incorrect username or password", "data": ""})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"msg": "ok", "data": ""})
+
+	})
+
+	r.POST("/api/register", func(c *gin.Context) {
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		userType, err := strconv.Atoi(c.PostForm("usertype"))
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"msg": "invalid user type", "data": ""})
+			return
+		}
+		err = register(username, password, userType)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"msg": "register failed:" + err.Error(), "data": ""})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"msg": "ok", "data": ""})
+	})
+
+	err := r.Run()
 	if err != nil {
-		fmt.Println("WTF")
+		log.Println(err)
 	}
+}
 
-	rows, err := db.Query("SELECT * FROM user ")
+func gerUserByUserName(username string) (User, error) {
+	db := sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	row := db.QueryRow("select * from user where username = ?", username)
+	var user User
+	err := row.Scan(&user.uid, &user.username, &user.password, &user.usertype)
+	return user, err
+}
 
-	// iterate over each row
-	for rows.Next() {
-		var uid int
-		// note that city can be NULL, so we use the NullString type
-		var username string
-		var password string
-		var t int
-		err = rows.Scan(&uid, &username, &password, &t)
-		fmt.Println(uid, username, password, t)
+func register(username, password string, userType int) error {
+	if len(username) == 0 || len(password) == 0 {
+		return errors.New("invalid username or password")
 	}
+	db := sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	regSql := `insert into user (username ,password, type) values (?, ?, ?)`
+	_, err := db.Exec(regSql, username, password, userType)
+	return err
+}
 
-	// check the error from rows
-	err = rows.Err()
+type User struct {
+	uid      int
+	username string
+	password string
+	usertype int
 }
