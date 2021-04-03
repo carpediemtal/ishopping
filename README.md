@@ -4,7 +4,7 @@
 
 ### 登录
 
-#### 请求
+- 请求
 
 | 请求类型 | PATH       |
 | -------- | ---------- |
@@ -15,7 +15,7 @@
 | username | string |
 | password | string |
 
-#### 响应
+- 响应
 
 | 字段名 | 类型   | 说明                                                       |
 | ------ | ------ | ---------------------------------------------------------- |
@@ -23,9 +23,13 @@
 | msg    | string | 成功时返回空值，失败时返回"incorrect username or password" |
 | data   | string |                                                            |
 
+- 栗子
+
+  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xdr9q58j315d0i0gm8.jpg"/>
+
 ### 注册
 
-#### 请求
+- 请求
 
 | 请求类型 | PATH          |
 | -------- | ------------- |
@@ -37,13 +41,67 @@
 | password | string |
 | usertype | int    |
 
-#### 响应
+- 响应
 
 | 字段名 | 类型   | 说明                               |
 | ------ | ------ | ---------------------------------- |
 | code   | int    | 0表示成功，非0表示发生错误         |
 | msg    | string | 成功时返回空值，失败时返回失败原因 |
 | data   | string |                                    |
+
+- 栗子
+
+  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xbyd36fj315k0hxzkx.jpg"/>
+
+### 查询买家信息
+
+#### 通过uid查询
+
+- 请求
+
+| 请求类型 | PATH                   |
+| -------- | ---------------------- |
+| POST     | /api/query_buyer_by_id |
+
+| 字段名 | 类型 |
+| ------ | ---- |
+| uid    | int  |
+
+- 响应
+
+| 字段名 | 类型     | 说明                               |
+| ------ | -------- | ---------------------------------- |
+| code   | int      | 0表示成功，非0表示发生错误         |
+| msg    | string   | 成功时返回空值，失败时返回失败原因 |
+| data   | json对象 | 包含买家信息                       |
+
+- 栗子
+
+  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xp1oopej315k0kwaaq.jpg"/>
+
+#### 通过username查询
+
+- 请求
+
+| 请求类型 | PATH                         |
+| -------- | ---------------------------- |
+| POST     | /api/query_buyer_by_username |
+
+| 字段名   | 类型   |
+| -------- | ------ |
+| username | string |
+
+- 响应
+
+| 字段名 | 类型     | 说明                               |
+| ------ | -------- | ---------------------------------- |
+| code   | int      | 0表示成功，非0表示发生错误         |
+| msg    | string   | 成功时返回空值，失败时返回失败原因 |
+| data   | json对象 | 包含买家信息                       |
+
+- 栗子
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xqdotzcj315h0l3aar.jpg"/>
 
 ## 数据库建表
 
