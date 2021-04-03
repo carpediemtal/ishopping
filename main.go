@@ -18,10 +18,10 @@ func main() {
 		password := c.PostForm("password")
 		u, err := gerUserByUserName(username)
 		if err != nil || u.password != password {
-			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "incorrect username or password", "data": ""})
+			JsonErr(c, "incorrect username or password")
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "ok", "data": ""})
+		JsonOK(c, gin.H{})
 	})
 
 	r.POST("/api/register", func(c *gin.Context) {
@@ -29,15 +29,15 @@ func main() {
 		password := c.PostForm("password")
 		userType, err := strconv.Atoi(c.PostForm("usertype"))
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "invalid user type", "data": ""})
+			JsonErr(c, "invalid user type")
 			return
 		}
 		err = register(username, password, userType)
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{"code": -2, "msg": "register failed:" + err.Error(), "data": ""})
+			JsonErr(c, "register failed:"+err.Error())
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "ok", "data": ""})
+		JsonOK(c, gin.H{})
 	})
 
 	err := r.Run()
@@ -69,4 +69,24 @@ type User struct {
 	username string
 	password string
 	usertype int
+}
+
+// 成功的返回
+func JsonOK(c *gin.Context, data gin.H) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "",
+		"data": data,
+	})
+	c.Abort()
+}
+
+// 错误的返回
+func JsonErr(c *gin.Context, msg string) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": -1,
+		"msg":  msg,
+		"data": "",
+	})
+	c.Abort()
 }
