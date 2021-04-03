@@ -47,7 +47,7 @@ func main() {
 }
 
 func gerUserByUserName(username string) (User, error) {
-	db := sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	db := sqlx.MustConnect("mysql", "root:password@(localhost:3306)/ishopping")
 	row := db.QueryRow("select * from user where username = ?", username)
 	var user User
 	err := row.Scan(&user.uid, &user.username, &user.password, &user.usertype)
@@ -58,7 +58,7 @@ func register(username, password string, userType int) error {
 	if len(username) == 0 || len(password) == 0 {
 		return errors.New("invalid username or password")
 	}
-	db := sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	db := sqlx.MustConnect("mysql", "root:password@(localhost:3306)/ishopping")
 	regSql := `insert into user (username ,password, type) values (?, ?, ?)`
 	_, err := db.Exec(regSql, username, password, userType)
 	return err
