@@ -115,18 +115,14 @@ create table user_meta
 
 ```
 
-## 后端数据库框架
+## 框架
 
-- 相关链接
+### 数据库
 
 [sqlx](https://github.com/jmoiron/sqlx)
 
 [sqlx user documentation](http://jmoiron.github.io/sqlx/)
 
-- 需要的包
+### web
 
-```bash
-go get github.com/jmoiron/sqlx
-go get github.com/mattn/go-sqlite3
-```
-
+[GIN](https://github.com/gin-gonic/gin#quick-start)
