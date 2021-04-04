@@ -129,7 +129,7 @@
 
 - 例子
 
-![](C:%5CUsers%5Cdell%5CPictures%5CSaved%20Pictures%5CSnipaste_2021-04-04_14-18-04.png)
+  ![](https://raw.githubusercontent.com/Sean1840/picture/master/img/Snipaste_2021-04-04_14-18-05.png)
 
 （这里没有返回introduction的信息）
 
