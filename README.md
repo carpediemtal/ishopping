@@ -133,6 +133,36 @@
 
 （这里没有返回introduction的信息）
 
+#### 添加商品
+
+- 请求
+
+| 请求类型 | PATH               |
+| -------- | ------------------ |
+| POST     | /api/commodity_add |
+
+| 字段名         | 类型   | 说明     |
+| :------------- | :----- | :------- |
+| user_id        | int    | 用户名   |
+| commodity_name | string | 商品名   |
+| inventory      | int    | 商品库存 |
+| introduction   | string | 商品介绍 |
+| price          | int    |          |
+
+- 响应
+
+| 字段名 | 类型     | 说明                               |
+| ------ | -------- | ---------------------------------- |
+| code   | int      | 0表示成功，非0表示发生错误         |
+| msg    | string   | 成功时返回空值，失败时返回失败原因 |
+| data   | json对象 | 包含买家信息                       |
+
+- 响应
+
+
+
+- 栗子
+
 ## 数据库建表
 
 ```sql
@@ -181,12 +211,12 @@ create table commodity
 (
     cid       int auto_increment
         primary key,
-    sid       int           not null,
-    name      varchar(32)   not null,
-    price     int           not null,
-    sales     int default 0 not null,
-    inventory int default 0 not null,
-    caid      int           not null
+    sid       int            not null,
+    name      varchar(32)    not null,
+    price     decimal(10, 2) not null,
+    sales     int default 0  not null,
+    inventory int default 0  not null,
+    caid      int            not null
 );
 
 create table commodity_meta
@@ -244,7 +274,6 @@ create table user_meta
     meta_key varchar(64) not null,
     meta_val text        not null
 );
-
 
 ```
 
