@@ -90,6 +90,7 @@ func commodityAddHandler(c *gin.Context) {
 	err = addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
 	if err != nil {
 		JsonErr(c, err.Error())
+		return
 	}
 
 	JsonOK(c, gin.H{})
@@ -116,11 +117,7 @@ func addCommodity(uid, price, inventory int, name, introduction string) error {
 }
 
 func getSidByUid(uid int) (sid int, err error) {
-	row, err := db.Query(`select sid from shop where uid = ?`, uid)
-	if err != nil {
-		return 0, err
-	}
-
+	row := db.QueryRow(`select sid from shop where uid = ?`, uid)
 	err = row.Scan(&sid)
 	return
 }
