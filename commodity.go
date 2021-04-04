@@ -9,13 +9,13 @@ import (
 )
 
 type Commodity struct {
-	Cid       int    `json:"cid" map:"cid"`
-	Sid       int    `json:"sid" map:"sid"`
-	Name      string `json:"name" map:"name"`
-	Price     int    `json:"price" map:"price"`
-	Sales     int    `json:"sales" map:"sales"`
-	Inventory int    `json:"inventory" map:"inventory"`
-	Caid      int    `json:"caid" map:"caid"`
+	Cid       int     `json:"cid" map:"cid"`
+	Sid       int     `json:"sid" map:"sid"`
+	Name      string  `json:"name" map:"name"`
+	Price     float64 `json:"price" map:"price"`
+	Sales     int     `json:"sales" map:"sales"`
+	Inventory int     `json:"inventory" map:"inventory"`
+	Caid      int     `json:"caid" map:"caid"`
 }
 
 func getCommodityProfileByCid(cid int) (commodity Commodity, err error) {
@@ -73,11 +73,11 @@ func getCommodities() (commodities []Commodity, err error) {
 
 func commodityAddHandler(c *gin.Context) {
 	type params struct {
-		ID           int    `json:"user_id"`
-		Name         string `json:"commodity_name"`
-		Inventory    int    `json:"inventory"`
-		Introduction string `json:"introduction"`
-		Price        int    `json:"price"`
+		ID           int     `json:"user_id"`
+		Name         string  `json:"commodity_name"`
+		Inventory    int     `json:"inventory"`
+		Introduction string  `json:"introduction"`
+		Price        float64 `json:"price"`
 		//CaID         int    `json:"caid"`
 	}
 	var p params
@@ -96,7 +96,7 @@ func commodityAddHandler(c *gin.Context) {
 	JsonOK(c, gin.H{})
 }
 
-func addCommodity(uid, price, inventory int, name, introduction string) error {
+func addCommodity(uid int, price float64, inventory int, name, introduction string) error {
 	sid, err := getSidByUid(uid)
 	if err != nil {
 		return err
