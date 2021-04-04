@@ -123,11 +123,7 @@ func getSidByUid(uid int) (sid int, err error) {
 }
 
 func getCidBySid(sid int) (cid int, err error) {
-	row, err := db.Query(`select cid from commodity where sid = ?`, sid)
-	if err != nil {
-		return
-	}
-
+	row := db.QueryRow(`select cid from commodity where sid = ?`, sid)
 	err = row.Scan(&cid)
 	return
 }
