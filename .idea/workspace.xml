@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d9a274c3-faba-4c31-bc75-2814c8f403a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2498291d-bbe6-4ede-90e4-a589a698b739.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2498291d-bbe6-4ede-90e4-a589a698b739.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commodity.go" beforeDir="false" afterPath="$PROJECT_DIR$/commodity.go" afterDir="false" />
-    </list>
+    <list default="true" id="d9a274c3-faba-4c31-bc75-2814c8f403a1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

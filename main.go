@@ -12,7 +12,8 @@ import (
 var db *sqlx.DB
 
 func init() {
-	db = sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	// TODO: 运行时记得修改数据库密码
+	db = sqlx.MustConnect("mysql", "root:password@(localhost:3306)/ishopping")
 }
 
 func main() {
