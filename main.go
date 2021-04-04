@@ -34,7 +34,7 @@ func main() {
 
 	r.POST("api/commodity_add",commodityAddHandler)
 
-	err := r.Run()
+	err := r.Run(":7001")
 	if err != nil {
 		log.Println(err)
 	}
