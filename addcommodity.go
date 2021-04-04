@@ -35,14 +35,7 @@ package main
 //	return err
 //}
 //
-//func GetSidByUid(uid int, db *sqlx.DB) int {
-//	sql := "select sid from shop where uid = ?"
-//	rows, _ := db.Query(sql, uid)
-//	var sid int
-//	rows.Next()
-//	rows.Scan(&sid)
-//	return sid
-//}
+
 //
 //func GetCaidByCategoryName(name string, db *sqlx.DB) int {
 //	sql := "select caid from category where name = ?"
@@ -64,7 +57,7 @@ package main
 //		log.Fatalln(err)
 //	}
 //	defer db.Close()
-//	sid := GetSidByUid(user_id, db)
+//	sid := getSidByUid(user_id, db)
 //	if sid == 0 {
 //		return 0, errors.New("No seller found")
 //	}

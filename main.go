@@ -32,6 +32,8 @@ func main() {
 
 	r.GET("/api/commodity_detail", commodityDetailHandler)
 
+	r.POST("api/commodity_add",commodityAddHandler)
+
 	err := r.Run()
 	if err != nil {
 		log.Println(err)

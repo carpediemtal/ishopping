@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"strconv"
 	"strings"
 
@@ -64,15 +63,74 @@ func commoditySearchHandler(c *gin.Context) {
 		}
 	}
 
-	b, err := json.Marshal(ans)
-	if err != nil {
-		panic(err)
-	}
-	log.Println(string(b))
-	JsonOK(c, gin.H{"result": string(b)})
+	JsonOK(c, gin.H{"commodity_list": ans})
 }
 
 func getCommodities() (commodities []Commodity, err error) {
 	err = db.Select(&commodities, `select * from commodity`)
+	return
+}
+
+func commodityAddHandler(c *gin.Context) {
+	type params struct {
+		ID           int    `json:"user_id"`
+		Name         string `json:"commodity_name"`
+		Inventory    int    `json:"inventory"`
+		Introduction string `json:"introduction"`
+		Price        int    `json:"price"`
+		//CaID         int    `json:"caid"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+
+	err = addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
+	if err != nil {
+		JsonErr(c, err.Error())
+	}
+
+	JsonOK(c, gin.H{})
+}
+
+func addCommodity(uid, price, inventory int, name, introduction string) error {
+	sid, err := getSidByUid(uid)
+	if err != nil {
+		return err
+	}
+
+	// TODO: sales 和 caid 先插0，以后的版本再改
+	_, err = db.Exec(`insert into commodity (sid, name, price, sales, inventory, caid) VALUES (?, ?, ?, ?, ?, ?)`, sid, name, price, 0, inventory, 0)
+	if err != nil {
+		return err
+	}
+
+	cid, err := getCidBySid(sid)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "introduction", introduction)
+	return err
+}
+
+func getSidByUid(uid int) (sid int, err error) {
+	row, err := db.Query(`select sid from shop where uid = ?`, uid)
+	if err != nil {
+		return 0, err
+	}
+
+	err = row.Scan(&sid)
+	return
+}
+
+func getCidBySid(sid int) (cid int, err error) {
+	row, err := db.Query(`select cid from commodity where sid = ?`, sid)
+	if err != nil {
+		return
+	}
+
+	err = row.Scan(&cid)
 	return
 }
