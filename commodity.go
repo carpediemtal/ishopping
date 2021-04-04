@@ -2,29 +2,26 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Commodity struct {
-	CID       int    `json:"cid,map:"cid"`
-	SID       int    `json:"sid,map:"sid"`
-	NAME      string `json:"name,map:"name"`
-	PRICE     int    `json:"price,map:"price"`
-	SALES     int    `json:"sales,map:"sales"`
-	INVENTORY int    `json:"inventory,map:"inventory"`
-	CAID      int    `json:"caid,map:"caid"`
-	//INTRODUCTION string `json:"introduction,map:"introduction"`
+	Cid       int    `json:"cid" map:"cid"`
+	Sid       int    `json:"sid" map:"sid"`
+	Name      string `json:"name" map:"name"`
+	Price     int    `json:"price" map:"price"`
+	Sales     int    `json:"sales" map:"sales"`
+	Inventory int    `json:"inventory" map:"inventory"`
+	Caid      int    `json:"caid" map:"caid"`
 }
 
 func getCommodityProfileByCid(cid int) (commodity Commodity, err error) {
 	row1 := db.QueryRow("select * from commodity where cid = ?", cid)
-	//row2 := db.QueryRow("select content from comment where cid = ?", cid)
-	err = row1.Scan(&commodity.CID, &commodity.SID, &commodity.NAME, &commodity.PRICE,
-		&commodity.SALES, &commodity.INVENTORY, &commodity.CAID) //, &commodity.INTRODUCTION)
-	//row2.Scan(&commodity.INTRODUCTION)
-
+	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
 	return
 }
 
@@ -34,11 +31,13 @@ func commodityDetailHandler(c *gin.Context) {
 		JsonErr(c, "Commodity not found")
 		return
 	}
+
 	commodity, err := getCommodityProfileByCid(cid)
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
+
 	b, err := json.Marshal(commodity)
 	if err != nil {
 		panic(err)
@@ -52,5 +51,28 @@ func commodityDetailHandler(c *gin.Context) {
 }
 
 func commoditySearchHandler(c *gin.Context) {
-	// TODO: test
+	content := c.Query("content")
+	commodities, err := getCommodities()
+	if err != nil {
+		JsonErr(c, err.Error())
+	}
+
+	var ans []Commodity
+	for _, commodity := range commodities {
+		if strings.Contains(commodity.Name, content) {
+			ans = append(ans, commodity)
+		}
+	}
+
+	b, err := json.Marshal(ans)
+	if err != nil {
+		panic(err)
+	}
+	log.Println(string(b))
+	JsonOK(c, gin.H{"result": string(b)})
+}
+
+func getCommodities() (commodities []Commodity, err error) {
+	err = db.Select(&commodities, `select * from commodity`)
+	return
 }

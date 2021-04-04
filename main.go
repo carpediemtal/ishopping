@@ -12,7 +12,7 @@ import (
 var db *sqlx.DB
 
 func init() {
-	db = sqlx.MustConnect("mysql", "root:root@(localhost:3306)/ishopping")
+	db = sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
 }
 
 func main() {
