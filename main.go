@@ -1,17 +1,18 @@
 package main
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"log"
-	"net/http"
 )
 
 var db *sqlx.DB
 
 func init() {
-	db = sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	db = sqlx.MustConnect("mysql", "root:root@(localhost:3306)/ishopping")
 }
 
 func main() {
