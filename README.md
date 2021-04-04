@@ -129,7 +129,7 @@
 
 - 例子
 
-![image-20210404140803576](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20210404140803576.png)
+![](C:%5CUsers%5Cdell%5CPictures%5CSaved%20Pictures%5CSnipaste_2021-04-04_14-18-04.png)
 
 （这里没有返回introduction的信息）
 
