@@ -105,6 +105,34 @@
 
 <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xqdotzcj315h0l3aar.jpg"/>
 
+### 查询商品信息
+
+#### 通过cid（商品id）查询
+
+- 请求
+
+| 请求类型 | PATH                  |
+| -------- | --------------------- |
+| GET      | /api/commodity_detail |
+
+| 字段名 | 类型 |
+| ------ | ---- |
+| cid    | int  |
+
+- 响应
+
+| 字段名 | 类型     | 说明                               |
+| ------ | -------- | ---------------------------------- |
+| code   | int      | 0表示成功，非0表示发生错误         |
+| msg    | string   | 成功时返回空值，失败时返回失败原因 |
+| data   | json对象 | 包含商品信息                       |
+
+- 例子
+
+![image-20210404140803576](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20210404140803576.png)
+
+（这里没有返回introduction的信息）
+
 ## 数据库建表
 
 ```sql

@@ -8,21 +8,21 @@ import (
 )
 
 type Commodity struct {
-	CID          int    `json:"cid,map:"cid"`
-	SID          int    `json:"sid,map:"sid"`
-	NAME         string `json:"name,map:"name"`
-	PRICE        int    `json:"price,map:"price"`
-	SALES        int    `json:"sales,map:"sales"`
-	INVENTORY    int    `json:"inventory,map:"inventory"`
-	CAID         int    `json:"caid,map:"caid"`
-	INTRODUCTION string `json:"introduction,map:"introduction"`
+	CID       int    `json:"cid,map:"cid"`
+	SID       int    `json:"sid,map:"sid"`
+	NAME      string `json:"name,map:"name"`
+	PRICE     int    `json:"price,map:"price"`
+	SALES     int    `json:"sales,map:"sales"`
+	INVENTORY int    `json:"inventory,map:"inventory"`
+	CAID      int    `json:"caid,map:"caid"`
+	//INTRODUCTION string `json:"introduction,map:"introduction"`
 }
 
 func getCommodityProfileByCid(cid int) (commodity Commodity, err error) {
-	row1 := db.QueryRow("select * from commidy where cid = ?", cid)
+	row1 := db.QueryRow("select * from commodity where cid = ?", cid)
 	//row2 := db.QueryRow("select content from comment where cid = ?", cid)
 	err = row1.Scan(&commodity.CID, &commodity.SID, &commodity.NAME, &commodity.PRICE,
-		&commodity.SALES, &commodity.INVENTORY, &commodity.CAID)
+		&commodity.SALES, &commodity.INVENTORY, &commodity.CAID) //, &commodity.INTRODUCTION)
 	//row2.Scan(&commodity.INTRODUCTION)
 
 	return
@@ -53,8 +53,4 @@ func commodityDetailHandler(c *gin.Context) {
 
 func commoditySearchHandler(c *gin.Context) {
 	// TODO: test
-}
-
-func commodityDetailHandler(c *gin.Context) {
-	// TODO:
 }
