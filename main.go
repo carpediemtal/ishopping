@@ -21,9 +21,15 @@ func main() {
 
 	r.POST("/api/register", registerHandler)
 
-	r.GET("/api/query_buyer_by_id", queryBuyerById)
+	r.GET("/api/query_buyer_by_id", queryBuyerByIdHandler)
 
-	r.GET("/api/query_buyer_by_username", queryBuyerByUsername)
+	r.GET("/api/query_buyer_by_username", queryBuyerByUsernameHandler)
+
+	r.POST("/api/update_buyer_info", updateBuyerInfoHandler)
+
+	r.GET("/api/commodity_search", commoditySearchHandler)
+
+	r.GET("/api/commodity_detail", commodityDetailHandler)
 
 	err := r.Run()
 	if err != nil {
