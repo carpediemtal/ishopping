@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"strconv"
 )
 
 type User struct {
@@ -14,10 +13,18 @@ type User struct {
 }
 
 func loginHandler(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
-	u, err := gerUserByUserName(username)
-	if err != nil || u.password != password {
+	type params struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, err.Error())
+	}
+
+	u, err := gerUserByUserName(p.Username)
+	if err != nil || u.password != p.Password {
 		JsonErr(c, "incorrect username or password")
 		return
 	}
@@ -25,14 +32,18 @@ func loginHandler(c *gin.Context) {
 }
 
 func registerHandler(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
-	userType, err := strconv.Atoi(c.PostForm("usertype"))
-	if err != nil {
-		JsonErr(c, "invalid user type")
-		return
+	type params struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+		UserType int    `json:"usertype"`
 	}
-	err = register(username, password, userType)
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, err.Error())
+	}
+
+	err = register(p.Username, p.Password, p.UserType)
 	if err != nil {
 		JsonErr(c, "register failed:"+err.Error())
 		return

@@ -16,7 +16,6 @@ func init() {
 }
 
 func main() {
-	// asdfasdf
 	r := gin.Default()
 
 	r.POST("/api/login", loginHandler)

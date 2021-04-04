@@ -85,26 +85,6 @@ func AddCommodity(commodity_name, introduction string, price float32, user_id, i
 	return cid, AddCommodityExtraInfomation(commodity, db)
 }
 
-// 成功的返回
-func JsonOK(c *gin.Context, data gin.H) {
-	c.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "",
-		"data": data,
-	})
-	c.Abort()
-}
-
-// 错误的返回
-func JsonErr(c *gin.Context, msg string) {
-	c.JSON(http.StatusOK, gin.H{
-		"code": -1,
-		"msg":  msg,
-		"data": "",
-	})
-	c.Abort()
-}
-
 func AddCommodityHandle() {
 	r := gin.Default()
 	r.Use(func(c *gin.Context) {
