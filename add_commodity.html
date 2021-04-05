@@ -197,24 +197,24 @@
                     this.$message.error("please input introduction!");
                     return;
                     }
-                    // else {
-                    //  //this.$router.push({ path: "/" }); //无需向后台提交数据，方便前台调试
-                    // axios
-                    //     .post("/api/commodity_add", {
-                    //         user_id:this.user_id,
-                    //         commodity_name:this.commodity_name,
-                    //         inventory:this.inventory,
-                    //         introduction:this.introduction,
-                    //         price:this.price
-                    //     })
-                    //     .then(res => {
-                    //     // console.log("输出response.data", res.data);
-                    //     // console.log("输出response.data.status", res.data.status);
-                    //     if (res.code === -1) {
-                    //         this.$message.error(res.msg);
-                    //     } 
-                    //     });
-                    // }
+                    else {
+                     //this.$router.push({ path: "/" }); //无需向后台提交数据，方便前台调试
+                    axios
+                        .post("/api/commodity_add", {
+                            user_id:this.user_id,
+                            commodity_name:this.commodity_name,
+                            inventory:this.inventory,
+                            introduction:this.introduction,
+                            price:this.price
+                        })
+                        .then(res => {
+                        // console.log("输出response.data", res.data);
+                        // console.log("输出response.data.status", res.data.status);
+                        if (res.code === -1) {
+                            this.$message.error(res.msg);
+                        } 
+                        });
+                    }
             }}} )
         </script>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
