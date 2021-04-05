@@ -1,4 +1,4 @@
-# ishopping
+# ISHOPPING
 
 [文档](http://doc.ishopping.gq/)
 
@@ -143,11 +143,11 @@
 
 | 字段名         | 类型   | 说明     |
 | :------------- | :----- | :------- |
-| user_id        | int    | 用户名   |
+| user_id        | int    | 用户ID   |
 | commodity_name | string | 商品名   |
 | inventory      | int    | 商品库存 |
 | introduction   | string | 商品介绍 |
-| price          | int    |          |
+| price          | float  | 商品价格 |
 
 - 响应
 
@@ -155,13 +155,17 @@
 | ------ | -------- | ---------------------------------- |
 | code   | int      | 0表示成功，非0表示发生错误         |
 | msg    | string   | 成功时返回空值，失败时返回失败原因 |
-| data   | json对象 | 包含买家信息                       |
+| data   | json对象 | 返回商品ID                         |
 
-- 响应
+data：
 
-
+| 字段名       | 类型 | 说明   |
+| :----------- | :--- | :----- |
+| commodity_id | int  | 商品id |
 
 - 栗子
+
+  
 
 ## 数据库建表
 
