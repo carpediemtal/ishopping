@@ -18,12 +18,6 @@ type Commodity struct {
 	Caid      int     `json:"caid" map:"caid"`
 }
 
-func getCommodityProfileByCid(cid int) (commodity Commodity, err error) {
-	row1 := db.QueryRow("select * from commodity where cid = ?", cid)
-	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
-	return
-}
-
 func commodityDetailHandler(c *gin.Context) {
 	cid, err := strconv.Atoi(c.Query("cid"))
 	if err != nil {
@@ -42,8 +36,7 @@ func commodityDetailHandler(c *gin.Context) {
 		panic(err)
 	}
 	var data gin.H
-	err = json.Unmarshal(b, &data)
-	if err != nil {
+	if err = json.Unmarshal(b, &data); err != nil {
 		panic(err)
 	}
 	JsonOK(c, data)
@@ -66,11 +59,6 @@ func commoditySearchHandler(c *gin.Context) {
 	JsonOK(c, gin.H{"commodity_list": ans})
 }
 
-func getCommodities() (commodities []Commodity, err error) {
-	err = db.Select(&commodities, `select * from commodity`)
-	return
-}
-
 func commodityAddHandler(c *gin.Context) {
 	type params struct {
 		ID           int     `json:"user_id"`
@@ -81,39 +69,50 @@ func commodityAddHandler(c *gin.Context) {
 		//CaID         int    `json:"caid"`
 	}
 	var p params
-	err := c.BindJSON(&p)
+	if err := c.BindJSON(&p); err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+
+	cid, err := addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
 
-	err = addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
-	if err != nil {
-		JsonErr(c, err.Error())
-		return
-	}
-
-	JsonOK(c, gin.H{})
+	JsonOK(c, gin.H{"commodity_id": cid})
 }
 
-func addCommodity(uid int, price float64, inventory int, name, introduction string) error {
+func getCommodityProfileByCid(cid int) (commodity Commodity, err error) {
+	row1 := db.QueryRow("select * from commodity where cid = ?", cid)
+	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
+	return
+}
+
+func getCommodities() (commodities []Commodity, err error) {
+	err = db.Select(&commodities, `select * from commodity`)
+	return
+}
+
+// 添加商品成功时返回商品ID
+func addCommodity(uid int, price float64, inventory int, name, introduction string) (cid int, err error) {
 	sid, err := getSidByUid(uid)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
 	// TODO: sales 和 caid 先插0，以后的版本再改
 	_, err = db.Exec(`insert into commodity (sid, name, price, sales, inventory, caid) VALUES (?, ?, ?, ?, ?, ?)`, sid, name, price, 0, inventory, 0)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	cid, err := getCidBySid(sid)
+	cid, err = getCidBySid(sid)
 	if err != nil {
-		return err
+		return 0, err
 	}
 	_, err = db.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "introduction", introduction)
-	return err
+	return cid, err
 }
 
 func getSidByUid(uid int) (sid int, err error) {
