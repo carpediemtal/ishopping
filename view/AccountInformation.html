@@ -153,15 +153,16 @@
 						this.showResult("please input your confirmation password!");
 						return;
 					}
-					// 测试后端api调用：调用用户登录接口检查旧密码是否正确
-					// TODO: 404错误，正在寻找原因
-					/*
-					fetch("http://test.ishopping.gq/api/login", {
+					
+					// 后端api调用：调用用户登录接口检查旧密码是否正确
+					fetch("http://ishopping.gq/api/login", {
 						method: "POST",
 						body: JSON.stringify({ 
 							username: this.user.UID,
 							password: this.user.oldPassword,
 						})
+					}).then(res => {
+							return res.json()
 					}).then(res => {
 						if (res.code) {
 								this.showResult("Old password is wrong! Retry please.");
@@ -171,9 +172,8 @@
 							// TODO: 此处需要接口：提交新密码到后端进行更新
 							return;
 						}
-						this.showResult(res.code + "The new password and confirmation password do not match. Please re-enter your password.");
+						this.showResult("The new password and confirmation password do not match. Please re-enter your password.");
 					})
-					*/
 				},
 				showResult:function(message){
 					message = message == ''||undefined ? "资料更新成功" : message;

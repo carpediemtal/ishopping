@@ -141,6 +141,7 @@
 					// TODO：此处需要接口：获得已登录用户标识
 					// 魔法数字：前端测试时假设获得已登录用户UID为2
 					this.user.UID = 2;
+					
 					// 测试api调用
 					/*
 					fetch("http://test.ishopping.gq/api/test", {
@@ -161,21 +162,23 @@
 					*/
 					
 					// 测试后端api调用：查询用户信息
-					// TODO: 404错误，正在寻找原因
-					/*
-					fetch("http://test.ishopping.gq/api/query_buyer_by_id", {
+					// TODO: 查找出现auth header is empty错误
+					fetch("http://ishopping.gq/api/query_buyer_by_id", {
 						method: "POST",
 						body: JSON.stringify({ uid: this.user.UID })
+					}).then(res => {
+							return res.json()
 					}).then(res => {
 						if (res.code) {
 							this.showResult(res.msg);
 							return
 				   	}
-						this.user.name = JSON.stringify(res.data.name);
-						this.user.telephone = JSON.stringify(res.data.phone_num);
-						this.user.mail = JSON.stringify(res.data.mail);
+						var obj = JSON.parse(res.data);
+						this.user.name = obj.name;
+						// TODO: 用户邮箱属性未定义
+						// this.user.mail = obj.mail;
+						this.user.telephone = obj.telephone;
 				   })
-				   */
 				},
 				submitUserInfo:function(){
 					if (!this.user.name) {
