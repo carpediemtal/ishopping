@@ -18,12 +18,11 @@ func loginHandler(c *gin.Context) {
 		Password string `json:"password"`
 	}
 	var p params
-	err := c.BindJSON(&p)
-	if err != nil {
+	if err := c.BindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
 	}
 
-	u, err := gerUserByUserName(p.Username)
+	u, err := getUserByUsername(p.Username)
 	if err != nil || u.password != p.Password {
 		JsonErr(c, "incorrect username or password")
 		return
@@ -38,13 +37,12 @@ func registerHandler(c *gin.Context) {
 		UserType int    `json:"usertype"`
 	}
 	var p params
-	err := c.BindJSON(&p)
-	if err != nil {
+	if err := c.BindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
+		return
 	}
 
-	err = register(p.Username, p.Password, p.UserType)
-	if err != nil {
+	if err := register(p.Username, p.Password, p.UserType); err != nil {
 		JsonErr(c, "register failed:"+err.Error())
 		return
 	}
@@ -60,7 +58,7 @@ func register(username, password string, userType int) error {
 	return err
 }
 
-func gerUserByUserName(username string) (User, error) {
+func getUserByUsername(username string) (User, error) {
 	row := db.QueryRow("select * from user where username = ?", username)
 	var user User
 	err := row.Scan(&user.uid, &user.username, &user.password, &user.usertype)
