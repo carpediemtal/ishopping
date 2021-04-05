@@ -2,6 +2,16 @@
 
 [文档](http://doc.ishopping.gq/)
 
+## 后端运行方法
+
+```bash
+git clone git@github.com:carpediemtal/ishopping.git
+cd ishopping
+go run .
+```
+
+
+
 ## 后端接口
 
 ### 登录
@@ -35,6 +45,8 @@ PS：关于JWT（Json Web Token）
 
 [还分不清 Cookie、Session、Token、JWT？ ](https://zhuanlan.zhihu.com/p/164696755)
 
+
+
 ### 注册
 
 - 请求
@@ -60,6 +72,8 @@ PS：关于JWT（Json Web Token）
 - 栗子
 
   <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xbyd36fj315k0hxzkx.jpg"/>
+
+
 
 ### 查询买家信息
 
@@ -87,6 +101,8 @@ PS：关于JWT（Json Web Token）
 
   <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xp1oopej315k0kwaaq.jpg"/>
 
+
+
 #### 通过username查询
 
 - 请求
@@ -110,6 +126,8 @@ PS：关于JWT（Json Web Token）
 - 栗子
 
 <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xqdotzcj315h0l3aar.jpg"/>
+
+
 
 ### 查询商品信息
 
@@ -138,6 +156,8 @@ PS：关于JWT（Json Web Token）
   ![](https://raw.githubusercontent.com/Sean1840/picture/master/img/Snipaste_2021-04-04_14-18-05.png)
 
 （这里没有返回introduction的信息）
+
+
 
 #### 添加商品
 
