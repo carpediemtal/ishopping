@@ -19,15 +19,21 @@
 
 - 响应
 
-| 字段名 | 类型   | 说明                                                       |
-| ------ | ------ | ---------------------------------------------------------- |
-| code   | int    | 0表示成功，非0表示发生错误                                 |
-| msg    | string | 成功时返回空值，失败时返回"incorrect username or password" |
-| data   | string |                                                            |
+| 字段名 | 类型   | 说明                       |
+| ------ | ------ | -------------------------- |
+| code   | int    | 0表示成功，非0表示发生错误 |
+| expire | string | token过期时间              |
+| token  | string |                            |
 
 - 栗子
 
-  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xdr9q58j315d0i0gm8.jpg"/>
+  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp90p9il4hj31530jkabe.jpg"/>
+
+PS：关于JWT（Json Web Token）
+
+[JSON Web Token 入门教程](http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html)
+
+[还分不清 Cookie、Session、Token、JWT？ ](https://zhuanlan.zhihu.com/p/164696755)
 
 ### 注册
 
