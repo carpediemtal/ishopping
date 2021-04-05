@@ -1,6 +1,7 @@
 package main
 
 import (
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"log"
 	"net/http"
 
@@ -9,33 +10,40 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-var db *sqlx.DB
+var (
+	db *sqlx.DB
+)
 
 func init() {
 	// TODO: 运行时记得修改数据库密码
-	db = sqlx.MustConnect("mysql", "root:password@(localhost:3306)/ishopping")
+	db = sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
 }
 
 func main() {
 	r := gin.Default()
 
-	r.POST("/api/login", loginHandler)
+	authMiddleware := initAuthMiddleware()
 
+	r.POST("/api/login", authMiddleware.LoginHandler)
 	r.POST("/api/register", registerHandler)
 
-	r.GET("/api/query_buyer_by_id", queryBuyerByIdHandler)
+	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
+		claims := jwt.ExtractClaims(c)
+		log.Printf("NoRoute claims: %#v\n", claims)
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
 
-	r.GET("/api/query_buyer_by_username", queryBuyerByUsernameHandler)
+	auth := r.Group("/api")
+	auth.Use(authMiddleware.MiddlewareFunc())
+	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
+	auth.GET("/query_buyer_by_id", queryBuyerByIdHandler)
+	auth.GET("/query_buyer_by_username", queryBuyerByUsernameHandler)
+	auth.POST("/update_buyer_info", updateBuyerInfoHandler)
+	auth.GET("/commodity_search", commoditySearchHandler)
+	auth.GET("/commodity_detail", commodityDetailHandler)
+	auth.POST("/commodity_add", commodityAddHandler)
 
-	r.POST("/api/update_buyer_info", updateBuyerInfoHandler)
-
-	r.GET("/api/commodity_search", commoditySearchHandler)
-
-	r.GET("/api/commodity_detail", commodityDetailHandler)
-
-	r.POST("api/commodity_add",commodityAddHandler)
-
-	err := r.Run(":7001")
+	err := r.Run()
 	if err != nil {
 		log.Println(err)
 	}
