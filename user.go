@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,7 +28,19 @@ func loginHandler(c *gin.Context) {
 		JsonErr(c, "incorrect username or password")
 		return
 	}
-	JsonOK(c, gin.H{})
+
+	token, err := NewJWT(&CustomClaims{
+		UserID:   u.uid,
+		Username: u.username,
+	})
+	if err != nil {
+		JsonErr(c, "failed to generate token")
+		return
+	}
+
+	JsonOK(c, gin.H{
+		"token": token,
+	})
 }
 
 func registerHandler(c *gin.Context) {
@@ -43,7 +56,7 @@ func registerHandler(c *gin.Context) {
 	}
 
 	if err := register(p.Username, p.Password, p.UserType); err != nil {
-		JsonErr(c, "register failed:"+err.Error())
+		JsonErr(c, "register failed: username exists")
 		return
 	}
 	JsonOK(c, gin.H{})

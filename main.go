@@ -1,7 +1,7 @@
 package main
 
 import (
-	jwt "github.com/appleboy/gin-jwt/v2"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -21,29 +21,58 @@ func init() {
 
 func main() {
 	r := gin.Default()
-
-	authMiddleware := initAuthMiddleware()
-
-	r.POST("/api/login", authMiddleware.LoginHandler)
-	r.POST("/api/register", registerHandler)
-
-	r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
-		claims := jwt.ExtractClaims(c)
-		log.Printf("NoRoute claims: %#v\n", claims)
-		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	r.Use(func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
 	})
 
+	r.POST("/api/login", loginHandler)
+	r.POST("/api/register", registerHandler)
+
+	// r.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
+	// 	claims := jwt.ExtractClaims(c)
+	// 	log.Printf("NoRoute claims: %#v\n", claims)
+	// 	c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	// })
+
+	r.GET("/api/commodity_search", commoditySearchHandler)
+	r.GET("/api/commodity_detail", commodityDetailHandler)
+
 	auth := r.Group("/api")
-	auth.Use(authMiddleware.MiddlewareFunc())
-	auth.GET("/refresh_token", authMiddleware.RefreshHandler)
-	auth.GET("/query_buyer_by_id", queryBuyerByIdHandler)
-	auth.GET("/query_buyer_by_username", queryBuyerByUsernameHandler)
-	auth.POST("/update_buyer_info", updateBuyerInfoHandler)
-	auth.GET("/commodity_search", commoditySearchHandler)
-	auth.GET("/commodity_detail", commodityDetailHandler)
+	auth.Use(func(c *gin.Context) {
+		e := func(c *gin.Context, msg string) {
+			c.JSON(http.StatusForbidden, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("error: %s", msg),
+				"data": "",
+			})
+			c.Abort()
+		}
+
+		cookie, err := c.Request.Cookie("jwt")
+		if err != nil {
+			e(c, "please login first")
+			return
+		}
+
+		claims, err := ParseJWT(cookie.Value)
+		if err != nil {
+			e(c, "token is invalid or expired")
+			return
+		}
+
+		c.Set("UserID", claims.UserID)
+
+		c.Next()
+	})
+
+	// auth.Use(authMiddleware.MiddlewareFunc())
+	// auth.GET("/refresh_token", authMiddleware.RefreshHandler)
+	// auth.GET("/query_buyer_by_id", queryBuyerByIdHandler)
+	// auth.GET("/query_buyer_by_username", queryBuyerByUsernameHandler)
+	// auth.POST("/update_buyer_info", updateBuyerInfoHandler)
 	auth.POST("/commodity_add", commodityAddHandler)
 
-	err := r.Run()
+	err := r.Run(":7001")
 	if err != nil {
 		log.Println(err)
 	}

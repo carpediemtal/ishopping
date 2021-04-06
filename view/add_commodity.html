@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Commodity Add Demo</title>
+    <meta name="description" content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="阿三前端3">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+ 
+    <!-- Google Web Fonts -->
+ 
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+ 
+    <link rel="apple-touch-icon-precomposed" href="/assets/img/apple-touch-icon-114x114.png">
+    <script>
+        //ga
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?ba76f8230db5f616edc89ce066670710";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+ 
+</head>
+<body>
+<div class="page-group">
+    <div id="page-layout" class="page">
+        <header class="bar bar-nav">
+            <h1 class="title">commodity edit</h1>
+        </header>
+        <div id='app' class="content">
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">user_id</div>
+                                <div class="item-input">
+                                    <input type="text" v-model="user_id" placeholder="user_id">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Text inputs -->
+                    <!--commodity_name  text-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">commodity_name</div>
+                                <div class="item-input">
+                                    <input type="text" v-model="commodity_name" placeholder="commodity_name">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--statement  下拉列表-->
+                    <!-- <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">statement</div>
+                                <div class="item-input">
+                                    <select id="statement">
+                                        <option value ="for sale">for sale</option>
+                                        <option value ="off shelf">off shelf</option>  
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li> -->
+
+                    <!--category  下拉列表
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">category</div>
+                                <div class="item-input">
+                                    <select id="category">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>-->
+
+                    <!--inventory  number-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">inventory</div>
+                                <div class="item-input">
+                                    <input type="number" v-model="inventory" placeholder="可选">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!--original normal_price  number
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">normal_price</div>
+                                <div class="item-input">
+                                    <input type="number" id="normal_price" placeholder="可选">
+                                </div>
+                            </div>
+                        </div>
+                    </li>-->
+
+                    <!--price  number-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">price</div>
+                                <div class="item-input">
+                                    <input type="number" v-model="price" placeholder="可选">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                   
+                    <!--thumbnails   上传控件  file
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">thumbnails</div>
+                                <div class="item-input">
+                                    <input type="file" id="small_img">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    -->
+
+                    <!--detail_img  file-->
+ 
+                    <!--introduction textarea-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">introduction</div>
+                                <div class="item-input">
+                                    <textarea v-model="introduction" placeholder="introduction"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <div class="row">
+                    <!-- <div class="col-50"><a href="/shopadmin/productmanagement" class="button button-big button-fill button-danger" id="back">back</a></div> -->
+                    <input type = 'button' value="submit" @click="submitData">
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            data:{
+                user_id:"",
+                commodity_name:"",
+                inventory:0,
+                introduction:"",
+                price:0                    
+            },
+            methods:{
+                submitData:function(){
+                    if (!this.commodity_name) {
+                    this.$message.error("please input item name!");
+                    return;
+                    } else if (!this.inventory) {
+                    this.$message.error("please input inventory!");
+                    return;
+                    } else if (this.price) {
+                        this.$message.error("please input price!");
+                        return;
+                    }else if (!this.introduction) {
+                    this.$message.error("please input introduction!");
+                    return;
+                    }
+                    else {
+                     //this.$router.push({ path: "/" }); //无需向后台提交数据，方便前台调试
+                    axios
+                        .post("/api/commodity_add", {
+                            user_id:this.user_id,
+                            commodity_name:this.commodity_name,
+                            inventory:this.inventory,
+                            introduction:this.introduction,
+                            price:this.price
+                        })
+                        .then(res => {
+                        // console.log("输出response.data", res.data);
+                        // console.log("输出response.data.status", res.data.status);
+                        if (res.code === -1) {
+                            this.$message.error(res.msg);
+                        } 
+                        });
+                    }
+            }}} )
+        </script>
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+</body>
+</html>

@@ -74,6 +74,8 @@ func commodityAddHandler(c *gin.Context) {
 		return
 	}
 
+	p.ID = c.GetInt("UserID")
+
 	cid, err := addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
 	if err != nil {
 		JsonErr(c, err.Error())

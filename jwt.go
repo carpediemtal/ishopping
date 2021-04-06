@@ -1,52 +1,45 @@
 package main
 
 import (
-	jwt "github.com/appleboy/gin-jwt/v2"
-	"github.com/gin-gonic/gin"
-	"log"
+	"fmt"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
-var identityKey = "identity"
+type CustomClaims struct {
+	UserID     int
+	Username   string
+	JWTVersion int
+	jwt.StandardClaims
+}
 
-func initAuthMiddleware() *jwt.GinJWTMiddleware {
-	authMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
-		Realm:       "gin-jwt",
-		Key:         []byte("secret key"),
-		IdentityKey: identityKey,
-		PayloadFunc: func(data interface{}) jwt.MapClaims {
-			if v, ok := data.(*User); ok {
-				return jwt.MapClaims{
-					identityKey: v.username,
-				}
-			}
-			return jwt.MapClaims{}
-		},
-		IdentityHandler: func(c *gin.Context) interface{} {
-			claims := jwt.ExtractClaims(c)
-			return &User{username: claims[identityKey].(string)}
-		},
-		Authenticator: func(c *gin.Context) (interface{}, error) {
-			type login struct {
-				Username string `json:"username"`
-				Password string `json:"password"`
-			}
-			var loginVals login
-			if err := c.ShouldBindJSON(&loginVals); err != nil {
-				return "", jwt.ErrMissingLoginValues
-			}
-
-			user, err := getUserByUsername(loginVals.Username)
-			if err != nil || user.password != loginVals.Password {
-				return nil, jwt.ErrFailedAuthentication
-			}
-			return &user, nil
-		},
-		Unauthorized: func(c *gin.Context, code int, msg string) {
-			JsonErr(c, msg)
-		},
-	})
-	if err != nil {
-		log.Fatalf("JWT Error: %s\n", err.Error())
+func NewJWT(c *CustomClaims) (token string, err error) {
+	c.JWTVersion = 1
+	// set expired time of jwt
+	c.StandardClaims = jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+		Issuer:    "ishopping",
 	}
-	return authMiddleware
+	// set signing method of jwt
+	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
+	// generate jwt string
+	token, err = tokenClaims.SignedString([]byte("B2VDXZ*oJsVLw13$$k29UPz*fm1Hp0B8jz6i7*1G7Y^9C#wQNHIO51J9DdyxJGobZj%Qobc@wNDIiEiK0kGN6QGd&ZFQ0wmV5k1"))
+	return
+}
+
+func ParseJWT(token string) (*CustomClaims, error) {
+	// parse the token string to custom claim struct
+	tokenClaims, err := jwt.ParseWithClaims(token, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte("B2VDXZ*oJsVLw13$$k29UPz*fm1Hp0B8jz6i7*1G7Y^9C#wQNHIO51J9DdyxJGobZj%Qobc@wNDIiEiK0kGN6QGd&ZFQ0wmV5k1"), nil
+	})
+	if err != nil || tokenClaims == nil {
+		return nil, err
+	}
+
+	if claims, ok := tokenClaims.Claims.(*CustomClaims); ok && tokenClaims.Valid {
+		return claims, nil
+	} else {
+		return nil, fmt.Errorf("failed to valid the jwt")
+	}
 }
