@@ -1,0 +1,121 @@
+.logo-div{
+    width:190px;
+    height:170px;
+    background: #f00;
+    position:absolute; top:0;left:0
+}
+/*navigation*/
+.top-menu{
+    width:100%;
+    height:29px;
+    background:#e3e4e6;
+    border-bottom:1px solid #ddd;
+    float:right;
+}
+.top-menu label.cityName{
+    /*idth:19px;*/
+    float:left;
+    background:url("../image/xxx") no-repeat 0 -30px;
+    height:20px;padding-left:20px;
+    margin:6px 0 0 20px;
+    color:#6f6e71;
+}
+.top-menu ul{
+    height:29px;
+    float:right;
+    margin:0;
+    padding:0;
+}
+.top-menu ul li{
+    list-style: none;
+    float:left; 
+    padding:0 12px;
+    color:#6f6e71;
+    line-height:29px;
+}
+.top-menu ul li p{
+    float:left;
+    margin:0;
+}
+.top-menu ul li p:hover{
+    color:#f00;
+    cursor: pointer;
+}
+.top-menu ul li i.popUpBtn{
+    /*width:12px;height:7px;*/
+    float:right;
+    margin:12px 0 0 6px;
+    background:url("../image/icons/icon.png") no-repeat left top;
+    cursor:pointer;
+}
+.top-menu ul li.red{color:#f00;}
+.top-menu ul em{
+    width:1px;height:10px;
+    background:#6f6e71;
+    overflow: hidden;
+    float: left;
+    margin:9px 0 0 0;
+}
+/*search*/
+.search-wrapper{
+    width:840px;
+    height:70px;
+    position:absolute; 
+    top:55px; left:320px;
+}
+input.headerSearch{
+    width:498px;height:33px;
+    background:#fff;
+    border:1px solid #f00;float:left;
+    color:#6f6e71;
+    padding:0 0 0 5px;
+}
+input.searchBtn{
+    width:50px;
+    height:35px;
+    background:#f00;
+    float:left;border:0;
+    /* background:url("../image/icons/icon.png") no-repeat 0 -61px; */
+    background-color: #f00;
+    background-image: url("../image/search.png");
+    background-position: 13px -54px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.myShopDiv{
+    width:188px;height:33px;float:right;
+    background: #fff;
+    border:1px solid #ddd;
+    text-align:center;line-height:33px;
+    background-color: #fff;
+    background-image: url("../image/shop.png");
+    background-position: 36px -90px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position:relative;
+}
+.myShopDiv i.shopN{
+    position:absolute;
+    top:6px;right:31px;
+    width:12px;height:12px;
+    background:#f00;
+    color:#fff;font-size:12px;
+    text-align:center;line-height:18px;
+    border-radius: 6px;
+}
+
+
+#box ul{
+    display: flex;
+    flex-wrap: wrap;
+}
+#box li{
+    padding: 3px;
+    list-style: none;
+    margin-right: 15px;
+    border: 1px solid #eee;
+}
+#box img{
+    width: 200px;
+    height: 150px;
+}

@@ -1,0 +1,37 @@
+ul{
+    list-style: none;
+}
+
+a,a:link,a:visited,a:hover,a:active {
+    text-decoration: none;
+}
+.header{
+    /* width:1002px; */
+    width:100%;
+    height:155px;
+    background: #f6f6f6;
+    /* padding:0 0 0 190px; */
+    /* margin: 0 auto; */
+    position:relative;
+}
+#mainID{
+    width:1192px;
+    height:480px;
+    background: #F6F6F6;
+    margin:0 79px;
+    /* padding:0 0 0 190px; */
+    /* margin: 0 71px; */
+    /* position:relative; */
+}
+body{
+    background: #f6f6f6;
+}
+.body_search{
+    width:1115px;
+    height: 100%;
+    position:relative;
+    background: #f6f6f6;
+    /* padding: 20px 20px 0 20px; */
+    margin-left: 116px;
+    /* margin-right: 150px; */
+}
