@@ -4,10 +4,8 @@
     <title>Search</title>
     <meta charset="ust-8"/>
     <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/reset.css">
-    <link rel="stylesheet" type="text/css" href="css/base.css">
-    <link rel="stylesheet" type="text/css" href="css/page/index.css">
-    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/search.css">
+    
     <script src="js/search.js"></script>
     <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
 </head>
@@ -15,9 +13,9 @@
     <div class="header">
         <!--navigation-->
         <div class="top-menu">
-            <a target="_blank" href="//www.baidu.com"><label class="cityName">Beijing</label></a>
+            <a target="_blank" href="//..."><label class="cityName">Beijing</label></a>
             <ul>
-                <li class="red"><a target="_blank" href="//www.baidu.com"><p>login</p></a></li>
+                <li class="red"><a target="_blank" href="//..."><p>login</p></a></li>
                 <em></em>
                 <li><a target="_blank" href="//..."><p>signup</p></a></li>
                 <em></em>
@@ -29,7 +27,7 @@
         <!--search header-->
         <div class="search-wrapper">
             <input type="text" class="headerSearch" placeholder="some tip" style="outline: none;"/>
-            <input type="button" class="searchBtn" onclick="search()" value="Search"/>
+            <input type="button" class="searchBtn" onclick="window.open(https://.../)" value="Search"/>
             <div class="myShopDiv"><a target="_blank" href="//...">Shopping Cart</a><i class="shopN"></i></div>
         </div>
     </div>
@@ -37,9 +35,10 @@
         <div class="body">
             <div class="" id="box">
                 <ul>
+                    
                     <li v-for="v in json.list">
                         <img v-bind:src="v.src" alt="">
-                        <h4>{{v.des}}</h4>
+                        <h4>{{v.commodity_name}}</h4>
                         <p>{{v.price}}</p>
                     </li>
                 </ul>
@@ -48,53 +47,31 @@
     </div>
     
     <script>
+        
         new Vue({
             el:'#box',
             data:{
                 json:{
                     list:[
                         {
-                            src:'images/1.jpg',
-                            des:'这是第一个描述',
-                            price:198
-                        },
-                        {
-                            src:'images/2.jpg',
-                            des:'这是第二个描述',
-                            price:198
-                        },
-                        {
-                            src:'images/3.jpg',
-                            des:'这是第三个描述',
-                            price:211
-                        },
-                        {
-                            src:'images/1.jpg',
-                            des:'这是第一个描述',
-                            price:198
-                        },
-                        {
-                            src:'images/3.jpg',
-                            des:'这是第二个描述',
-                            price:112
-                        },
-                        {
-                            src:'images/3.jpg',
-                            des:'这是第三个描述',
-                            price:423
+                            src:"...",
+                            commodity_name:"1123",
+                            price: 121
+
                         }
                     ]
                 }
+            },
+            mounted () {
+                axios
+                .get('/api/commodity_search')
+                .then(response => (this.json.list = response.data))
+                .catch(function (error) { 
+                    console.log(error);
+                });
             }
         })
-        mounted () {
-            axios
-            .get('http://')
-            .then(response => (this.info = response))
-            .catch(function (error) { // 请求失败处理
-                console.log(error);
-            });
-        }
+        
     </script>
 </body>
 </html>
