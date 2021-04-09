@@ -30,12 +30,22 @@
  
 </head>
 <body>
-<div class="page-group">
-    <div id="page-layout" class="page">
+<div class=".inventory-group">
+    <div id=".inventory-layout" class=".inventory">
         <header class="bar bar-nav">
-            <h1 class="title">commodity edit</h1>
+            <h1 class="title">commodity add</h1>
         </header>
+        
         <div id='app' class="content">
+            <form id="app" @submit="checkForm" action="/something" method="post">
+  
+                <p v-if="errors.length">
+                  <b>Please correct the following error(s):</b>
+                  <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                  </ul>
+                </p>
+            </form>
             <div class="list-block">
                 <ul>
                     <li>
@@ -163,7 +173,7 @@
             </div>
             <div class="content-block">
                 <div class="row">
-                    <!-- <div class="col-50"><a href="/shopadmin/productmanagement" class="button button-big button-fill button-danger" id="back">back</a></div> -->
+                    <!-- <div class="col-50"><a href="/shopadmin/productma.inventoryment" class="button button-big button-fill button-danger" id="back">back</a></div> -->
                     <input type = 'button' value="submit" @click="submitData">
                 </div>
             </div>
@@ -172,32 +182,30 @@
  
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
     <script>
+        
         var app = new Vue({
             el:'#app',
             data:{
-                user_id:"",
-                commodity_name:"",
-                inventory:0,
+                errors:[],
+                user_id:null,
+                commodity_name:null,
+                inventory:null,
                 introduction:"",
                 price:0                    
             },
             methods:{
+                checkForm:function(e) {
+                    if(this.commodity_name && this.inventory&&this.price&&this.introduction) return true;
+                    this.errors = [];
+                    if(!this.commodity_name) this.errors.push("Name required.");
+                    if(!this.inventory) this.errors.push("inventory required.");
+                    if(!this.price) this.errors.push("price required.");
+                    if(!this.introduction) this.errors.push("introduction required.");
+                    e.preventDefault();
+                },
                 submitData:function(){
-                    if (!this.commodity_name) {
-                    this.$message.error("please input item name!");
-                    return;
-                    } else if (!this.inventory) {
-                    this.$message.error("please input inventory!");
-                    return;
-                    } else if (this.price) {
-                        this.$message.error("please input price!");
-                        return;
-                    }else if (!this.introduction) {
-                    this.$message.error("please input introduction!");
-                    return;
-                    }
-                    else {
                      //this.$router.push({ path: "/" }); //无需向后台提交数据，方便前台调试
                     axios
                         .post("/api/commodity_add", {
@@ -211,11 +219,11 @@
                         // console.log("输出response.data", res.data);
                         // console.log("输出response.data.status", res.data.status);
                         if (res.code === -1) {
-                            this.$message.error(res.msg);
+                            this.$mes.inventory.error(res.msg);
                         } 
-                        });
+                        })
                     }
-            }}} )
+            }})
         </script>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
