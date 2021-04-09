@@ -48,7 +48,7 @@
             </form>
             <div class="list-block">
                 <ul>
-                    <li>
+                    <!-- <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
@@ -58,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- Text inputs -->
                     <!--commodity_name  text-->
                     <li>
@@ -184,12 +184,23 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
     <script>
+        function getCookie(cname)
+            {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) 
+            {
+                var c = ca[i].trim();
+                if (c.indexOf(name)==0) return Number(c.substring(name.length,c.length));
+            }
+            return "";
+            }
         
         var app = new Vue({
             el:'#app',
             data:{
                 errors:[],
-                user_id:null,
+                user_id:getCookie("jwt"),
                 commodity_name:null,
                 inventory:null,
                 introduction:"",
