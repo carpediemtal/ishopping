@@ -34,7 +34,7 @@
 </div>
 
 <div class="container" style="max-width: 960px" id="app">
-    <label class="h3 text-primary" for="search"><i class="fa fa-search"></i> Search</label>
+    <label class="h3 text-primary" for="search" v-model="content"><i class="fa fa-search"></i> Search</label>
     <form class="form-inline" @submit.prevent="search">
         <input id="search" class="mb-2 form-control" type="text" v-model="content">
         <button type="submit" class="btn btn-primary ml-4 mb-2">Confirm</button>
@@ -98,17 +98,16 @@
             search: function () {
                 const that = this
                 console.log("search commodity")
-                axios.get("http://localhost:7001/api/commodity_search", {
-                    content: this.content
-                }).then(function (resp) {
-                    // handle success
-                    if (resp.data.code === 0) {
-                        that.commodityList = resp.data.data.commodity_list
-                        that.seen = true
-                    } else {
-                        console.log(resp.data.msg)
-                    }
-                }).catch(function (resp) {
+                axios.get(`http://localhost:7001/api/commodity_search?content=${this.content}`)
+                    .then(function (resp) {
+                        // handle success
+                        if (resp.data.code === 0) {
+                            that.commodityList = resp.data.data.commodity_list
+                            that.seen = true
+                        } else {
+                            console.log(resp.data.msg)
+                        }
+                    }).catch(function (resp) {
                     // handle error
                     console.log(resp.data.msg)
                 })

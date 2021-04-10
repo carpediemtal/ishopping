@@ -54,6 +54,7 @@ func commoditySearchHandler(c *gin.Context) {
 	var ans []Commodity
 	for _, commodity := range commodities {
 		if strings.Contains(commodity.Name, content) {
+			log.Println("Whats this all about ?",commodity.Name, content)
 			ans = append(ans, commodity)
 		}
 	}
