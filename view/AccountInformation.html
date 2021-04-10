@@ -69,7 +69,7 @@
 </head>
 <body>	
 	<div class="titleBox">
-		<img src="icon/shop.png" height="30">
+		<img src="static/icon/shop.png" height="30">
 		<span> iShopping</span>
 	</div>
 	<div class="navigationBox">
@@ -91,26 +91,26 @@
 		<div class="mainBox" id="app">
 			<table cellspacing="20" cellpadding="10">
 				<tr id="tr_UID">
-					<th><img src="./icon/id.png" width="30" height="30"></th>
+					<th><img src="static/icon/id.png" width="30" height="30"></th>
 					<td>ID</td>
 					<td>{{ user.UID }}
 				</tr>
 				<tr id="tr_oldPassword">
-					<th><img src="./icon/unlock.png" width="30" height="30"></th>
+					<th><img src="static/icon/unlock.png" width="30" height="30"></th>
 					<td id="th_oldPassword"><p class="l">old Password</p></td>
 					<td id="td_oldPassword">
 						<input type="text" name="oldPassword" id="oldPassword" v-model="user.oldPassword" tabindex="1" />
 					</td>
 				</tr>
 				<tr id="tr_newPassword">
-					<th><img src="./icon/lock.png" width="30" height="30"></th>
+					<th><img src="static/icon/lock.png" width="30" height="30"></th>
 					<td id="th_newPassword"><p class="l">new Password</p></td>
 					<td id="td_newPassword">
 						<input type="text" name="newPassword" id="newPassword" v-model="user.newPassword" tabindex="1" /><p class="inputText">
 					</td>
 				</tr>
 				<tr id="tr_confirmationPassword">
-					<th><img src="./icon/lock.png" width="30" height="30"></th>
+					<th><img src="static/icon/lock.png" width="30" height="30"></th>
 					<td id="th_confirmationPassword"><p class="l">confirmation Password</p></td>
 					<td id="td_confirmationPassword">
 						<input type="text" name="confirmationPassword" id="confirmationPassword" v-model="user.confirmationPassword" tabindex="1" /><p class="inputText">

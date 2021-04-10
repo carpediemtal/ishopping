@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
+	"log"
 	"strconv"
 	"strings"
 
@@ -61,22 +63,20 @@ func commoditySearchHandler(c *gin.Context) {
 
 func commodityAddHandler(c *gin.Context) {
 	type params struct {
-		ID           int     `json:"user_id"`
 		Name         string  `json:"commodity_name"`
 		Inventory    int     `json:"inventory"`
 		Introduction string  `json:"introduction"`
 		Price        float64 `json:"price"`
 		//CaID         int    `json:"caid"`
 	}
+
 	var p params
-	if err := c.BindJSON(&p); err != nil {
+	if err := c.ShouldBindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
-
-	p.ID = c.GetInt("UserID")
-
-	cid, err := addCommodity(p.ID, p.Price, p.Inventory, p.Name, p.Introduction)
+	userID := c.GetInt("UserID")
+	cid, err := addCommodity(userID, p.Price, p.Inventory, p.Name, p.Introduction)
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
@@ -100,7 +100,7 @@ func getCommodities() (commodities []Commodity, err error) {
 func addCommodity(uid int, price float64, inventory int, name, introduction string) (cid int, err error) {
 	sid, err := getSidByUid(uid)
 	if err != nil {
-		return 0, err
+		return 0, errors.New("no matched shop id")
 	}
 
 	// TODO: sales 和 caid 先插0，以后的版本再改
@@ -118,6 +118,7 @@ func addCommodity(uid int, price float64, inventory int, name, introduction stri
 }
 
 func getSidByUid(uid int) (sid int, err error) {
+	log.Println("uid:", uid)
 	row := db.QueryRow(`select sid from shop where uid = ?`, uid)
 	err = row.Scan(&sid)
 	return
