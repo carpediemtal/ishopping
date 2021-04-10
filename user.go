@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type User struct {
@@ -59,6 +59,23 @@ func registerHandler(c *gin.Context) {
 		JsonErr(c, "register failed: username exists")
 		return
 	}
+
+	// 给 seller 自动创建一个 shop
+	if p.UserType == 1 {
+		log.Println("create a shop for seller")
+		user, err := getUserByUsername(p.Username)
+		if err != nil {
+			JsonErr(c, err.Error())
+			panic(err)
+			return
+		}
+
+		if err = createShop(user.uid, "default shop name"); err != nil {
+			JsonErr(c, "create shop failed:"+err.Error())
+			return
+		}
+	}
+
 	JsonOK(c, gin.H{})
 }
 
@@ -82,4 +99,9 @@ func getIdByUsername(username string) (uid int, err error) {
 	row := db.QueryRow("select uid from user where username = ?", username)
 	err = row.Scan(&uid)
 	return
+}
+
+func createShop(uid int, shopName string) error {
+	_, err := db.Exec(`insert into shop (uid, shop_name) VALUES (?, ?)`, uid, shopName)
+	return err
 }
