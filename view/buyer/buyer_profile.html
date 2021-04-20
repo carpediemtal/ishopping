@@ -69,7 +69,7 @@
 				</ul>
 			</div>
 			<div class="borderBox">	</div>
-			<div v-if='!isModifying' class="mainBox">
+			<div v-show='!isModifying' class="mainBox">
 				<table cellspacing="20" cellpadding="10">
 					<tr id="tr_UID">
 						<th><img src="../static/icon/id.png" width="30" height="30"></th>
@@ -99,7 +99,7 @@
 					</tr>
 				</table>
 			</div>
-			<div v-if='isModifying' class="mainBox">
+			<div v-show='isModifying' class="mainBox">
 				<table cellspacing="20" cellpadding="10">
 					<tr id="tr_UID">
 						<th><img src="../static/icon/id.png" width="30" height="30"></th>
@@ -130,7 +130,7 @@
 					<tr id="tr_btn" class="form-group">
 						<th></th><td></td>
 						<td id="td_btn">
-							<button class="btn btn-outline-primary" tabindex="1">Confirm</button>
+							<button class="btn btn-outline-primary" tabindex="1" @click="Submit">Confirm</button>
 							<button class="btn btn-outline-danger ml-3" tabindex="1" @click="Cancel">Cancel</button>
 						</td>
 					</tr>
@@ -167,9 +167,9 @@
 			initUserInfo:function(){
 				this.isModifying = false;
                 const token = window.localStorage.getItem("ishopping-token");
-				if (token == '' || null || 'null'){
-					// alert("Please sign in first.");
-					// TODO:跳转至登录界面。
+				if (!token){
+					alert("Please sign in first.");
+					window.location.replace("../templates/sign_in.html");					
 				}
 				else{
 					axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
@@ -188,7 +188,7 @@
 					})
 				}
 			},
-			submitUserInfo:function(){
+			Submit:function(){
 				if (!this.user.name) {
 					alert("please input your name!");
 					return;
@@ -200,34 +200,35 @@
 					return;
 				}
                 const token = window.localStorage.getItem("ishopping-token")
-                axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
-				console.log("Modifying data.")
-                axios({
-                    method: 'post',
-                    url: 'http://ishopping.gq/api/buyer/information_modify',
-                    data: {
-                        'name': this.user.name,
-						'address' : this.user.address,
-                        'phonenumber': this.user.telephone
-                    }
+				if (token == '' || null || 'null'){
+					alert("Please sign in first.");
+					window.location.replace("../templates/sign_in.html");
+				}
+				else{
+					axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+					console.log("Modifying data.")
+					axios({
+						method: 'post',
+						url: 'http://localhost:7001/api/buyer/information_modify',
+						data: {
+							'name': this.user.name,
+							'address' : this.user.address,
+							'phonenumber': this.user.telephone
+						}
                 }).then(function (resp) {
-                    // handle success
-                    console.log(resp)
                     if (resp.data.code === 0) {
-                        const token = resp.data.data.token
-                        console.log("token:", token)
-                        document.cookie = token
-                        window.localStorage.setItem("ishopping-token", token)
-                        alert("login successful, your token has been saved")
+                        console.log("OK!");
+                        alert("Modify sucessfully.");
+						this.initUserInfo();
                     } else {
                         console.log(resp.data.msg)
                         alert(resp.data.msg)
                     }
                 }).catch(function (resp) {
-                    // handle error
-                    console.log(resp)
+                    console.log(resp.data.msg)
                     alert(resp.data.msg)
-                });
+                })
+				}
 			},
 			Modify:function(){
 				this.isModifying = true;
