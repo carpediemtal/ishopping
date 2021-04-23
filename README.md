@@ -2,11 +2,16 @@
 
 [文档](http://doc.ishopping.gq/)
 
+## 目录结构说明
+
+所有后端代码都放在`ishopping/src`下，前端代码放在`ishopping/view`下
+
 ## 后端运行方法
 
 ```bash
 git clone git@github.com:carpediemtal/ishopping.git
 cd ishopping
+cd src
 go run .
 ```
 
