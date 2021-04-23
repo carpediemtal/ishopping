@@ -20,6 +20,7 @@ func main() {
 
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
+	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/commodity_add", handler.CommodityAddHandler)
 
 	if err := r.Run(":7001"); err != nil {

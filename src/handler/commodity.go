@@ -76,25 +76,21 @@ func CommodityAddHandler(c *gin.Context) {
 }
 
 
-type order struct {
-	Oid         int     `json:"oid" map:"oid"`
-	Total_price float64 `json:"total_price" map:"total_price"`
-}
 
-func order_list_handler(c *gin.Context) {
-	var status int
-	err := c.Query("order_status")
-
-	var order_list []order
-
-	order_list, _ = getorderlistBystatus(status)
-	JsonOK(c, gin.H{"order_list": order_list})
+func OrderListHandler(c *gin.Context) {
+	status, err := strconv.Atoi(c.Query("order_status"))
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
+
+	userID := c.GetInt("UserID")
+	orderList, err := service.GetOrderListByStatus(status, userID)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+
+	JsonOK(c, gin.H{"orderList": orderList})
 }
-func getorderlistBystatus(status int) (order_list []order, err error) {
-	err = db.Select(&order_list, `select oid,sum(price) from commodity,purchase_order where commodity.cid=purchase_order.cid&&status=?`, status)
-	return
-}
+
