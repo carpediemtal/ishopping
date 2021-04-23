@@ -11,8 +11,7 @@
 ```bash
 git clone git@github.com:carpediemtal/ishopping.git
 cd ishopping
-cd src
-go run .
+go run src/main.go
 ```
 
 
