@@ -60,3 +60,13 @@ func getCidBySid(sid int) (cid int, err error) {
 	err = row.Scan(&cid)
 	return
 }
+
+type Category struct {
+	Caid int    `json:"category_id"`
+	Name string `json:"category_name"`
+}
+
+func GetAllCategories() (categories []Category, err error) {
+	err = db.DB.Select(&categories, `select * from category`)
+	return
+}

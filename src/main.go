@@ -14,6 +14,7 @@ func main() {
 	r.POST("/api/register", handler.RegisterHandler)
 	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
+	r.GET("/api/category_list",handler.CategoryListHandler)
 
 	// release2 index_category_channel
 	r.GET("/api/index_category_channel", handler.VistorViewHandle)
