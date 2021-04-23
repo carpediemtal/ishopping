@@ -15,6 +15,9 @@ func main() {
 	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
 
+	// release2 index_category_channel
+	r.GET("/api/index_category_channel", handler.VistorViewHandle)
+
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.POST("/commodity_add", handler.CommodityAddHandler)
