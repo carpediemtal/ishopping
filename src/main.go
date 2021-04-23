@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"ishopping/src/handler"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -14,6 +15,11 @@ func main() {
 	r.POST("/api/register", handler.RegisterHandler)
 	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
+
+	r.GET("/api/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
+	r.POST("/api/buyer/information_modify", handler.UpdateBuyerInfoHandler)
+	r.GET("/api/seller/shop_information", handler.ShopDetailHandler)
+	r.POST("/api/seller/shop_information_modify", handler.UpdateShopInfoHandler)
 
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)

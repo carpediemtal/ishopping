@@ -11,5 +11,5 @@ var (
 
 func init() {
 	// TODO: 运行时记得修改数据库密码
-	DB = sqlx.MustConnect("mysql", "root:asdf;lkj@(localhost:3306)/ishopping")
+	DB = sqlx.MustConnect("mysql", "root:root@(localhost:3306)/ishopping")
 }
