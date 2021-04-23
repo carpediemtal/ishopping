@@ -22,6 +22,7 @@ func main() {
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/commodity_add", handler.CommodityAddHandler)
+	auth.POST("/seller/order_delivery",handler.OrderDeliveryHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)

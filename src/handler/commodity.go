@@ -75,22 +75,3 @@ func CommodityAddHandler(c *gin.Context) {
 	JsonOK(c, gin.H{"commodity_id": cid})
 }
 
-
-
-func OrderListHandler(c *gin.Context) {
-	status, err := strconv.Atoi(c.Query("order_status"))
-	if err != nil {
-		JsonErr(c, err.Error())
-		return
-	}
-
-	userID := c.GetInt("UserID")
-	orderList, err := service.GetOrderListByStatus(status, userID)
-	if err != nil {
-		JsonErr(c, err.Error())
-		return
-	}
-
-	JsonOK(c, gin.H{"orderList": orderList})
-}
-

@@ -13,7 +13,7 @@ func LoginHandler(c *gin.Context) {
 		Password string `json:"password"`
 	}
 	var p params
-	if err := c.BindJSON(&p); err != nil {
+	if err := c.ShouldBindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
 	}
 
@@ -44,7 +44,7 @@ func RegisterHandler(c *gin.Context) {
 		UserType int    `json:"usertype"`
 	}
 	var p params
-	if err := c.BindJSON(&p); err != nil {
+	if err := c.ShouldBindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
 		return
 	}

@@ -60,13 +60,3 @@ func getCidBySid(sid int) (cid int, err error) {
 	err = row.Scan(&cid)
 	return
 }
-
-type Order struct {
-	Oid   int     `json:"oid" map:"oid"`
-	Price float64 `json:"total_price" map:"total_price"`
-}
-
-func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
-	err = db.DB.Select(&orderList, `select oid, price from commodity, purchase_order where commodity.cid = purchase_order.cid && status = ? && uid = ?`, status, userID)
-	return
-}
