@@ -74,3 +74,12 @@ func CommodityAddHandler(c *gin.Context) {
 
 	JsonOK(c, gin.H{"commodity_id": cid})
 }
+
+func CategoryListHandler(c *gin.Context) {
+	categories, err := service.GetAllCategories()
+	if err != nil {
+		JsonErr(c, err.Error())
+	}
+
+	JsonOK(c, gin.H{"category_list": categories})
+}
