@@ -40,7 +40,8 @@ func GetShopPhoneNumById(uid int) (phoneNum string, err error) {
 }
 
 func GetShopNameById(uid int) (shopName string, err error) {
-	row := db.DB.QueryRow("select meta_val from user_meta  where uid = ? and meta_key= ?", uid, "shop_name")
+	//row := db.DB.QueryRow("select meta_val from user_meta  where uid = ? and meta_key= ?", uid, "shop_name")
+	row := db.DB.QueryRow("select shop_name from shop where uid = ?", uid)
 	err = row.Scan(&shopName)
 	return
 }
@@ -51,11 +52,19 @@ func UpdateShopInfo(uid int, shopName, address, phoneNum string) (err error) {
 	if err == nil {
 		_, err = db.DB.Exec(`update user_meta set meta_val = ? where uid = ? and meta_key= ?`, address, uid, "shop_address")
 		_, err = db.DB.Exec(`update user_meta set meta_val = ? where uid = ? and meta_key= ?`, phoneNum, uid, "shop_phonenum")
-		_, err = db.DB.Exec(`update user_meta set meta_val = ? where uid = ? and meta_key= ?`, shopName, uid, "shop_name")
+		//shop_name 放在user_meta里
+		//_, err = db.DB.Exec(`update user_meta set meta_val = ? where uid = ? and meta_key= ?`, shopName, uid, "shop_name")
+		//shop_name 在shop里修改
+		_, err = db.DB.Exec(`update shop set shop_name = ? where uid = ?`, shopName, uid)
 	} else {
 		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_address", ?)`, uid, address)
 		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_phonenum", ?)`, uid, phoneNum)
-		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_name", ?)`, uid, shopName)
+		//同上
+		//_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_name", ?)`, uid, shopName)
+
+		_, err = db.DB.Exec(`update shop set shop_name = ? where uid = ?`, shopName, uid)
+
 	}
+
 	return
 }
