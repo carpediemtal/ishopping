@@ -6,7 +6,9 @@ import (
 	"ishopping/src/db"
 )
 
-const PageMaxLimits = 15 //页面最大展示商品数量
+const (
+	PageMaxLimits = 15 //页面最大展示商品数量
+)
 
 type SearchedCommodity struct {
 	Cid         int     `json:"cid" map:"cid"`
@@ -25,9 +27,9 @@ func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err er
 //获取某个分类下对应页数的商品列表
 func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []SearchedCommodity, err error) {
 	var rows *sql.Rows
-	if caid == 0 {
+	if caid == 0 { // AllCategories
 		rows, err = db.DB.Query("select cid, name, price from commodity limit ?, ?", (page-1)*PageMaxLimits, PageMaxLimits)
-	} else {
+	} else { // Specific Category
 		rows, err = db.DB.Query("select cid, name, price from commodity where caid = ? limit ?, ?", caid, (page-1)*PageMaxLimits, PageMaxLimits)
 	}
 	if err != nil {
@@ -40,10 +42,11 @@ func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []Search
 		if err != nil {
 			return
 		}
+
 		commodity.PicturePath, err = GetCommodityExtraInfoByCid(commodity.Cid, "picture_path")
 		if err != nil {
 			if err.Error() == "sql: no rows in result set" {
-				commodity.PicturePath = "defult"
+				commodity.PicturePath = "default"
 				err = nil
 			} else {
 				return
@@ -51,6 +54,7 @@ func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []Search
 		}
 		commodities = append(commodities, commodity)
 	}
+
 	if len(commodities) == 0 {
 		err = errors.New("no commodity found")
 	}
