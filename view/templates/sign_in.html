@@ -96,6 +96,8 @@
                         console.log("token:", token)
                         window.localStorage.setItem("ishopping-token", token)
                         alert("login successful, your token has been saved")
+						// TODO: 需要一个接口判断登陆的用户是商家还是买家，现直接认为是买家进行测试跳转
+						window.location.replace("../buyer/buyer_index.html")
                     } else {
                         console.log(resp.data.msg)
                         alert(resp.data.msg)
