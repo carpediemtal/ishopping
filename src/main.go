@@ -18,16 +18,12 @@ func main() {
 	r.GET("/api/category_list", handler.CategoryListHandler)
 
 	// release2 index_category_channel
-<<<<<<< HEAD
-	r.GET("/api/index_category_channel", handler.VisitorViewHandle)
-=======
 	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 
 	r.GET("/api/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
 	r.POST("/api/buyer/information_modify", handler.UpdateBuyerInfoHandler)
 	r.GET("/api/seller/shop_information", handler.ShopDetailHandler)
 	r.POST("/api/seller/shop_information_modify", handler.UpdateShopInfoHandler)
->>>>>>> b4516d78f659b8ac2274475b821f49e02cfa2338
 
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
