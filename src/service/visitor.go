@@ -14,7 +14,7 @@ type SearchedCommodity struct {
 	Cid         int     `json:"cid" map:"cid"`
 	Name        string  `json:"name" map:"name"`
 	Price       float64 `json:"price" map:"price"`
-	PicturePath string  `json:"picture_path" map:"picture_path"`
+	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
 }
 
 // 通过cid与meta_key查找meta_val
@@ -43,10 +43,10 @@ func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []Search
 			return
 		}
 
-		commodity.PicturePath, err = GetCommodityExtraInfoByCid(commodity.Cid, "picture_path")
+		commodity.Thumbnail, err = GetCommodityExtraInfoByCid(commodity.Cid, "thumbnail")
 		if err != nil {
 			if err.Error() == "sql: no rows in result set" {
-				commodity.PicturePath = "default"
+				commodity.Thumbnail = "default"
 				err = nil
 			} else {
 				return
