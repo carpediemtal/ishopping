@@ -2,11 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
 	"log"
 	"strconv"
 	"strings"
+)
+
+const (
+	CommodityUpdate = 0
+	CommodityAdd    = 1
 )
 
 func CommoditySearchHandler(c *gin.Context) {
@@ -51,26 +57,62 @@ func CommodityDetailHandler(c *gin.Context) {
 	JsonOK(c, data)
 }
 
-func CommodityAddHandler(c *gin.Context) {
-	type params struct {
-		Name         string  `json:"commodity_name"`
-		Inventory    int     `json:"inventory"`
-		Introduction string  `json:"introduction"`
-		Price        float64 `json:"price"`
-		//CaID         int    `json:"caid"`
+//func CommodityAddHandler(c *gin.Context) {
+//	type params struct {
+//		Name         string  `json:"commodity_name"`
+//		Inventory    int     `json:"inventory"`
+//		Introduction string  `json:"introduction"`
+//		Price        float64 `json:"price"`
+//		//CaID         int    `json:"caid"`
+//	}
+//
+//	var p params
+//	if err := c.ShouldBindJSON(&p); err != nil {
+//		JsonErr(c, err.Error())
+//		return
+//	}
+//	userID := c.GetInt("UserID")
+//	cid, err := service.AddCommodity(userID, p.Price, p.Inventory, p.Name, p.Introduction)
+//	if err != nil {
+//		JsonErr(c, err.Error())
+//		return
+//	}
+//
+//	JsonOK(c, gin.H{"commodity_id": cid})
+//}
+
+func CategoryListHandler(c *gin.Context) {
+	categories, err := service.GetAllCategories()
+	if err != nil {
+		JsonErr(c, err.Error())
 	}
 
-	var p params
+	JsonOK(c, gin.H{"category_list": categories})
+}
+
+func CommodityEditHandler(c *gin.Context) {
+	var p service.CommodityEdit
 	if err := c.ShouldBindJSON(&p); err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
-	userID := c.GetInt("UserID")
-	cid, err := service.AddCommodity(userID, p.Price, p.Inventory, p.Name, p.Introduction)
-	if err != nil {
-		JsonErr(c, err.Error())
+
+	uid := c.GetInt("UserID")
+	switch p.EditType {
+	case CommodityUpdate:
+		if err := service.UpdateCommodityInfo(p); err != nil {
+			JsonErr(c, err.Error())
+			return
+		}
+	case CommodityAdd:
+		if err := service.AddCommodity(p, uid); err != nil {
+			JsonErr(c, err.Error())
+			return
+		}
+	default:
+		JsonErr(c, errors.New("invalid edit_type").Error())
 		return
 	}
 
-	JsonOK(c, gin.H{"commodity_id": cid})
+	JsonOK(c, gin.H{})
 }
