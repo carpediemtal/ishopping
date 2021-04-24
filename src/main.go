@@ -25,10 +25,12 @@ func main() {
 	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
 	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
-	auth.GET("/buyer/information", handler.BuyerDetailHandler)
-	auth.POST("/buyer/information_modify", handler.UpdateBuyerInfoHandler)
 	auth.GET("/seller/shop_information", handler.ShopDetailHandler)
 	auth.POST("/seller/shop_information_modify", handler.UpdateShopInfoHandler)
+
+	auth.GET("/buyer/information", handler.BuyerDetailHandler)
+	auth.POST("/buyer/information_modify", handler.UpdateBuyerInfoHandler)
+	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)

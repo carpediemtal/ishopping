@@ -5,6 +5,7 @@ import (
 	"errors"
 	"ishopping/src/db"
 	"log"
+	"time"
 )
 
 type Commodity struct {
@@ -114,4 +115,20 @@ func AddCommodity(cm CommodityEdit, uid int) error {
 	}
 
 	return nil
+}
+
+type Pur_order struct {
+	Oid       int `json:"oid" map:"oid"`
+	Status    int `json:"status" map:"status"`
+	Uid       int `json:"uid" map:"uid"`
+	Cid       int `json:"cid" map:"cid"`
+	TimeStamp int `json:"time" map:"time"`
+}
+
+func CreatPurchaseOrderByCid(uid int, cid int) (pur_order Pur_order, err error) {
+	timestamp := time.Now().Unix()
+	_, err = db.DB.Exec(`insert into purchase_order (status, uid, cid, timestamp) values (?, ?, ?, ?)`, 1, uid, cid, timestamp)
+	row := db.DB.QueryRow("select * from purchase_order  where uid = ? and cid= ? order by oid desc", uid, cid)
+	err = row.Scan(&pur_order.Oid, &pur_order.Status, &pur_order.Uid, &pur_order.Cid, &pur_order.TimeStamp)
+	return
 }

@@ -3,11 +3,12 @@ package handler
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 const (
@@ -115,4 +116,33 @@ func CommodityEditHandler(c *gin.Context) {
 	}
 
 	JsonOK(c, gin.H{})
+}
+
+func BuyCommodityToOrderHandler(c *gin.Context) {
+	type params struct {
+		Cid int `json:"cid"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, "BindJsonError: "+err.Error())
+		return
+	}
+	uid := c.GetInt("UserID")
+	pur_order, err := service.CreatPurchaseOrderByCid(uid, p.Cid)
+	if err != nil {
+		JsonErr(c, "purchase error: "+err.Error())
+		return
+	}
+
+	b, err := json.Marshal(pur_order)
+	if err != nil {
+		panic(err)
+	}
+	var data gin.H
+	err = json.Unmarshal(b, &data)
+	if err != nil {
+		panic(err)
+	}
+	JsonOK(c, data)
 }
