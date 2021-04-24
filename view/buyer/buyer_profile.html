@@ -160,32 +160,35 @@
 			}
 		},
 		methods:{
+			JumpToSignIn:function(){
+				alert("Please sign in first.");
+				window.location.replace("../templates/sign_in.html");
+			},
 			initUserInfo:function(){
-				this.isModifying = false;
-                // const token = "";
+				var that = this;
+				that.isModifying = false;
                 const token = window.localStorage.getItem("ishopping-token")
-
-				if (!token){
-					alert("Please sign in first.");
-					window.location.replace("../templates/sign_in.html");
-				}
-				else{
-					// TODO:等待登录cookie获取后进行测试。
+				if (token){
 					axios.defaults.headers.common = {Authorization: `${token}`}
 					axios.get(`http://localhost:7001/api/buyer/information`)
 						.then(function (resp) {
-                            console.log(resp)
 							// handle success
 							if (resp.data.code === 0) {
-								this.user.name = resp.data.name;
-								this.user.address = resp.data.address;
-								this.user.telephone = resp.data.phonenumber;
+								that.user.UID = resp.data.data.uid;
+								that.user.name = resp.data.data.name;
+								that.user.address = resp.data.data.address;
+								that.user.telephone = resp.data.data.phone_num;
 							} else {
-								console.log(resp.data.msg)
+								console.log(resp.msg);
+								that.JumpToSignIn();
 							}
 						}).catch(function (resp) {
-							console.log(resp.data.msg)
+							// handle error
+							console.log(resp.msg);
 					})
+				}
+				else{
+					that.JumpToSignIn();
 				}
 			},
 			Submit:function(){
@@ -199,35 +202,34 @@
 					alert("please input your address!");
 					return;
 				}
+				var that = this;
                 const token = window.localStorage.getItem("ishopping-token")
-				if (!token){
-					alert("Please sign in first if you want to comfirm.");
-					window.location.replace("../templates/sign_in.html");
-				}
-				else{
+				if(token){
+					// TODO:此处似乎并不能成功传入
 					axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
-					console.log("Modifying data.")
 					axios({
 						method: 'post',
 						url: 'http://localhost:7001/api/buyer/information_modify',
 						data: {
-							'name': this.user.name,
-							'address' : this.user.address,
-							'phonenumber': this.user.telephone
+							'name': that.user.name,
+							'address' : that.user.address,
+							'phonenumber': that.user.telephone
 						}
-                }).then(function (resp) {
-                    if (resp.data.code === 0) {
-                        console.log("OK!");
-                        alert("Modify sucessfully.");
-						this.initUserInfo();
-                    } else {
-                        console.log(resp.data.msg)
-                        alert(resp.data.msg)
-                    }
-                }).catch(function (resp) {
-                    console.log(resp.data.msg)
-                    alert(resp.data.msg)
-                })
+					}).then(function (resp) {
+						if (resp.code === 0) {
+							console.log("OK!");
+							that.initUserInfo();
+						} 
+						else {
+							console.log(resp.msg)
+							that.JumpToSignIn();
+						}
+					}).catch(function (resp) {
+						console.log(resp.msg);
+					})
+				}
+				else{
+					that.JumpToSignIn();
 				}
 			},
 			Modify:function(){
