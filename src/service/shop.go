@@ -57,8 +57,8 @@ func UpdateShopInfo(uid int, shopName, address, phoneNum string) (err error) {
 		//shop_name 在shop里修改
 		_, err = db.DB.Exec(`update shop set shop_name = ? where uid = ?`, shopName, uid)
 	} else {
-		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_address", ?)`, uid, address)
-		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_phonenum", ?)`, uid, phoneNum)
+		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key, meta_val) values (?, ?, ?)`, uid, "shop_address", address)
+		_, err = db.DB.Exec(`insert into user_meta (uid, meta_key, meta_val) values (?, ?, ?)`, uid, "shop_phonenum", phoneNum)
 		//同上
 		//_, err = db.DB.Exec(`insert into user_meta (uid, meta_key,meta_val) values (?, "shop_name", ?)`, uid, shopName)
 
