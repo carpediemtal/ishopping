@@ -6,7 +6,7 @@ import (
 
 type Buyer struct {
 	Uid      int    `json:"uid" map:"uid"`
-	Name     string `json:"name" map:"uid"`
+	Name     string `json:"name" map:"name"`
 	Address  string `json:"address" map:"address"`
 	PhoneNum string `json:"phone_num" map:"phone_num"`
 }

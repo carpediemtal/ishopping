@@ -1,22 +1,24 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"errors"
 	"ishopping/src/service"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func OrderListHandler(c *gin.Context) {
 	status, err := strconv.Atoi(c.Query("order_status"))
 	if err != nil {
-		JsonErr(c, err.Error())
+		JsonErr(c, errors.New("order_status is required").Error())
 		return
 	}
 
 	userID := c.GetInt("UserID")
 	orderList, err := service.GetOrderListByStatus(status, userID)
 	if err != nil {
-		JsonErr(c, err.Error())
+		JsonErr(c, errors.New("searching err").Error())
 		return
 	}
 

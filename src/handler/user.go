@@ -1,10 +1,11 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
 	"ishopping/src/jwt"
 	"ishopping/src/service"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func LoginHandler(c *gin.Context) {
