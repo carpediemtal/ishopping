@@ -47,7 +47,7 @@ func UpdateShopInfoHandler(c *gin.Context) {
 		return
 	}
 
-	err = service.UpdateShopInfo(p.Uid, p.ShopName, p.Address, p.PhoneNum)
+	err = service.UpdateShopInfo(p.Uid, p.Address, p.PhoneNum)
 	if err != nil {
 		JsonErr(c, "update shop info error: "+err.Error())
 		return
