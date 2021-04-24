@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
 	"strconv"
-	"github.com/gin-gonic/gin"
 )
 
-func VistorViewHandle(c *gin.Context) {
+func VistorViewHandler(c *gin.Context) {
 	Caid, err := strconv.Atoi(c.Query("category_id"))
 	if err != nil {
 		JsonErr(c, "no commodity found")
