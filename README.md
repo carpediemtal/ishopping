@@ -1,6 +1,9 @@
 # ISHOPPING
 
-[文档](http://doc.ishopping.gq/)
+## 文档
+
+- Release1：[ishopping/interface-release1.md at main · carpediemtal/ishopping (github.com)](https://github.com/carpediemtal/ishopping/blob/main/doc/interface-release1.md)
+- Release2：[ishopping/interface-release2.md at main · carpediemtal/ishopping (github.com)](https://github.com/carpediemtal/ishopping/blob/main/doc/interface-release2.md)
 
 ## 目录结构说明
 
@@ -13,189 +16,6 @@ git clone git@github.com:carpediemtal/ishopping.git
 cd ishopping
 go run src/main.go
 ```
-
-
-
-## 后端接口
-
-### 登录
-
-- 请求
-
-| 请求类型 | PATH       |
-| -------- | ---------- |
-| POST     | /api/login |
-
-| 字段名   | 类型   |
-| -------- | ------ |
-| username | string |
-| password | string |
-
-- 响应
-
-| 字段名 | 类型   | 说明                       |
-| ------ | ------ | -------------------------- |
-| code   | int    | 0表示成功，非0表示发生错误 |
-| expire | string | token过期时间              |
-| token  | string |                            |
-
-- 栗子
-
-  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp90p9il4hj31530jkabe.jpg"/>
-
-PS：关于JWT（Json Web Token）
-
-[JSON Web Token 入门教程](http://www.ruanyifeng.com/blog/2018/07/json_web_token-tutorial.html)
-
-[还分不清 Cookie、Session、Token、JWT？ ](https://zhuanlan.zhihu.com/p/164696755)
-
-
-
-### 注册
-
-- 请求
-
-| 请求类型 | PATH          |
-| -------- | ------------- |
-| POST     | /api/register |
-
-| 字段名   | 类型   |
-| -------- | ------ |
-| username | string |
-| password | string |
-| usertype | int    |
-
-- 响应
-
-| 字段名 | 类型   | 说明                               |
-| ------ | ------ | ---------------------------------- |
-| code   | int    | 0表示成功，非0表示发生错误         |
-| msg    | string | 成功时返回空值，失败时返回失败原因 |
-| data   | string |                                    |
-
-- 栗子
-
-  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xbyd36fj315k0hxzkx.jpg"/>
-
-
-
-### 查询买家信息
-
-#### 通过uid查询
-
-- 请求
-
-| 请求类型 | PATH                   |
-| -------- | ---------------------- |
-| POST     | /api/query_buyer_by_id |
-
-| 字段名 | 类型 |
-| ------ | ---- |
-| uid    | int  |
-
-- 响应
-
-| 字段名 | 类型     | 说明                               |
-| ------ | -------- | ---------------------------------- |
-| code   | int      | 0表示成功，非0表示发生错误         |
-| msg    | string   | 成功时返回空值，失败时返回失败原因 |
-| data   | json对象 | 包含买家信息                       |
-
-- 栗子
-
-  <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xp1oopej315k0kwaaq.jpg"/>
-
-
-
-#### 通过username查询
-
-- 请求
-
-| 请求类型 | PATH                         |
-| -------- | ---------------------------- |
-| POST     | /api/query_buyer_by_username |
-
-| 字段名   | 类型   |
-| -------- | ------ |
-| username | string |
-
-- 响应
-
-| 字段名 | 类型     | 说明                               |
-| ------ | -------- | ---------------------------------- |
-| code   | int      | 0表示成功，非0表示发生错误         |
-| msg    | string   | 成功时返回空值，失败时返回失败原因 |
-| data   | json对象 | 包含买家信息                       |
-
-- 栗子
-
-<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gp6xqdotzcj315h0l3aar.jpg"/>
-
-
-
-### 查询商品信息
-
-#### 通过cid（商品id）查询
-
-- 请求
-
-| 请求类型 | PATH                  |
-| -------- | --------------------- |
-| GET      | /api/commodity_detail |
-
-| 字段名 | 类型 |
-| ------ | ---- |
-| cid    | int  |
-
-- 响应
-
-| 字段名 | 类型     | 说明                               |
-| ------ | -------- | ---------------------------------- |
-| code   | int      | 0表示成功，非0表示发生错误         |
-| msg    | string   | 成功时返回空值，失败时返回失败原因 |
-| data   | json对象 | 包含商品信息                       |
-
-- 例子
-
-  ![](https://raw.githubusercontent.com/Sean1840/picture/master/img/Snipaste_2021-04-04_14-18-05.png)
-
-（这里没有返回introduction的信息）
-
-
-
-#### 添加商品
-
-- 请求
-
-| 请求类型 | PATH               |
-| -------- | ------------------ |
-| POST     | /api/commodity_add |
-
-| 字段名         | 类型   | 说明     |
-| :------------- | :----- | :------- |
-| user_id        | int    | 用户ID   |
-| commodity_name | string | 商品名   |
-| inventory      | int    | 商品库存 |
-| introduction   | string | 商品介绍 |
-| price          | float  | 商品价格 |
-
-- 响应
-
-| 字段名 | 类型     | 说明                               |
-| ------ | -------- | ---------------------------------- |
-| code   | int      | 0表示成功，非0表示发生错误         |
-| msg    | string   | 成功时返回空值，失败时返回失败原因 |
-| data   | json对象 | 返回商品ID                         |
-
-data：
-
-| 字段名       | 类型 | 说明   |
-| :----------- | :--- | :----- |
-| commodity_id | int  | 商品id |
-
-- 栗子
-
-  
 
 ## 数据库建表
 
@@ -328,8 +148,6 @@ create table user_meta
 ### 请求
 
 使用json数据封装请求，看前端代码
-
-
 
 ### 返回
 
