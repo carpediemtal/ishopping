@@ -97,6 +97,7 @@ func CommodityEditHandler(c *gin.Context) {
 		return
 	}
 
+	uid := c.GetInt("UserID")
 	switch p.EditType {
 	case CommodityUpdate:
 		if err := service.UpdateCommodityInfo(p); err != nil {
@@ -104,7 +105,7 @@ func CommodityEditHandler(c *gin.Context) {
 			return
 		}
 	case CommodityAdd:
-		if err := service.AddCommodity(p); err != nil {
+		if err := service.AddCommodity(p, uid); err != nil {
 			JsonErr(c, err.Error())
 			return
 		}

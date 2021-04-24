@@ -1,6 +1,7 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 	"ishopping/src/db"
 	"log"
@@ -89,22 +90,25 @@ func UpdateCommodityInfo(cm CommodityEdit) error {
 	return nil
 }
 
-func AddCommodity(cm CommodityEdit) error {
-	sid, err := getSidByCid(cm.Cid)
+func AddCommodity(cm CommodityEdit, uid int) error {
+	sid, err := getSidByUid(uid)
 	if err != nil {
 		return errors.New("no matched shop id")
 	}
 
-	if _, err = db.DB.Exec(`insert into commodity (sid, name, price, inventory, caid) VALUES (?, ?, ?, ?, ?)`, sid, cm.Name, cm.Price, cm.Inventory, cm.Caid); err != nil {
+	var res sql.Result
+	if res, err = db.DB.Exec(`insert into commodity (sid, name, price, inventory, caid) VALUES (?, ?, ?, ?, ?)`, sid, cm.Name, cm.Price, cm.Inventory, cm.Caid); err != nil {
 		return err
 	}
+	// 获取插入操作自动生成的主键
+	cid, _ := res.LastInsertId()
 
-	if _, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "introduction", cm.Introduction); err != nil {
+	if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "introduction", cm.Introduction); err != nil {
 		return err
 	}
 
 	for _, image := range cm.Image {
-		if _, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "image", image); err != nil {
+		if _, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "image", image); err != nil {
 			return err
 		}
 	}
