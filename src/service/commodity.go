@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"ishopping/src/db"
 	"log"
 )
@@ -37,27 +38,6 @@ func GetCommodities() (commodities []Commodity, err error) {
 	return
 }
 
-// 添加商品成功时返回商品ID
-//func AddCommodity(uid int, price float64, inventory int, name, introduction string) (cid int, err error) {
-//	sid, err := getSidByUid(uid)
-//	if err != nil {
-//		return 0, errors.New("no matched shop id")
-//	}
-//
-//	// TODO: sales 和 caid 先插0，以后的版本再改
-//	_, err = db.DB.Exec(`insert into commodity (sid, name, price, sales, inventory, caid) VALUES (?, ?, ?, ?, ?, ?)`, sid, name, price, 0, inventory, 0)
-//	if err != nil {
-//		return 0, err
-//	}
-//
-//	cid, err = getCidBySid(sid)
-//	if err != nil {
-//		return 0, err
-//	}
-//	_, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "introduction", introduction)
-//	return cid, err
-//}
-
 func getSidByUid(uid int) (sid int, err error) {
 	log.Println("uid:", uid)
 	row := db.DB.QueryRow(`select sid from shop where uid = ?`, uid)
@@ -68,6 +48,12 @@ func getSidByUid(uid int) (sid int, err error) {
 func getCidBySid(sid int) (cid int, err error) {
 	row := db.DB.QueryRow(`select cid from commodity where sid = ?`, sid)
 	err = row.Scan(&cid)
+	return
+}
+
+func getSidByCid(cid int) (sid int, err error) {
+	row := db.DB.QueryRow(`select sid from commodity where cid = ?`, cid)
+	err = row.Scan(&sid)
 	return
 }
 
@@ -82,11 +68,46 @@ func GetAllCategories() (categories []Category, err error) {
 }
 
 func UpdateCommodityInfo(cm CommodityEdit) error {
-	// TODO
+	if _, err := db.DB.Exec(`update commodity set name = ?, price = ?, inventory = ?, caid = ?`, cm.Name, cm.Price, cm.Inventory, cm.Caid); err != nil {
+		return err
+	}
+
+	if _, err := db.DB.Exec(`delete from commodity_meta where cid = ?`, cm.Cid); err != nil {
+		return err
+	}
+
+	if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "introduction", cm.Introduction); err != nil {
+		return err
+	}
+
+	for _, image := range cm.Image {
+		if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "image", image); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
 func AddCommodity(cm CommodityEdit) error {
-	// TODO
+	sid, err := getSidByCid(cm.Cid)
+	if err != nil {
+		return errors.New("no matched shop id")
+	}
+
+	if _, err = db.DB.Exec(`insert into commodity (sid, name, price, inventory, caid) VALUES (?, ?, ?, ?, ?)`, sid, cm.Name, cm.Price, cm.Inventory, cm.Caid); err != nil {
+		return err
+	}
+
+	if _, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "introduction", cm.Introduction); err != nil {
+		return err
+	}
+
+	for _, image := range cm.Image {
+		if _, err = db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "image", image); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
