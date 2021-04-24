@@ -16,7 +16,7 @@ func main() {
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
 
 	// release2 index_category_channel
-	r.GET("/api/index_category_channel", handler.VistorViewHandle)
+	r.GET("/api/index_category_channel", handler.VisitorViewHandle)
 
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
