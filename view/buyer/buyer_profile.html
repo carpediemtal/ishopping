@@ -162,16 +162,19 @@
 		methods:{
 			initUserInfo:function(){
 				this.isModifying = false;
-                const token = "";
+                // const token = "";
+                const token = window.localStorage.getItem("ishopping-token")
+
 				if (!token){
 					alert("Please sign in first.");
 					window.location.replace("../templates/sign_in.html");
 				}
 				else{
 					// TODO:等待登录cookie获取后进行测试。
-					axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+					axios.defaults.headers.common = {Authorization: `${token}`}
 					axios.get(`http://localhost:7001/api/buyer/information`)
 						.then(function (resp) {
+                            console.log(resp)
 							// handle success
 							if (resp.data.code === 0) {
 								this.user.name = resp.data.name;
