@@ -3,18 +3,12 @@ package handler
 import (
 	"encoding/json"
 	"ishopping/src/service"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func ShopDetailHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Query("uid"))
-	if err != nil {
-		JsonErr(c, "user not found")
-		return
-	}
-
+	uid := c.GetInt("UserID")
 	shop, err := service.GetShopProfileById(uid)
 	if err != nil {
 		JsonErr(c, err.Error())
