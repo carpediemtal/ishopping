@@ -16,10 +16,9 @@ func main() {
 	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
 	r.GET("/api/category_list", handler.CategoryListHandler)
-	//r.POST("/api/seller/commodity_edit", handler.CommodityEditHandler)
 
 	// release2 index_category_channel
-	r.GET("/api/index_category_channel", handler.VistorViewHandler)
+	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 
 	r.GET("/api/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
 	r.POST("/api/buyer/information_modify", handler.UpdateBuyerInfoHandler)
@@ -29,7 +28,6 @@ func main() {
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
-	//auth.POST("/commodity_add", handler.CommodityAddHandler) // 合并到commodity_edit
 	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
 	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
 
