@@ -2,11 +2,17 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
 	"log"
 	"strconv"
 	"strings"
+)
+
+const (
+	COMMODITY_UPDATE = 0
+	COMMODITY_ADD    = 1
 )
 
 func CommoditySearchHandler(c *gin.Context) {
@@ -82,4 +88,30 @@ func CategoryListHandler(c *gin.Context) {
 	}
 
 	JsonOK(c, gin.H{"category_list": categories})
+}
+
+func CommodityEditHandler(c *gin.Context) {
+	var p service.CommodityEdit
+	if err := c.ShouldBindJSON(&p); err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+
+	switch p.EditType {
+	case COMMODITY_UPDATE:
+		if err := service.UpdateCommodityInfo(p); err != nil {
+			JsonErr(c, err.Error())
+			return
+		}
+	case COMMODITY_ADD:
+		if err := service.AddCommodity(p); err != nil {
+			JsonErr(c, err.Error())
+			return
+		}
+	default:
+		JsonErr(c, errors.New("invalid edit_type").Error())
+		return
+	}
+
+	JsonOK(c, gin.H{})
 }
