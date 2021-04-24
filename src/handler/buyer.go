@@ -35,12 +35,7 @@ func queryBuyerByIdHandler(c *gin.Context) {
 
 //上面的改了个名
 func BuyerDetailHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Query("uid"))
-	if err != nil {
-		JsonErr(c, "user not found")
-		return
-	}
-
+	uid := c.GetInt("UserID")
 	buyer, err := service.GetBuyerProfileById(uid)
 	if err != nil {
 		JsonErr(c, err.Error())

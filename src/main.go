@@ -30,6 +30,7 @@ func main() {
 	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
 	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
+	auth.GET("/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
