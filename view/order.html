@@ -35,28 +35,29 @@
         <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
     </div>
     <div id="orderList">
-        <table>
-            <thead >
+        <table v-if="hasOrder">
+            <thead>
                 <th>order id</th>
                 <th>total price</th>
-                <th>delivery id</th>
-                <th>status</th>
+                <th>delivery</th>
+                <!-- <th>status</th> -->
             </thead>
             <tbody v-for="o in orders">
                 <td>{{o.order_id}}</td>
                 <td>{{o.total_price}}</td>
                 <td>
-                    <p id="deliveryid" v-if="orderSended(o.delivery_id)">{{o.delivery_id}}</p>
-                    <button id="delivery" v:click="sendOrder(o.order_id)" v-else>delivery</button>
+                    <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>
+                    <button id="delivery" v-on:click="sendOrder(o.order_id)" v-else>Delivery</button>
                 </td>
-                <td id="status" >
+                <!-- <td id="status" >
                     <p v-if="orderSended(o.delivery_id)">sended</p>
                     <p v-if="orderReceived(o.delivery_id)">received</p>
                     <p v-if="orderPayed(o.delivery_id) && !orderSended(o.delivery_id)">payed</p>
                     <p v-if="orderUnpayed(o.delivery_id)">unpayed</p>
-                </td>
+                </td> -->
             </tbody>
         </table>
+        <h1 id="noOrder" v-else>Order list is empty!</h1>
     </div>
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
@@ -77,25 +78,31 @@
             data:{
                 res:12,
                 total: 0,
-                deBut: true,
-                deId: false,
+                hasOrder: false,
                 orders:[
-                    {
-                        order_id: 1,
-                        total_price:100,
-                        delivery_id:-1
-                    },
-                    {
-                        order_id: 2,
-                        total_price:100,
-                        delivery_id:1
-                    }
+                    //example
+                    // {
+                    //     order_id: 1,
+                    //     total_price:100,
+                    //     delivery_id:-1     //>=0 deliveried  <0 not
+                    // },
+                    // {
+                    //     order_id: 2,
+                    //     total_price:200,
+                    //     delivery_id:0
+                    // },
+                    // {
+                    //     order_id: 3,
+                    //     total_price:300,
+                    //     delivery_id:-1
+                    // }
                 ]
             },
             mounted(){
                 axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_list?order_status=1')
                     .then(function(res){
                         console.log(res)
+                        this.hasOrder = true
                         if(res.data.code == 0){
                             for(var ol in res.data.data.order_list){
                                 ol.delivery_id=-1
@@ -113,7 +120,11 @@
                     .then(function(res){
                         console.log(res)
                         if(res.data.code == 0){
-                            this.orders.push(res.data.data.order_list)
+                            // this.orders.push(res.data.data.order_list)
+                            for(var ol in res.data.data.order_list){
+                                ol.delivery_id=0
+                                orders.push(ol)
+                            }
                         }else{
                             console.log(res.data.msg)
                         }
@@ -129,7 +140,11 @@
                     .then(function(res){
                         console.log(res)
                         if(res.data.code == 0){
-                            this.orders.push(res.data.data.order_list)
+                            // this.orders.push(res.data.data.order_list)
+                            for(var ol in res.data.data.order_list){
+                                ol.delivery_id=0
+                                orders.push(ol)
+                            }
                         }else{
                             console.log(res.data.msg)
                         }
@@ -157,17 +172,17 @@
                         console.log(error);
                     });
                 },
-                sendOrder:function(id){
+                sendOrder: function(id){
                     console.log(id)
                     axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_delivery?order_id=${id}')
                     .then(function(res){
                         console.log(res)
-                        
                         if(res.data.code == 0){
                             var or = []
                             for(var ol in this.orders){
                                 if(ol.order_id == id){
-                                    ol.delivery_id = res.data.data.delivery_id
+                                    // ol.delivery_id = res.data.data.delivery_id
+                                    ol.delivery_id = 0
                                 }
                                 or.push(ol)
                             }
@@ -184,16 +199,16 @@
                 },
                 orderSended: function(delivery_id){
                     return (delivery_id >= 0)
-                },
-                orderReceived: function(delivery_id){
-                    return false
-                },
-                orderPayed: function(delivery_id){
-                    return true
-                },
-                orderUnpayed: function(delivery_id){
-                    return false
-                },
+                }
+                // orderReceived: function(delivery_id){
+                //     return false
+                // },
+                // orderPayed: function(delivery_id){
+                //     return true
+                // },
+                // orderUnpayed: function(delivery_id){
+                //     return false
+                // },
 
             }
         })
