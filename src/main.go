@@ -15,10 +15,10 @@ func main() {
 	r.POST("/api/register", handler.RegisterHandler)
 	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
-	r.GET("/api/category_list",handler.CategoryListHandler)
+	r.GET("/api/category_list", handler.CategoryListHandler)
 
 	// release2 index_category_channel
-	r.GET("/api/index_category_channel", handler.VistorViewHandle)
+	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 
 	r.GET("/api/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
 	r.POST("/api/buyer/information_modify", handler.UpdateBuyerInfoHandler)
@@ -28,8 +28,8 @@ func main() {
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
-	auth.POST("/commodity_add", handler.CommodityAddHandler)
-	auth.POST("/seller/order_delivery",handler.OrderDeliveryHandler)
+	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
+	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
