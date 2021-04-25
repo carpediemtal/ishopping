@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>commodity_buy</title>
+    <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
+            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <img alt="shop.png" height="35" src="../static/icon/shop.png">
+        <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
+        <a href="home.html" class="btn btn-outline-primary">Home</a>
+        <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
+        <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
+        <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
+        <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
+    </div>
+
+<div id="commodity_buy">
+    <form @submit.prevent="confirm">
+        <p>
+            are you sure to purchase this product?
+        </p>
+        <div class="form-group">
+            <button class="btn btn-outline-primary">Confirm_purchase</button>
+
+        </div>
+    </form>
+</div>
+    <script>
+    const app = new Vue({
+        el: '#commodity_buy',
+        data: {
+            commodity_id:'1',
+        },
+        methods: {
+            Confirm_purchase: function () {
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization: `${token}`}
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:7001/api/commodity_buy',
+                    data: {
+                        'commodity_id': this.commodity_id,
+
+                    },
+                }).then(function (resp) {
+                    // handle success
+                    if (resp.data.code === 0) {
+                        console.log("OK!")
+                        alert("OK")
+                    } else {
+                        console.log(resp.data.msg)
+                        alert(resp.data.msg)
+                    }
+                }).catch(function (resp) {
+                    // handle error
+                    console.log(resp.data.msg)
+                    alert(resp.data.msg)
+                })
+            },
+
+
+        }
+    })
+</script>
+</body>
+</html>

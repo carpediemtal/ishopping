@@ -26,7 +26,7 @@
 <body>
 <div>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <img alt="shop.png" height="35" src="../static/icon/shop.png">
+        <img alt="shop.png" height="35" src="/static/icon/shop.png">
         <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
         <a href="home.html" class="btn btn-outline-primary">Home</a>
         <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
@@ -98,85 +98,16 @@
                     // }
                 ]
             },
-            mounted(){
-                axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_list?order_status=1')
-                    .then(function(res){
-                        console.log(res)
-                        this.hasOrder = true
-                        if(res.data.code == 0){
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=-1
-                                orders.push(ol)
-                            }
-                        }else{
-                            console.log(res.data.msg)
-                        }
-                        
-                    })
-                    .catch(function (error) { 
-                        console.log(error);
-                    });
-                axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_list?order_status=2')
-                    .then(function(res){
-                        console.log(res)
-                        if(res.data.code == 0){
-                            // this.orders.push(res.data.data.order_list)
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=0
-                                orders.push(ol)
-                            }
-                        }else{
-                            console.log(res.data.msg)
-                        }
-                        
-                    })
-                    .catch(function (error) { 
-                        console.log(error);
-                    });
-            },
             methods:{
-                getOrderSended: function(){
-                    axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_list?order_status=2')
-                    .then(function(res){
-                        console.log(res)
-                        if(res.data.code == 0){
-                            // this.orders.push(res.data.data.order_list)
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=0
-                                orders.push(ol)
-                            }
-                        }else{
-                            console.log(res.data.msg)
-                        }
-                        
-                    })
-                    .catch(function (error) { 
-                        console.log(error);
-                    });
-                },
-                getOrderPrepared: function(){
-                    axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_list?order_status=1')
-                    .then(function(res){
-                        console.log(res)
-                        if(res.data.code == 0){
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=-1
-                                orders.push(ol)
-                            }
-                        }else{
-                            console.log(res.data.msg)
-                        }
-                        
-                    })
-                    .catch(function (error) { 
-                        console.log(error);
-                    });
-                },
                 sendOrder: function(id){
-                    console.log(id)
-                    axios.get('Access-Control-Allow-Origin:http://ishopping.gq/api/seller/order_delivery?order_id=${id}')
-                    .then(function(res){
-                        console.log(res)
+                    axios.defaults.headers.common = {Authorization:true}
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:7001/api/seller/order_delivery',
+                        data:{
+                            'order_id':id
+                    }}).then(function(res){
+                        console.log(id+" Deliveried")
                         if(res.data.code == 0){
                             var or = []
                             for(var ol in this.orders){
@@ -200,17 +131,57 @@
                 orderSended: function(delivery_id){
                     return (delivery_id >= 0)
                 }
-                // orderReceived: function(delivery_id){
-                //     return false
-                // },
-                // orderPayed: function(delivery_id){
-                //     return true
-                // },
-                // orderUnpayed: function(delivery_id){
-                //     return false
-                // },
 
-            }
+            },
+            mounted(){
+                
+                axios({
+                    'url':'http://localhost:7001/api/seller/order_list?order_status=1',
+                    'method': 'get',
+                    // 'Access-Control-Allow-Origin': '*',
+                    // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                    // 'dataType':'JSONP',
+                })
+                    .then(function(res){
+                        console.log(res)
+                        this.hasOrder = true
+                        if(res.data.code == 0){
+                            for(var ol in res.data.data.order_list){
+                                ol.delivery_id=-1
+                                orders.push(ol)
+                            }
+                        }else{
+                            console.log(res.data.msg)
+                        }
+                        
+                    })
+                    .catch(function (error) { 
+                        console.log(error)
+                        // window.alert(error)
+                    });
+                    //http://localhost:7001/api/seller/order_list?order_status=2
+                axios({
+                    'url':'http://localhost:7001/api/seller/order_list?order_status=2',
+                    'method':'get',
+                })
+                    .then(function(res){
+                        console.log(res)
+                        if(res.data.code == 0){
+                            // this.orders.push(res.data.data.order_list)
+                            for(var ol in res.data.data.order_list){
+                                ol.delivery_id=0
+                                orders.push(ol)
+                            }
+                        }else{
+                            console.log(res.data.msg)
+                        }
+                        
+                    })
+                    .catch(function (error) { 
+                        console.log(error);
+                        // window.alert(error)
+                    });
+            },
         })
     </script>
     <style>
