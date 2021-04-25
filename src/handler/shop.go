@@ -29,7 +29,7 @@ func ShopDetailHandler(c *gin.Context) {
 
 func UpdateShopInfoHandler(c *gin.Context) {
 	type params struct {
-		Uid      int    `json:"uid"`
+		//Uid      int    `json:"uid"`
 		ShopName string `json:"shop_name"`
 		Address  string `json:"address"`
 		PhoneNum string `json:"phone_num"`
@@ -41,7 +41,8 @@ func UpdateShopInfoHandler(c *gin.Context) {
 		return
 	}
 
-	err = service.UpdateShopInfo(p.Uid, p.ShopName, p.Address, p.PhoneNum)
+	uid := c.GetInt("UserID")
+	err = service.UpdateShopInfo(uid, p.ShopName, p.Address, p.PhoneNum)
 	if err != nil {
 		JsonErr(c, "update shop info error: "+err.Error())
 		return
