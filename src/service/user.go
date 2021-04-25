@@ -9,7 +9,8 @@ type User struct {
 	Uid      int
 	Username string
 	Password string
-	usertype int
+	//usertype int
+	usertype int8
 }
 
 func Register(username, password string, userType int) error {
@@ -38,3 +39,16 @@ func CreateShop(uid int, shopName string) error {
 	_, err := db.DB.Exec(`insert into shop (uid, shop_name) VALUES (?, ?)`, uid, shopName)
 	return err
 }
+
+func UserType(uid int) (userType int8, err error) {
+	row := db.DB.QueryRow("select type from user where uid = ?", uid)
+	err = row.Scan(&userType)
+	return
+}
+
+/*func GetUserByUid(uid int) (user User, err error) {
+	//row := db.DB.QueryRow("select uid,username,password,type*1 from user where uid = ?", uid)
+	row := db.DB.QueryRow("select * from user where uid = ?", uid)
+	err = row.Scan(&user.Uid, &user.Username, &user.Password, &user.usertype)
+	return
+}*/
