@@ -205,24 +205,23 @@
 				var that = this;
                 const token = window.localStorage.getItem("ishopping-token")
 				if(token){
-					// TODO:此处似乎并不能成功传入
-					axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+					axios.defaults.headers.common = {Authorization: `${token}`}
 					axios({
 						method: 'post',
 						url: 'http://localhost:7001/api/buyer/information_modify',
 						data: {
+							'uid' : that.user.UID,
 							'name': that.user.name,
 							'address' : that.user.address,
-							'phonenumber': that.user.telephone
+							'phone_num': that.user.telephone
 						}
 					}).then(function (resp) {
-						if (resp.code === 0) {
+						if (resp.data.code === 0) {
 							console.log("OK!");
 							that.initUserInfo();
 						} 
 						else {
-							console.log(resp.msg)
-							that.JumpToSignIn();
+							console.log(resp.msg);
 						}
 					}).catch(function (resp) {
 						console.log(resp.msg);
