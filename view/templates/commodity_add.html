@@ -69,7 +69,7 @@
         methods: {
             confirm: function () {
                 const token = window.localStorage.getItem("ishopping-token")
-                axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+                axios.defaults.headers.common = {Authorization: `${token}`}
                 axios({
                     method: 'post',
                     url: 'http://localhost:7001/api/commodity_add',
