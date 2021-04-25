@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
 )
@@ -40,7 +39,7 @@ func UpdateShopInfoHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError: "+err.Error())
 		return
 	}
-	fmt.Println("NAME:", p.ShopName, "ASDLKASJDLKJCVLKJ")
+
 	uid := c.GetInt("UserID")
 	err = service.UpdateShopInfo(uid, p.ShopName, p.Address, p.PhoneNum)
 	if err != nil {
