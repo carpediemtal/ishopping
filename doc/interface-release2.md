@@ -69,7 +69,7 @@ list_item:
 | ----------- | ------ | -------- |
 | name        | string | 买家姓名 |
 | address     | string | 地址     |
-| phonenumber | string | 电话     |
+| phone_num | string | 电话     |
 
 ## 2.information_modify
 
@@ -79,11 +79,12 @@ list_item:
 | -------- | ----------------------------- |
 | post     | /api/buyer/information_modify |
 
-| 字段名      | 类型   | 说明     |
+| 字段名      | 类型   | 说明      |
 | ----------- | ------ | -------- |
+| uid         | int    | 买家id   |
 | name        | string | 买家姓名 |
 | address     | string | 地址     |
-| phonenumber | string | 电话     |
+| phone_num   | string | 电话     |
 
 ### 返回
 
