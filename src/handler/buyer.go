@@ -77,7 +77,7 @@ func queryBuyerByUsernameHandler(c *gin.Context) {
 
 func UpdateBuyerInfoHandler(c *gin.Context) {
 	type params struct {
-		Uid      int    `json:"uid"`
+		//Uid      int    `json:"uid"`
 		Name     string `json:"name"`
 		Address  string `json:"address"`
 		PhoneNum string `json:"phone_num"`
@@ -89,7 +89,8 @@ func UpdateBuyerInfoHandler(c *gin.Context) {
 		return
 	}
 
-	err = service.UpdateBuyerInfo(p.Uid, p.Name, p.Address, p.PhoneNum)
+	uid := c.GetInt("UserID")
+	err = service.UpdateBuyerInfo(uid, p.Name, p.Address, p.PhoneNum)
 	if err != nil {
 		JsonErr(c, "update buyer info error: "+err.Error())
 		return
