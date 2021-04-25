@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shop_profile</title>
+    <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
+            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        .box {
+            width: 800px;
+            height: 400px;
+            background-color: white;
+            margin: 0px auto;
+            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, .2);
+            border-radius: 50px;
+            margin: 80px 0px;
+        }
+
+        .borderBox {
+            float: left;
+            width: 5px;
+            height: 300px;
+            margin: 50px 0px;
+            border-right: dotted #EDEDED;
+        }
+
+        .sideBox {
+            float: left;
+            width: 200px;
+            height: 150px;
+            padding: 120px 50px;
+        }
+
+        .mainBox {
+            float: left;
+            width: 450px;
+            height: 400px;
+            padding: 110px 50px;
+        }
+    </style>
+</head>
+
+
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <img alt="shop.png" height="35" src="../static/icon/shop.png">
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="buyer_index.html">ISHOPPING</a></h5>
+    <!--<a href="shop_index.html" class="btn btn-outline-primary">Home</a>-->
+    <a href="shop_profile.html" class="btn btn-outline-primary ml-3">Profile</a>
+</div>
+
+<div class="container" id="container" style="max-width: 960px">
+
+    <div class="box">
+        <div class="sideBox">
+            <table cellspacing="20" cellpadding="10">
+                <tr>
+                    <td colspan="2"><img src="../static/icon/human.png" width="80" height="80"></td>
+                </tr>
+                <tr>
+                    <th><b>UID:</b></th>
+                    <td>{{ user.UID }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="borderBox"></div>
+        <div v-if='!isModifying' class="mainBox">
+            <table cellspacing="20" cellpadding="10">
+                <tr id="tr_name">
+                    <th><img src="../static/icon/id.png" width="30" height="30"></th>
+                    <td id="th_name"><b>Shop Name</b></td>
+                    <td id="td_name">{{ user.name }}</td>
+                </tr>
+                <tr id="tr_telephone">
+                    <th><img src="../static/icon/telephone.png" width="30" height="30"></th>
+                    <td id="th_telephone"><b>Phone Number</b></td>
+                    <td id="td_name">{{ user.telephone }}</td>
+                </tr>
+                <tr id="tr_address">
+                    <th><img src="../static/icon/address.png" width="30" height="30"></th>
+                    <td id="th_address"><b>Address</b></td>
+                    <td id="td_name">{{ user.address }}</td>
+                </tr>
+                <tr id="tr_btn" class="form-group">
+                    <th></th>
+                    <td></td>
+                    <td id="td_btn">
+                        <button class="btn btn-outline-primary" @click="Modify">Modify</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div v-if='isModifying' class="mainBox">
+            <table cellspacing="30" cellpadding="7">
+                <tr id="tr_name">
+                    <th><img src="../static/icon/id.png" width="30" height="30"></th>
+                    <td id="th_name"><b>Shop Name</b></td>
+                    <td id="td_name">
+                        <input type="text" class="form-control" name="name" id="name" v-model="user.name" tabindex="1"/>
+                    </td>
+                </tr>
+                <tr id="tr_telephone">
+                    <th><img src="../static/icon/telephone.png" width="30" height="30"></th>
+                    <td id="th_telephone"><b>Phone Number</b></td>
+                    <td id="td_telephone">
+                        <input type="text" class="form-control" name="telephone" id="telephone" v-model="user.telephone"
+                               tabindex="1"/>
+                    </td>
+                </tr>
+                <tr id="tr_address">
+                    <th><img src="../static/icon/address.png" width="30" height="30"></th>
+                    <td id="th_address"><b>Address</b></td>
+                    <td id="td_address">
+                        <input type="text" class="form-control" name="address" id="address" v-model="user.address"
+                               tabindex="1"/>
+                    </td>
+                </tr>
+                <tr id="tr_btn" class="form-group">
+                    <th></th>
+                    <td></td>
+                    <td id="td_btn">
+                        <button class="btn btn-outline-primary" tabindex="1" @click="Submit">Confirm</button>
+                        <button class="btn btn-outline-danger ml-3" tabindex="1" @click="Cancel">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h5>Copyright&copy;2021</h5>
+            <p>
+                <a target="_blank"><i class="fa fa-leaf"></i> Blog</a> -
+                <a target="_blank"><i class="fa fa-github"></i> Github</a> -
+                <a target="_blank"><i class="fa fa-question"></i> Help</a>
+            </p>
+        </div>
+    </div>
+</footer>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#container',
+        data: {
+            times: 0,
+            isModifying: false,
+            user: {
+                UID: 0,
+                name: "",
+                telephone: "",
+                address: ""
+            }
+        },
+        methods: {
+            JumpToSignIn: function () {
+                alert("Please sign in first.");
+                window.location.replace("../templates/sign_in.html");
+            },
+            initUserInfo: function () {
+                var that = this;
+                that.isModifying = false;
+                const token = window.localStorage.getItem("ishopping-token")
+                if (token) {
+                    axios.defaults.headers.common = {Authorization: `${token}`}
+                    axios.get(`http://localhost:7001/api/seller/shop_information`)
+                        .then(function (resp) {
+                            console.log(resp)
+                            // handle success
+                            if (resp.data.code === 0) {
+                                that.user.UID = resp.data.data.uid;
+                                that.user.name = resp.data.data.shopName;
+                                that.user.address = resp.data.data.address;
+                                that.user.telephone = resp.data.data.phone_num;
+                            } else {
+                                console.log(resp.msg);
+                                // that.JumpToSignIn();
+                            }
+                        }).catch(function (resp) {
+                        that.JumpToSignIn();
+                        // handle error
+                        console.log(resp.msg);
+                    })
+                } else {
+                    that.JumpToSignIn();
+                }
+            },
+            Submit: function () {
+                if (!this.user.name) {
+                    alert("please input your shop name!");
+                    return;
+                } else if (!this.user.telephone) {
+                    alert("please input your phone number!");
+                    return;
+                } else if (!this.user.address) {
+                    alert("please input your address!");
+                    return;
+                }
+                var that = this;
+                const token = window.localStorage.getItem("ishopping-token")
+                if (token) {
+                    axios.defaults.headers.common = {Authorization: `${token}`}
+                    axios({
+                        method: 'post',
+                        url: 'http://localhost:7001/api/seller/shop_information_modify',
+                        data: {
+                            // 'uid': that.user.UID,
+                            'shopname': that.user.name,
+                            'address': that.user.address,
+                            'seller_phonenumber': that.user.telephone
+                        }
+                    }).then(function (resp) {
+                        if (resp.data.code === 0) {
+                            console.log("OK!");
+                            that.initUserInfo();
+                        } else {
+                            console.log(resp.msg);
+                        }
+                    }).catch(function (resp) {
+                        console.log(resp.msg);
+                    })
+                } else {
+                    that.JumpToSignIn();
+                }
+            },
+            Modify: function () {
+                this.isModifying = true;
+            },
+            Cancel: function () {
+                this.initUserInfo();
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    this.initUserInfo();
+                }, 100)
+            })
+        }
+    })
+</script>
+</html>

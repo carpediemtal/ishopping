@@ -2,9 +2,9 @@ package handler
 
 import (
 	"encoding/json"
-	"ishopping/src/service"
-
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"ishopping/src/service"
 )
 
 func ShopDetailHandler(c *gin.Context) {
@@ -30,9 +30,9 @@ func ShopDetailHandler(c *gin.Context) {
 func UpdateShopInfoHandler(c *gin.Context) {
 	type params struct {
 		//Uid      int    `json:"uid"`
-		ShopName string `json:"shop_name"`
+		ShopName string `json:"shopname"`
 		Address  string `json:"address"`
-		PhoneNum string `json:"phone_num"`
+		PhoneNum string `json:"seller_phonenumber"`
 	}
 	var p params
 	err := c.BindJSON(&p)
@@ -40,7 +40,7 @@ func UpdateShopInfoHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError: "+err.Error())
 		return
 	}
-
+	fmt.Println("NAME:", p.ShopName, "ASDLKASJDLKJCVLKJ")
 	uid := c.GetInt("UserID")
 	err = service.UpdateShopInfo(uid, p.ShopName, p.Address, p.PhoneNum)
 	if err != nil {
