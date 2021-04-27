@@ -1,0 +1,286 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 2500px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-weight: 400;
+    background-color: #fff;
+}
+ul,li{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style-type: none;
+}
+
+.header{
+    height: 100px;
+}
+
+.header-logo{
+    float: left;
+    width: 62px;
+    height: 55px;
+    margin-top: 22px;
+}
+.header-logo a{
+    display: block;
+    width: 60px;
+    height: 55px;
+    background: url(../img/logo.jpg) no-repeat;
+    background-size: 100% 100%;
+    
+}
+.header-logo .lr{
+    text-align: left;
+    text-indent: -9992em;
+}
+
+.header-nav{
+    float: left;
+    width: 820px;
+    height: 100px;
+}
+.header-nav .nav-list{
+    width: 820px;
+    height: 88px;
+    font-size: 16px;
+    padding: 12px 0 0 30px;
+}
+.header-nav .nav-list .nav-category{
+    float: left;
+    width: 127px;
+    padding: 0 15px 0 0;
+}
+.header-nav .nav-list .nav-category .a-category{
+    display: block;
+    padding: 26px 0 38px;
+    text-align: right;
+    color: #333;
+}
+.nav-category{
+    position: relative;
+}
+
+.slider-nav{
+    display: none;
+    position: absolute;
+    width: 232px;
+    height: 418px;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    right: 0px;
+    top: 87px;
+    padding: 0px 0;
+    z-index: 10;
+}
+.nav-category:hover .slider-nav{
+    display: block;
+    text-decoration: none;
+}
+.slider-nav .slidernav-li{
+    display: block;
+    line-height: 42px;
+    height: 42px;  
+}
+.slider-nav .slidernav-li .slidernav-subclass{
+    font-size: 15px;
+    color: #333;
+    padding: 0 24px 0 30px;
+}
+.slider-nav .slidernav-li .slidernav-subclass span{
+    margin-right: 5px;
+}
+.slider-nav .slidernav-li i{
+    float: right;
+}
+.slider-nav .slidernav-li:hover{
+    
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-nav .nav-list .nav-item{
+    float: left;
+}
+.header-nav .nav-list .nav-item a{
+    display: block;
+    padding: 26px 10px 38px;
+    color: #333;
+}
+.header-nav .nav-list .nav-item a:hover{
+    color: #007bff;
+    text-decoration: none;
+}
+
+
+.mainbody-ad{
+    height: 460px;
+    overflow: hidden;
+    position: relative;
+}
+.ad-box img{
+    width: 100%;
+    height: 460px;
+}
+.mainbody-ad .ad-btn{
+    position: absolute;
+    top: 50%;
+    margin-top: -35px;
+    width: 40px;
+    height: 70px;
+    background-image: url("../img/ad-btn.png");
+    cursor: pointer;
+}
+.mainbody-ad .ad-btn.prev{
+    background-position: -83px 0;
+    left: 0;
+    color: red;
+}
+.mainbody-ad .ad-btn.next{
+    background-position: top right;
+    right: 0;
+}
+.mainbody-ad .ad-btn.prev:hover{
+    background-position:left;
+}
+.mainbody-ad .ad-btn.next:hover{
+    background-position: -42px 0;
+}
+.mainbody-ad .ad-page{
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    text-align: right;
+    width: 100%;
+    height: 10px;
+    padding-right: 50px;
+    font-size: 0;
+}
+.mainbody-ad .ad-page a{
+    display: inline-block;
+    margin:0 5px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border:2px solid #fff;
+    border-color: rgba(255,255,255,0.3);
+    background-color: #f5f5f5;
+    background-color:rgba(0,0,0,0.5);
+
+}
+
+.mainbody-ad .ad-page a.active{
+    background-color: #fff;
+    background-color:rgba(255,255,255,0.4);
+    border-color: #757575;
+    border-color: rgba(0,0,0,0.4);
+}
+
+.clearfix::before,.clearfix::after{
+    content: "";
+    display: table;
+}
+.clearfix::after{
+    clear: both;
+}
+
+
+.zoning1-goods ul{
+    margin-top: 30px;
+    margin-right: -13px;
+}
+.zoning1-goods li{
+    float: left;
+    width: 400px;
+    height: 190px;
+    background-color: #fff;
+    margin-right: 13px;
+    margin-bottom: 13px;
+}
+.zoning1-goods .goods-pic{
+    float: left;
+    width: 190px;
+    height: 190px;
+}
+.zoning1-goods .goods-pic img{
+    height: 190px;
+}
+.zoning1-goods .goods-info{
+    margin-left: 210px;
+    width: 190px;
+    height: 190px;
+    padding-top: 30px;
+}
+.zoning1-goods .goods-info .goods-name{
+    font-size: 16px;
+    color: #333;
+    height: 16px;
+    line-height: 16px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+}
+.zoning1-goods .goods-info .goods-price{
+    font-size: 16px;
+    line-height: 16px;
+    color: #007bff;
+    margin-top: 14px;
+}
+.zoning1-goods .goods-info .goods-btn{
+    margin-top: 20px;
+    display: inline-block;
+    width: 118px;
+    height: 28px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+    background-color: #007bff;
+    text-decoration: none;
+}
+.zoning1-goods .goods-info .goods-btn:hover{
+    background-color: #215c9c;
+}
+
+.page-bar{
+    margin:40px 350px;
+}
+li{
+    list-style: none
+}
+.page-bar li:first-child>a {
+   margin-left: 0px
+}
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer
+}
+.page-bar a:hover{
+    background-color: #eee;
+}
+.page-bar a.banclick{
+    cursor:not-allowed;
+}
+.page-bar .active a{
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+}
