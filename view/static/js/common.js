@@ -7,6 +7,7 @@
 
     在本地调试时可以把这个文件下下来，改值为本地的地址
 */
-
-api_url = "http://ishopping.gq/api"
+// var api_url = "http://localhost:7001/api"
+var api_url = "http://ishopping.gq/api"
+	
 
