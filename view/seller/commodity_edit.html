@@ -154,7 +154,7 @@ function ToBase64(a) {
 				var that = this;
                 console.log("search commodity")
 				that.isModifying = false;
-                axios.get(`http://localhost:7001/api/seller/category_list`)
+                axios.get(api_url + '/seller/category_list')
                     .then(function (resp) {
                         // handle success
                         if (resp.data.code === 0) {
