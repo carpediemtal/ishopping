@@ -23,6 +23,7 @@
             integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
+	<script src="../static/js/common.js"></script>
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -180,7 +181,7 @@ function ToBase64(a) {
                 axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
                 axios({
                     method: 'post',
-                    url: 'http://localhost:7001/api/commodity_add',
+                    url: api_url + '/seller/order_delivery',
                     data: {
                         'category_id': this.category_id,
                         'commodity_id': this.gid,
