@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
-    <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon">
+    <title>Register</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <link rel="shortcut icon" href="./static/icon/icon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -24,19 +24,16 @@
 </head>
 <body style="font-size:16px">
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <img alt="shop.png" height="35" src="../static/icon/shop.png">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
-    <a href="home.html" class="btn btn-outline-primary">Home</a>
-    <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
+    <img alt="shop.png" height="35" src="./static/icon/shop.png">
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="homepage.html">ISHOPPING</a></h5>
+    <a href="homepage.html" class="btn btn-outline-primary">Home</a>
     <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
-    <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-    <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
 </div>
 
 <div class="container" style="max-width: 960px">
     <div class="row">
         <div class="col-12 col-md">
-            <form id="signin-form" @submit.prevent="signIn">
+            <form id="register-form" @submit.prevent="register">
                 <div class="form-group">
                     <label for="username">USERNAME</label>
                     <input id="username" v-model="username" class="form-control" name="username" placeholder="username"
@@ -47,9 +44,21 @@
                     <input id="password" v-model="password" class="form-control" name="password" placeholder="password"
                            type="password">
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-outline-primary">Sign In</button>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                           value="buyer" checked="checked" v-model="radio">
+                    <label class="form-check-label" for="inlineRadio1">register as a buyer</label>
                 </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                           value="seller" v-model="radio">
+                    <label class="form-check-label" for="inlineRadio2">register as a seller</label>
+                </div>
+                <p></p>
+                <div class="form-group">
+                    <button class="btn btn-outline-primary">Register</button>
+                </div>
+
                 <div class="form-group" id="account">
                     <a href="#">Have no account?</a>
                 </div>
@@ -73,38 +82,42 @@
 </body>
 <script>
     const app = new Vue({
-        el: '#signin-form',
+        el: '#register-form',
         data: {
             username: '',
-            password: ''
+            password: '',
+            radio: 'buyer',
+            usertype: 0
         },
         methods: {
-            signIn: function () {
-                console.log("processing the form")
+            register: function () {
+                console.log("start register")
+                if (this.radio === "buyer") {
+                    this.usertype = 0
+                } else {
+                    this.usertype = 1
+                }
                 axios({
                     method: 'post',
-                    url: 'http://localhost:7001/api/login',
+                    url: 'http://localhost:7001/api/register',
                     data: {
-                        'username': this.username,
-                        'password': this.password
+                        username: this.username,
+                        password: this.password,
+                        usertype: this.usertype
                     }
                 }).then(function (resp) {
                     // handle success
                     console.log(resp)
                     if (resp.data.code === 0) {
-                        const token = resp.data.data.token
-                        console.log("token:", token)
-                        window.localStorage.setItem("ishopping-token", token)
-                        alert("login successful, your token has been saved")
-						// TODO: 需要一个接口判断登陆的用户是商家还是买家，现直接认为是买家进行测试跳转
-						window.location.replace("../buyer/buyer_index.html")
+                        console.log("successful")
+                        alert("register successful!")
                     } else {
                         console.log(resp.data.msg)
                         alert(resp.data.msg)
                     }
                 }).catch(function (resp) {
                     // handle error
-                    console.log(resp)
+                    console.log(resp.data.msg)
                     alert(resp.data.msg)
                 });
             }
