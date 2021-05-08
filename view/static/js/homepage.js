@@ -4,7 +4,7 @@ var header = new Vue({
         category:["Clothing","Shoe&&Accessories","Make-up&&Cleaning","Electronics","Outdoor&&Sports","Electrical-appliances","Food&&Fresh","Medicine&Healthcare","Kitchenware&&Textiles","Toys"]
     },
     methods: {
-        getherf: function(index,item){
+        getHref: function(index, item){
             return 'categorypage.html?index='+(index+1)+'&value='+item
         }
     }
