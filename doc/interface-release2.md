@@ -12,6 +12,7 @@
 - 2021-04-23 21:40修改：Seller commodity_edit的商品介绍单词拼错了，已订正
 - 2021-04-23 21:50修改：Seller category_list接口定义错了，已订正
 - 2021-04-24 10:45修改：Seller commodity_edit、Visitor index&category channel新增thumbnail
+- 2021-5-8 11:11:53修改：修改 /api/commodity_detail 接口返回的内容
 
 ## 待完成
 
@@ -25,7 +26,7 @@
 
 # Visitor（不需要登录就可以查看）
 
-## 1.index&category channel
+## 1. index&category channel
 
 ### 请求
 
@@ -52,6 +53,32 @@ list_item:
 | name         | string | 商品名     |
 | price        | float  | 商品价格   |
 | thumbnail    | string | 商品缩略图 |
+
+## 2. Detail
+
+### 请求
+
+| 请求类型 | path                  |
+| -------- | --------------------- |
+| get      | /api/commodity_detail |
+
+| 字段名 | 类型 | 说明   |
+| ------ | ---- | ------ |
+| cid    | int  | 商品id |
+
+### 返回
+
+| 字段名       | 类型                   | 说明       |
+| ------------ | ---------------------- | ---------- |
+| name         | string                 | 商品名称   |
+| inventory    | int                    | 商品库存   |
+| sales        | int                    | 商品销量   |
+| price        | float                  | 商品价格   |
+| introduction | string                 | 商品介绍   |
+| thumbnail    | string                 | 商品缩略图 |
+| images       | []string（字符串数组） | 商品图片   |
+
+
 
 # Buyer
 
