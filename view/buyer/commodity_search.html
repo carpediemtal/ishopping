@@ -25,12 +25,8 @@
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <img alt="shop.png" height="35" src="../static/icon/shop.png">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
-    <a href="home.html" class="btn btn-outline-primary">Home</a>
-    <a href="../../signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
-    <a href="../../register.html" class="btn btn-outline-primary ml-3">Register</a>
-    <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-    <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../homepage.html">ISHOPPING</a></h5>
+    <a href="../homepage.html" class="btn btn-outline-primary">Home</a>
 </div>
 
 <div class="container" style="max-width: 960px" id="app">
@@ -44,26 +40,16 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <!--                <th>cid</th>-->
-                <!--                <th>sid</th>-->
-                <!--                <th>caid</th>-->
                 <th>name</th>
                 <th>price</th>
                 <th>detail</th>
-                <!--                <th>sales</th>-->
-                <!--                <th>inventory</th>-->
             </tr>
             </thead>
             <tbody>
             <tr v-for="commodity in commodityList">
-                <!--                <td>{{ commodity.cid }}</td>-->
-                <!--                <td>{{ commodity.sid }}</td>-->
-                <!--                <td>{{ commodity.caid }}</td>-->
                 <td>{{ commodity.name }}</td>
                 <td>{{ commodity.price }}</td>
                 <td><a v-bind:href="getDetailUrl(commodity)">detail</a></td>
-                <!--                <td>{{ commodity.sales }}</td>-->
-                <!--                <td>{{ commodity.inventory }}</td>-->
             </tr>
             </tbody>
         </table>
@@ -83,6 +69,7 @@
     </footer>
 </div>
 </body>
+<script src="../static/js/common.js"></script>
 <script>
     const app = new Vue({
         el: '#app',
@@ -98,7 +85,7 @@
             search: function () {
                 const that = this
                 console.log("search commodity")
-                axios.get(`http://localhost:7001/api/commodity_search?content=${this.content}`)
+                axios.get(`${api_url}/commodity_search?content=${this.content}`)
                     .then(function (resp) {
                         // handle success
                         if (resp.data.code === 0) {
