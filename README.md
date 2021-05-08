@@ -4,6 +4,7 @@
 
 - Release1：[ishopping/interface-release1.md at main · carpediemtal/ishopping (github.com)](https://github.com/carpediemtal/ishopping/blob/main/doc/interface-release1.md)
 - Release2：[ishopping/interface-release2.md at main · carpediemtal/ishopping (github.com)](https://github.com/carpediemtal/ishopping/blob/main/doc/interface-release2.md)
+- Release3：[ishopping/interface-release3.md at main · carpediemtal/ishopping (github.com)](https://github.com/carpediemtal/ishopping/blob/main/doc/interface-release3.md)
 
 ## 目录结构说明
 
@@ -147,29 +148,24 @@ create table user_meta
 
 ### 请求
 
-使用json数据封装请求，看前端代码
+使用 json 数据封装请求，看前端代码
 
 ### 返回
 
-返回的是json格式，后端的看后端代码怎么处理，前端的看前端代码怎么处理。
+返回的是 json 格式，后端的看后端代码怎么处理，前端的看前端代码怎么处理。
 
 ### 通用定义
 
-| 字段名 | 类型   | 说明                       |
-| ------ | ------ | -------------------------- |
-| code   | int    | 0表示成功，非0表示发生错误 |
-| msg    | string | 错误信息                   |
-| data   | {}     | 成功时返回的数据           |
+| 字段名 | 类型   | 说明                          |
+| ------ | ------ | ----------------------------- |
+| code   | int    | 0 表示成功，非 0 表示发生错误 |
+| msg    | string | 错误信息                      |
+| data   | {}     | 成功时返回的数据              |
 
-### data字段
+### data 字段
 
 该字段为可变字段，视业务需要定义，比如示例代码中返回为：{name: "XXX"}，写文档时写成如下：
 
 | 字段名 | 类型   | 说明     |
 | ------ | ------ | -------- |
 | name   | string | 返回名字 |
-
-### 测试网站
-
-http://test.ishopping.gq/
-
