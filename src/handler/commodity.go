@@ -41,46 +41,25 @@ func CommodityDetailHandler(c *gin.Context) {
 		return
 	}
 
-	commodity, err := service.GetCommodityProfileByCid(cid)
+	detail, err := service.GetCommodityDetailByCid(cid)
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
 	}
 
-	b, err := json.Marshal(commodity)
+	b, err := json.Marshal(detail)
 	if err != nil {
-		panic(err)
+		JsonErr(c, err.Error())
+		return
 	}
+
 	var data gin.H
 	if err = json.Unmarshal(b, &data); err != nil {
-		panic(err)
+		JsonErr(c, err.Error())
+		return
 	}
 	JsonOK(c, data)
 }
-
-//func CommodityAddHandler(c *gin.Context) {
-//	type params struct {
-//		Name         string  `json:"commodity_name"`
-//		Inventory    int     `json:"inventory"`
-//		Introduction string  `json:"introduction"`
-//		Price        float64 `json:"price"`
-//		//CaID         int    `json:"caid"`
-//	}
-//
-//	var p params
-//	if err := c.ShouldBindJSON(&p); err != nil {
-//		JsonErr(c, err.Error())
-//		return
-//	}
-//	userID := c.GetInt("UserID")
-//	cid, err := service.AddCommodity(userID, p.Price, p.Inventory, p.Name, p.Introduction)
-//	if err != nil {
-//		JsonErr(c, err.Error())
-//		return
-//	}
-//
-//	JsonOK(c, gin.H{"commodity_id": cid})
-//}
 
 func CategoryListHandler(c *gin.Context) {
 	categories, err := service.GetAllCategories()
