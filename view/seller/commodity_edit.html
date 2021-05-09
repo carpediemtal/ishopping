@@ -67,7 +67,7 @@
             <div class="item-inner">
                 <div class="item-title label">thumbnails</div>
                 <div class="item-input">
-                    <input type="file" id="small_img">
+                    <input type="text" id="small_img" v-model="thumbnails">
                 </div>
             </div>
         </div>
@@ -79,9 +79,9 @@
             <div class="item-inner detail-img-div"> 
                 <div class="item-title label">detail_img</div>
                 <div class="item-input" id="detail_img">
-                    <input type="file" id='1' class="detail_img">
-                    <input type="file" id='2' class="detail_img">
-                    <input type="file" id='3' class="detail_img">
+                    <input type="text" id='1' class="detail_img">
+                    <input type="text" id='2' class="detail_img">
+                    <input type="text" id='3' class="detail_img">
                 </div>
             </div>
         </div>
@@ -106,7 +106,7 @@
             <button class="btn btn-outline-danger ml-3" type="button" onclick="reloadPage()">Reset</button>
             <script>
                 function reloadPage(){
-                  location.reload()
+                  location.reload()
                 }
                 </script>
         </div>
@@ -170,11 +170,10 @@ function ToBase64(a) {
 			},
             confirm: function () {
                 var tn = $('#small_img');
-                this.thumbnails = ToBase64('small_img')
                 //console.log(this.thumbnails)
                 // var de = $('#1.detail_img')
                 for(var i = 0;i<3;i++){
-                    this.details[i] = ToBase64(String(i+1))
+                    this.details[i] = $('#'+String(i+1)).val()
                     console.log(this.details[i])
                 }
                 const token = window.localStorage.getItem("ishopping-token")
