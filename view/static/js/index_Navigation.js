@@ -1,4 +1,3 @@
-
  nav = new Vue({	
     el: '#navigation',
 	data:{

@@ -98,9 +98,9 @@
                         <li v-for="item in goodsinfo">
                             <div class="goods-pic"><img :src="item.thumbnail" alt="" /></div>
                             <div class="goods-info">
-                                <a href="" class="goods-name">{{ item.name }}</a>
-                                <p class="goods-price">{{ item.price }} yuan</p>
-                                <a href="#" class="goods-btn">Purchase</a>
+								<a href="#" class="goods-name" @click="jumpToDetail(item.commodity_id)">{{ item.name }}</a>
+								<p class="goods-price">{{ item.price }}yuan</p>
+								<a href="#" class="goods-btn" @click="jumpToPurchase(item.commodity_id)">Purchase</a>
                             </div>
                         </li>
                     </ul>

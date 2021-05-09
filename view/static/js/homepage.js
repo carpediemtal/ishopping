@@ -25,7 +25,6 @@ var mainbody = new Vue({
         }
     },    
     mounted() {
-       
         //http://ishopping.gq/api/index_category_channel
         var that = this
         axios.get(api_url+'/index_category_channel?category_id=0&page_num=1')
@@ -36,7 +35,36 @@ var mainbody = new Vue({
         .catch(function(err){})
 
     },
-    methods: {
+    methods: {		
+		jumpToDetail:function(cid){
+			console.log(cid);
+			window.location.replace("commodity_detail.html?cid="+cid);
+		},		
+		jumpToPurchase:function(cid){
+			console.log(cid);
+            const token = window.localStorage.getItem("ishopping-token")
+			if (token){
+				axios.defaults.headers.common = {Authorization: `${token}`}
+				axios({
+                    method: "post",
+                    url: api_url + '/userType'
+                })
+				.then(function (resp) {
+					// handle success
+					if (resp.data.data.type == 0)
+						window.location.replace("buyer/confirm_purchase.html");
+					if (resp.data.data.type == 1)
+						alert("please sign in as a buyer!");
+				}).catch(function (resp) {
+					// handle error
+					console.log(resp.msg);
+				})
+			}
+			else{
+				alert("please sign in first!");
+				window.location.replace("signin.html");
+			}
+		},
         getGoodsinfo: function(){       
             //console.log(this.cur)
             var that = this
