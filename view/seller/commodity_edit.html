@@ -67,7 +67,7 @@
             <div class="item-inner">
                 <div class="item-title label">thumbnails</div>
                 <div class="item-input">
-                    <input type="text" id="small_img" v-model="thumbnails">
+                    <input type="text" id="small_img" placeholder="thumbnails" v-model="thumbnail">
                 </div>
             </div>
         </div>
@@ -170,14 +170,14 @@ function ToBase64(a) {
 			},
             confirm: function () {
                 var tn = $('#small_img');
-                //console.log(this.thumbnails)
+                console.log(this.thumbnail)
                 // var de = $('#1.detail_img')
                 for(var i = 0;i<3;i++){
                     this.details[i] = $('#'+String(i+1)).val()
                     console.log(this.details[i])
                 }
                 const token = window.localStorage.getItem("ishopping-token")
-                axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
+                axios.defaults.headers.common = {Authorization: `${token}`}
                 axios({
                     method: 'post',
                     url: api_url + '/seller/order_delivery',
