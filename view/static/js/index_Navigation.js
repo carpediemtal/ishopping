@@ -1,4 +1,4 @@
-document.write("<script src='../static/js/common.js'></script>");
+
  nav = new Vue({	
     el: '#navigation',
 	data:{
