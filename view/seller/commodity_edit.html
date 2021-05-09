@@ -190,7 +190,7 @@ function ToBase64(a) {
                         'price': this.price,
                         'thumbnail': this.thumbnail,
                         'image': this.details,
-                        'edit_type': this.edit_type
+                        'edit_type': parseInt(this.edit_type)
                     },
                 }).then(function (resp) {
                     // handle success
