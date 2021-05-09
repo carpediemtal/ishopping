@@ -2,9 +2,10 @@ package handler
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"ishopping/src/jwt"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // 成功的返回
@@ -42,7 +43,7 @@ func AuthorizationHandler(c *gin.Context) {
 		forbiddenHandler(c, "invalid or expired token")
 		return
 	}
-	token := c.Request.Header["Authorization"][0][7:]
+	token := c.Request.Header["Authorization"][0]
 	claims, err := jwt.ParseJWT(token)
 	if err != nil {
 		forbiddenHandler(c, "invalid or expired token")
@@ -51,5 +52,3 @@ func AuthorizationHandler(c *gin.Context) {
 	c.Set("UserID", claims.UserID)
 	c.Next()
 }
-
-

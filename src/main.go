@@ -20,16 +20,18 @@ func main() {
 	// release2 index_category_channel
 	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 
-	r.GET("/api/buyer/information", handler.BuyerDetailHandler) //以uid查buyer信息
-	r.POST("/api/buyer/information_modify", handler.UpdateBuyerInfoHandler)
-	r.GET("/api/seller/shop_information", handler.ShopDetailHandler)
-	r.POST("/api/seller/shop_information_modify", handler.UpdateShopInfoHandler)
-
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
 	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
+	auth.GET("/seller/shop_information", handler.ShopDetailHandler)
+	auth.POST("/seller/shop_information_modify", handler.UpdateShopInfoHandler)
+
+	auth.GET("/buyer/information", handler.BuyerDetailHandler)
+	auth.POST("/buyer/information_modify", handler.UpdateBuyerInfoHandler)
+	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
+	auth.POST("/userType", handler.UserTypeHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)

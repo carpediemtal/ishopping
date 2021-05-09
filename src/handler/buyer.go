@@ -35,12 +35,7 @@ func queryBuyerByIdHandler(c *gin.Context) {
 
 //上面的改了个名
 func BuyerDetailHandler(c *gin.Context) {
-	uid, err := strconv.Atoi(c.Query("uid"))
-	if err != nil {
-		JsonErr(c, "user not found")
-		return
-	}
-
+	uid := c.GetInt("UserID")
 	buyer, err := service.GetBuyerProfileById(uid)
 	if err != nil {
 		JsonErr(c, err.Error())
@@ -82,7 +77,7 @@ func queryBuyerByUsernameHandler(c *gin.Context) {
 
 func UpdateBuyerInfoHandler(c *gin.Context) {
 	type params struct {
-		Uid      int    `json:"uid"`
+		//Uid      int    `json:"uid"`
 		Name     string `json:"name"`
 		Address  string `json:"address"`
 		PhoneNum string `json:"phone_num"`
@@ -94,7 +89,8 @@ func UpdateBuyerInfoHandler(c *gin.Context) {
 		return
 	}
 
-	err = service.UpdateBuyerInfo(p.Uid, p.Name, p.Address, p.PhoneNum)
+	uid := c.GetInt("UserID")
+	err = service.UpdateBuyerInfo(uid, p.Name, p.Address, p.PhoneNum)
 	if err != nil {
 		JsonErr(c, "update buyer info error: "+err.Error())
 		return

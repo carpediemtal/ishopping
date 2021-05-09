@@ -5,6 +5,7 @@ import (
 	"errors"
 	"ishopping/src/db"
 	"log"
+	"time"
 )
 
 type Commodity struct {
@@ -15,6 +16,16 @@ type Commodity struct {
 	Sales     int     `json:"sales" map:"sales"`
 	Inventory int     `json:"inventory" map:"inventory"`
 	Caid      int     `json:"caid" map:"caid"`
+}
+
+type CommodityDetail struct {
+	Name         string   `json:"name" map:"name"`
+	Inventory    int      `json:"inventory" map:"inventory"`
+	Sales        int      `json:"sales" map:"sales"`
+	Price        float64  `json:"price" map:"price"`
+	Introduction string   `json:"introduction" map:"introduction"`
+	Thumbnail    string   `json:"thumbnail" map:"thumbnail"`
+	Images       []string `json:"images" map:"images"`
 }
 
 type CommodityEdit struct {
@@ -28,10 +39,40 @@ type CommodityEdit struct {
 	EditType     int      `json:"edit_type"`
 }
 
-func GetCommodityProfileByCid(cid int) (commodity Commodity, err error) {
+func GetCommodityByCid(cid int) (commodity Commodity, err error) {
 	row1 := db.DB.QueryRow("select * from commodity where cid = ?", cid)
 	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
 	return
+}
+
+func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
+	row := db.DB.QueryRow(`select name, inventory, sales, price from commodity where cid = ?`, cid)
+	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price)
+	if err != nil {
+		return
+	}
+
+	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "introduction")
+	err = row.Scan(&detail.Introduction)
+	if err != nil {
+		log.Println("no introduction found", err)
+		detail.Introduction = "There Is No Introduction"
+	}
+
+	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "thumbnail")
+	err = row.Scan(&detail.Thumbnail)
+	if err != nil {
+		log.Println("no thumbnail found", err)
+		detail.Thumbnail = "http://ww1.sinaimg.cn/large/005VT09Qly1gqatftehmij30aa08c45u.jpg"
+	}
+
+	err = db.DB.Select(&detail.Images, `select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "image")
+	if err != nil || len(detail.Images) == 0 {
+		log.Println("no image found", err)
+		detail.Images = []string{"http://ww1.sinaimg.cn/large/005VT09Qly1gqatftehmij30aa08c45u.jpg"}
+	}
+
+	return detail, nil
 }
 
 func GetCommodities() (commodities []Commodity, err error) {
@@ -114,4 +155,20 @@ func AddCommodity(cm CommodityEdit, uid int) error {
 	}
 
 	return nil
+}
+
+type Pur_order struct {
+	Oid       int `json:"oid" map:"oid"`
+	Status    int `json:"status" map:"status"`
+	Uid       int `json:"uid" map:"uid"`
+	Cid       int `json:"cid" map:"cid"`
+	TimeStamp int `json:"time" map:"time"`
+}
+
+func CreatPurchaseOrderByCid(uid int, cid int) (pur_order Pur_order, err error) {
+	timestamp := time.Now().Unix()
+	_, err = db.DB.Exec(`insert into purchase_order (status, uid, cid, timestamp) values (?, ?, ?, ?)`, 1, uid, cid, timestamp)
+	row := db.DB.QueryRow("select * from purchase_order  where uid = ? and cid= ? order by oid desc", uid, cid)
+	err = row.Scan(&pur_order.Oid, &pur_order.Status, &pur_order.Uid, &pur_order.Cid, &pur_order.TimeStamp)
+	return
 }

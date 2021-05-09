@@ -1,0 +1,28 @@
+.box{
+	width:800px;
+	height:400px;
+	background-color: white;
+	margin: 0px auto;
+	box-shadow: 5px 5px 10px 3px rgba(0,0,0,.2);
+	border-radius: 50px;
+	margin: 80px 0px;
+}
+.borderBox{
+	float: left;
+	width:5px;
+	height:300px;
+	margin: 50px 0px;
+	border-right: dotted #EDEDED;
+}
+.sideBox{
+	float: left;
+	width:200px;
+	height:150px;
+	padding: 120px 50px;
+}
+.mainBox{
+	float: left;
+	width:450px;
+	height:400px;
+	padding:110px 50px;
+}

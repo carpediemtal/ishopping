@@ -54,7 +54,7 @@ func RegisterHandler(c *gin.Context) {
 		JsonErr(c, "register failed: username exists")
 		return
 	}
-
+	//1卖家 0买家
 	// 给 seller 自动创建一个 shop
 	if p.UserType == 1 {
 		log.Println("create a shop for seller")
@@ -72,4 +72,27 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	JsonOK(c, gin.H{})
+}
+
+func UserTypeHandler(c *gin.Context) {
+	uid := c.GetInt("UserID")
+	userType, err := service.UserType(uid)
+	//user, err := service.GetUserByUid(uid)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+	/*b, err := json.Marshal(user)
+	if err != nil {
+		panic(err)
+	}
+
+	var data gin.H
+	err = json.Unmarshal(b, &data)
+	if err != nil {
+		panic(err)
+	}
+	JsonOK(c, data)*/
+	JsonOK(c, gin.H{"type": userType})
+
 }

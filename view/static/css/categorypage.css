@@ -1,0 +1,135 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 2500px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-weight: 400;
+    background-color: #fff;
+}
+ul,li{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style-type: none;
+}
+
+.title{
+    height: 63px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 5px 5px rgba(0,0,0,.07);
+}
+.title h2{
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 40px;
+    color: #007bff;
+    float: left;
+}
+
+
+.clearfix::before,.clearfix::after{
+    content: "";
+    display: table;
+}
+.clearfix::after{
+    clear: both;
+}
+
+.listbody ul{
+    margin-top: 5px;
+    margin-right: -13px;
+}
+.listbody li{
+    float: left;
+    width: 400px;
+    height: 190px;
+    background-color: #fff;
+    margin-right: 13px;
+    margin-bottom: 13px;
+}
+.listbody .goods-pic{
+    float: left;
+    width: 190px;
+    height: 190px;
+}
+.listbody .goods-pic img{
+    height: 190px;
+}
+.listbody .goods-info{
+    margin-left: 210px;
+    width: 190px;
+    height: 190px;
+    padding-top: 30px;
+}
+.listbody .goods-info .goods-name{
+    font-size: 16px;
+    color: #333;
+    height: 16px;
+    line-height: 16px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+}
+.listbody .goods-info .goods-price{
+    font-size: 16px;
+    line-height: 16px;
+    color: #007bff;
+    margin-top: 14px;
+}
+.listbody .goods-info .goods-btn{
+    margin-top: 20px;
+    display: inline-block;
+    width: 118px;
+    height: 28px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+    background-color: #007bff;
+    text-decoration: none;
+}
+.listbody .goods-info .goods-btn:hover{
+    background-color: #215c9c;
+}
+
+.page-bar{
+    margin:40px 350px;
+}
+li{
+    list-style: none
+}
+.page-bar li:first-child>a {
+   margin-left: 0px
+}
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer
+}
+.page-bar a:hover{
+    background-color: #eee;
+}
+.page-bar a.banclick{
+    cursor:not-allowed;
+}
+.page-bar .active a{
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+}
