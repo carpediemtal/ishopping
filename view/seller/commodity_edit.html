@@ -59,6 +59,7 @@
             <label for="name">Category ID</label>
             <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
         </div> -->
+<<<<<<< HEAD
                 <div class="form-group">
                     <input type="radio" id="modify" value="0" v-model="edit_type" />
                     <label for="modify">edit item</label>
@@ -66,6 +67,34 @@
                     <input type="radio" id="add" value="1" v-model="edit_type" />
                     <label for="add">add item</label>
                     <br />
+=======
+        <div class="form-group">
+            <input type="radio" id="modify" value=0 v-model="edit_type">
+            <label for="modify">edit item</label>
+            <br>
+            <input type="radio" id="add" value=1 v-model="edit_type">
+            <label for="add">add item</label>
+            <br>
+          </div>
+        <div class="form-group" v-if="isModifying">
+        <label for="name">Category ID</label>
+        <select v-model="category_id">
+            <option v-for="option in options" v-bind:value="option.category_id">
+              {{ option.category_name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group" v-if="edit_type">
+            <label for="name">Commodity ID</label>
+            <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid">
+        </div>
+        <div class="form-group">
+            <div class="item-media"><i class="icon icon-form-name"></i></div>
+            <div class="item-inner">
+                <div class="item-title label">thumbnails</div>
+                <div class="item-input">
+                    <input type="text" id="small_img" placeholder="thumbnails" v-model="thumbnail">
+>>>>>>> 6bf2bb28e206119f98ad361b960e03779e114604
                 </div>
                 <div class="form-group" v-if="isModifying">
                     <label for="name">Category ID</label>
@@ -134,6 +163,7 @@
                 if (!filename || !(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".gif"))) {
                     alert("Can only upload image file.")
                 }
+<<<<<<< HEAD
                 var img = document.getElementById(a)
                 console.log(img)
                 var imgFile = new FileReader()
@@ -144,6 +174,112 @@
                     console.log(imgData)
                 }
                 return imgData
+=======
+                </script>
+        </div>
+    </form>
+</div>
+<script>
+    
+function ToBase64(a) {
+ 
+ /*转换base64*/
+ var filename = $('#'+a).val();
+    if (!filename || !(filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif'))) {
+        alert('Can only upload image file.');
+    }
+    var img = document.getElementById(a)
+    console.log(img)
+    var imgFile = new FileReader();
+    imgFile.readAsDataURL(img.files[0]);
+    var imgData = ''
+    imgFile.onload = function () {
+    imgData = this.result; //base64数据  
+        console.log(imgData);
+    }
+        return imgData;
+    }
+</script>
+<script>
+    const app = new Vue({
+        el: '#container',
+        data: {
+            category_id:0,
+            isModifying:false,
+            gid: 0,
+            name: '',
+            inventory: 0,
+            introduction: '',
+            price: 0.0,
+            thumbnails: '',
+            details: new Array(),
+            options: new Array(),
+            edit_type:0
+        },
+        methods: {
+            initUserInfo:function(){
+				var that = this;
+                console.log("search commodity")
+				that.isModifying = false;
+                axios.get(api_url + '/seller/category_list')
+                    .then(function (resp) {
+                        // handle success
+                        if (resp.data.code === 0) {
+                            that.options = resp.data.data.category_list
+                            that.isModifying = true
+                        } else {
+                            console.log(resp.msg);
+                        }
+                    }).catch(function (resp) {
+                        // handle error
+                        console.log(resp.msg);
+                })	
+			},
+            confirm: function () {
+                var tn = $('#small_img');
+                console.log(this.thumbnail)
+                // var de = $('#1.detail_img')
+                for(var i = 0;i<3;i++){
+                    this.details[i] = $('#'+String(i+1)).val()
+                    console.log(this.details[i])
+                }
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization: `${token}`}
+                axios({
+                    method: 'post',
+                    url: api_url + '/seller/order_delivery',
+                    data: {
+                        'category_id': this.category_id,
+                        'commodity_id': this.gid,
+                        'commodity_name': this.name,
+                        'inventory': this.inventory,
+                        'introduction': this.introduction,
+                        'price': this.price,
+                        'thumbnail': this.thumbnail,
+                        'image': this.details,
+                        'edit_type': parseInt(this.edit_type)
+                    },
+                }).then(function (resp) {
+                    // handle success
+                    if (resp.data.code === 0) {
+                        console.log("OK!")
+                        alert("OK")
+                    } else {
+                        console.log(resp.data.msg)
+                        alert(resp.data.msg)
+                    }
+                }).catch(function (resp) {
+                    // handle error
+                    console.log(resp.data.msg)
+                    alert(resp.data.msg)
+                })
+            },
+            reset: function () {
+                this.name = ''
+                this.inventory = 0
+                this.introduction = ''
+                this.price = 0.0
+>>>>>>> 6bf2bb28e206119f98ad361b960e03779e114604
             }
         </script>
         <script>
