@@ -16,7 +16,7 @@ type SearchedCommodity struct {
 	Price       float64 `json:"price" map:"price"`
 	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
 }
-
+//
 // 通过cid与meta_key查找meta_val
 func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err error) {
 	row := db.DB.QueryRow("select meta_val from commodity_meta where cid = ? and meta_key = ?", cid, metaKey)
