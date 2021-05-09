@@ -99,7 +99,7 @@ func CommodityEditHandler(c *gin.Context) {
 
 func BuyCommodityToOrderHandler(c *gin.Context) {
 	type params struct {
-		Cid int `json:"cid"`
+		Cid int `json:"commodity_id"`
 	}
 	var p params
 	err := c.BindJSON(&p)

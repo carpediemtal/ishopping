@@ -22,7 +22,7 @@ func OrderListHandler(c *gin.Context) {
 		return
 	}
 
-	JsonOK(c, gin.H{"orderList": orderList})
+	JsonOK(c, gin.H{"order_list": orderList})
 }
 
 // 将订单由未发货状态（1）改变为发货状态（2）

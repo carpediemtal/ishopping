@@ -11,7 +11,11 @@ type Order struct {
 }
 
 func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
-	err = db.DB.Select(&orderList, `select oid, price from commodity, purchase_order where commodity.cid = purchase_order.cid && status = ? && uid = ?`, status, userID)
+	sid, err := getSidByUid(userID)
+	if err != nil {
+		return
+	}
+	err = db.DB.Select(&orderList, `select oid, price from commodity, purchase_order where commodity.cid = purchase_order.cid and status = ? and sid = ?`, status, sid)
 	return
 }
 

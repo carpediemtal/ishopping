@@ -51,12 +51,12 @@
             commodity_id:'1',
         },
         methods: {
-            Confirm_purchase: function () {
+            confirm: function () {
                 const token = window.localStorage.getItem("ishopping-token")
                 axios.defaults.headers.common = {Authorization: `${token}`}
                 axios({
                     method: 'post',
-                    url: api_url + '/commodity_buy',
+                    url: api_url + '/buyer/commodity_buy',
                     data: {
                         'commodity_id': this.commodity_id,
 
