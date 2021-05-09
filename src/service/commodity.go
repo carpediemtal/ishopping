@@ -64,13 +64,13 @@ func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
 	err = row.Scan(&detail.Thumbnail)
 	if err != nil {
 		log.Println("no thumbnail found", err)
-		detail.Thumbnail = "http://ww1.sinaimg.cn/large/005VT09Qly1gqatftehmij30aa08c45u.jpg"
+		detail.Thumbnail = "http://ishopping.gq/static/img/404.jpg"
 	}
 
 	err = db.DB.Select(&detail.Images, `select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "image")
 	if err != nil || len(detail.Images) == 0 {
 		log.Println("no image found", err)
-		detail.Images = []string{"http://ww1.sinaimg.cn/large/005VT09Qly1gqatftehmij30aa08c45u.jpg"}
+		detail.Images = []string{"http://ishopping.gq/static/img/404.jpg"}
 	}
 
 	return detail, nil
