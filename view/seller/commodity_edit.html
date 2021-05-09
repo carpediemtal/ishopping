@@ -214,10 +214,9 @@ function ToBase64(a) {
             thumbnails: '',
             details: new Array(),
             options: new Array(),
-            edit_type:0
+            edit_type:parseInt(0)
         },
-        methods: {
-            initUserInfo:function(){
+	created:function(){
 				var that = this;
                 console.log("search commodity")
 				that.isModifying = false;
@@ -234,7 +233,8 @@ function ToBase64(a) {
                         // handle error
                         console.log(resp.msg);
                 })	
-			},
+	},
+        methods: {
             confirm: function () {
                 var tn = $('#small_img');
                 console.log(this.thumbnail)
