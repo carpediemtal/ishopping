@@ -32,7 +32,7 @@ var app = new Vue({
 						that.user.telephone = resp.data.data.phone_num;
 					} else {
 						console.log(resp.msg);
-						that.JumpToSignIn();
+						alert("Please complete your profile before you purchase goods.");
 					}
 				}).catch(function (resp) {
 					// handle error

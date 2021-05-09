@@ -16,12 +16,20 @@
         <title>iShopping</title>
     </head>
     <body>
-        <div class="topbar">
+        <div class="topbar" id="navigation">
             <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
                 <img alt="shop.png" height="35" src="static/img/shop.png" />
                 <h5 class="my-0 mr-md-auto font-weight-normal"><a href="index.html">ISHOPPING</a></h5>
                 <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-                <a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
+                <div v-if='isSignedIn == 0' >
+					<a href="buyer/buyer_index.html" class="btn btn-outline-primary ml-3">BuyerHome</a>
+				</div>                
+                <div v-if='isSignedIn == 1' >
+					<a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">SellerHome</a>
+				</div>
+				<div v-if='isSignedIn == 2' >
+					<a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
+				</div>
                 <!-- <a href="#" class="btn btn-outline-primary ml-3"><i class="iconfont">&#xe63f;</i>Cart</a> -->
             </div>
         </div>
@@ -126,5 +134,6 @@
         <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
         <script src="static/js/homepage.js"></script>
         <script src="static/js/mainbody-ad.js"></script>
+		<script src="static/js/index_Navigation.js"></script>
     </body>
 </html>
