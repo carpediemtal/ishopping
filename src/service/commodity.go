@@ -35,6 +35,7 @@ type CommodityEdit struct {
 	Inventory    int      `json:"inventory"`
 	Introduction string   `json:"introduction"`
 	Price        float64  `json:"price"`
+	Thumbnail    string   `json:"thumbnail"`
 	Image        []string `json:"image"`
 	EditType     int      `json:"edit_type"`
 }
@@ -145,6 +146,10 @@ func AddCommodity(cm CommodityEdit, uid int) error {
 	cid, _ := res.LastInsertId()
 
 	if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "introduction", cm.Introduction); err != nil {
+		return err
+	}
+
+	if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cid, "thumbnail", cm.Thumbnail); err != nil {
 		return err
 	}
 

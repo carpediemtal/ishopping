@@ -1,220 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Commodity Add</title>
-    <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    <head>
+        <meta charset="UTF-8" />
+        <title>Commodity Add</title>
+        <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
-          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
-            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
-	<script src="../static/js/common.js"></script>
-</head>
-<body>
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <img alt="shop.png" height="35" src="../static/icon/shop.png">
-    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
-    <a href="home.html" class="btn btn-outline-primary">Home</a>
-    <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
-    <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
-    <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-    <a href="../未按规定格式上传的代码/templates/commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
-</div>
+            crossorigin="anonymous"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+            integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
+            crossorigin="anonymous"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
+            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E="
+            crossorigin="anonymous"
+        ></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
+        <script src="../static/js/common.js"></script>
+    </head>
+    <body>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+            <img alt="shop.png" height="35" src="../static/icon/shop.png" />
+            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
+            <a href="home.html" class="btn btn-outline-primary">Home</a>
+            <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
+            <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
+            <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
+            <a href="../未按规定格式上传的代码/templates/commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
+        </div>
 
-<div class="container" id="container">
-    <form @submit.prevent="confirm">
-        <!-- <div class="form-group">
+        <div class="container" id="container">
+            <form @submit.prevent="confirm">
+                <!-- <div class="form-group">
             <label for="name">Category ID</label>
             <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
         </div> -->
-        <div class="form-group">
-            <input type="radio" id="modify" value=0 v-model="edit_type">
-            <label for="modify">edit item</label>
-            <br>
-            <input type="radio" id="add" value=1 v-model="edit_type">
-            <label for="add">add item</label>
-            <br>
-          </div>
-        <div class="form-group" v-if="isModifying">
-        <label for="name">Category ID</label>
-        <select v-model="category_id">
-            <option v-for="option in options" v-bind:value="option.category_id">
-              {{ option.category_name }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group" v-if="edit_type">
-            <label for="name">Commodity ID</label>
-            <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid">
-        </div>
-        <div class="form-group">
-            <div class="item-media"><i class="icon icon-form-name"></i></div>
-            <div class="item-inner">
-                <div class="item-title label">thumbnails</div>
-                <div class="item-input">
-                    <input type="text" id="small_img" v-model="thumbnails">
+                <div class="form-group">
+                    <input type="radio" id="modify" value="0" v-model="edit_type" />
+                    <label for="modify">edit item</label>
+                    <br />
+                    <input type="radio" id="add" value="1" v-model="edit_type" />
+                    <label for="add">add item</label>
+                    <br />
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="item-media">
-                <i class="icon icon-form-email"></i>
-            </div>
-            <!--进行事件绑定，每添加一个详情图片，就生成一个新的-->
-            <div class="item-inner detail-img-div"> 
-                <div class="item-title label">detail_img</div>
-                <div class="item-input" id="detail_img">
-                    <input type="text" id='1' class="detail_img">
-                    <input type="text" id='2' class="detail_img">
-                    <input type="text" id='3' class="detail_img">
+                <div class="form-group" v-if="isModifying">
+                    <label for="name">Category ID</label>
+                    <select v-model="category_id">
+                        <option v-for="option in options" v-bind:value="option.category_id">{{ option.category_name }}</option>
+                    </select>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="name">Commodity Name</label>
-            <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
-        </div>
-        <div class="form-group">
-            <label for="inventory">Commodity Inventory</label>
-            <input type="number" class="form-control" id="inventory" placeholder="inventory" v-model.number="inventory">
-        </div>
-        <div class="form-group">
-            <label for="introduction">Commodity Introduction</label>
-            <input type="text" class="form-control" id="introduction" placeholder="introduction" v-model="introduction">
-        </div>
-        <div class="form-group">
-            <label for="price">Commodity Price</label>
-            <input type="number" class="form-control" id="price" placeholder="price" v-model.number="price">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-outline-primary">Confirm</button>
-            <button class="btn btn-outline-danger ml-3" type="button" onclick="reloadPage()">Reset</button>
-            <script>
-                function reloadPage(){
-                  location.reload()
-                }
-                </script>
-        </div>
-    </form>
-</div>
-<script>
-    
-function ToBase64(a) {
- 
- /*转换base64*/
- var filename = $('#'+a).val();
-    if (!filename || !(filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif'))) {
-        alert('Can only upload image file.');
-    }
-    var img = document.getElementById(a)
-    console.log(img)
-    var imgFile = new FileReader();
-    imgFile.readAsDataURL(img.files[0]);
-    var imgData = ''
-    imgFile.onload = function () {
-    imgData = this.result; //base64数据  
-        console.log(imgData);
-    }
-        return imgData;
-    }
-</script>
-<script>
-    const app = new Vue({
-        el: '#container',
-        data: {
-            category_id:0,
-            isModifying:false,
-            gid: 0,
-            name: '',
-            inventory: 0,
-            introduction: '',
-            price: 0.0,
-            thumbnails: '',
-            details: new Array(),
-            options: new Array(),
-            edit_type:0
-        },
-        methods: {
-            initUserInfo:function(){
-				var that = this;
-                console.log("search commodity")
-				that.isModifying = false;
-                axios.get(api_url + '/seller/category_list')
-                    .then(function (resp) {
-                        // handle success
-                        if (resp.data.code === 0) {
-                            that.options = resp.data.data.category_list
-                            that.isModifying = true
-                        } else {
-                            console.log(resp.msg);
+                <div class="form-group" v-if="edit_type">
+                    <label for="name">Commodity ID</label>
+                    <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid" />
+                </div>
+                <div class="form-group">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">thumbnails</div>
+                        <div class="item-input">
+                            <input type="text" id="small_img" placeholder="thumbnails" v-model="thumbnail" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="item-media">
+                        <i class="icon icon-form-email"></i>
+                    </div>
+                    <!--进行事件绑定，每添加一个详情图片，就生成一个新的-->
+                    <div class="item-inner detail-img-div">
+                        <div class="item-title label">detail_img</div>
+                        <div class="item-input" id="detail_img">
+                            <input type="text" id="1" class="detail_img" />
+                            <input type="text" id="2" class="detail_img" />
+                            <input type="text" id="3" class="detail_img" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Commodity Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="name" v-model="name" />
+                </div>
+                <div class="form-group">
+                    <label for="inventory">Commodity Inventory</label>
+                    <input type="number" class="form-control" id="inventory" placeholder="inventory" v-model.number="inventory" />
+                </div>
+                <div class="form-group">
+                    <label for="introduction">Commodity Introduction</label>
+                    <input type="text" class="form-control" id="introduction" placeholder="introduction" v-model="introduction" />
+                </div>
+                <div class="form-group">
+                    <label for="price">Commodity Price</label>
+                    <input type="number" class="form-control" id="price" placeholder="price" v-model.number="price" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-primary">Confirm</button>
+                    <button class="btn btn-outline-danger ml-3" type="button" onclick="reloadPage()">Reset</button>
+                    <script>
+                        function reloadPage() {
+                            location.reload()
                         }
-                    }).catch(function (resp) {
-                        // handle error
-                        console.log(resp.msg);
-                })	
-			},
-            confirm: function () {
-                var tn = $('#small_img');
-                //console.log(this.thumbnails)
-                // var de = $('#1.detail_img')
-                for(var i = 0;i<3;i++){
-                    this.details[i] = $('#'+String(i+1)).val()
-                    console.log(this.details[i])
+                    </script>
+                </div>
+            </form>
+        </div>
+        <script>
+            function ToBase64(a) {
+                /*转换base64*/
+                var filename = $("#" + a).val()
+                if (!filename || !(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".gif"))) {
+                    alert("Can only upload image file.")
                 }
-                const token = window.localStorage.getItem("ishopping-token")
-                axios.defaults.headers.common = {Authorization: `Bearer ${token}`}
-                axios({
-                    method: 'post',
-                    url: api_url + '/seller/order_delivery',
-                    data: {
-                        'category_id': this.category_id,
-                        'commodity_id': this.gid,
-                        'commodity_name': this.name,
-                        'inventory': this.inventory,
-                        'introduction': this.introduction,
-                        'price': this.price,
-                        'thumbnail': this.thumbnail,
-                        'image': this.details,
-                        'edit_type': this.edit_type
-                    },
-                }).then(function (resp) {
-                    // handle success
-                    if (resp.data.code === 0) {
-                        console.log("OK!")
-                        alert("OK")
-                    } else {
-                        console.log(resp.data.msg)
-                        alert(resp.data.msg)
-                    }
-                }).catch(function (resp) {
-                    // handle error
-                    console.log(resp.data.msg)
-                    alert(resp.data.msg)
-                })
-            },
-            reset: function () {
-                this.name = ''
-                this.inventory = 0
-                this.introduction = ''
-                this.price = 0.0
+                var img = document.getElementById(a)
+                console.log(img)
+                var imgFile = new FileReader()
+                imgFile.readAsDataURL(img.files[0])
+                var imgData = ""
+                imgFile.onload = function () {
+                    imgData = this.result //base64数据
+                    console.log(imgData)
+                }
+                return imgData
             }
-        }
-    })
-</script>
-</body>
+        </script>
+        <script>
+            const app = new Vue({
+                el: "#container",
+                data: {
+                    category_id: 0,
+                    isModifying: false,
+                    gid: 0,
+                    name: "",
+                    inventory: 0,
+                    introduction: "",
+                    price: 0.0,
+                    thumbnails: "",
+                    details: new Array(),
+                    options: new Array(),
+                    edit_type: 0,
+                },
+                methods: {
+                    initUserInfo: function () {
+                        var that = this
+                        console.log("search commodity")
+                        that.isModifying = false
+                        axios
+                            .get(api_url + "/seller/category_list")
+                            .then(function (resp) {
+                                // handle success
+                                if (resp.data.code === 0) {
+                                    that.options = resp.data.data.category_list
+                                    that.isModifying = true
+                                } else {
+                                    console.log(resp.msg)
+                                }
+                            })
+                            .catch(function (resp) {
+                                // handle error
+                                console.log(resp.msg)
+                            })
+                    },
+                    confirm: function () {
+                        var tn = $("#small_img")
+                        console.log(this.thumbnail)
+                        // var de = $('#1.detail_img')
+                        for (var i = 0; i < 3; i++) {
+                            this.details[i] = $("#" + String(i + 1)).val()
+                            console.log(this.details[i])
+                        }
+                        const token = window.localStorage.getItem("ishopping-token")
+                        axios.defaults.headers.common = { Authorization: `${token}` }
+                        axios({
+                            method: "post",
+                            url: api_url + "/seller/commodity_edit",
+                            data: {
+                                category_id: this.category_id,
+                                commodity_id: this.gid,
+                                commodity_name: this.name,
+                                inventory: this.inventory,
+                                introduction: this.introduction,
+                                price: this.price,
+                                thumbnail: this.thumbnail,
+                                image: this.details,
+                                edit_type: parseInt(this.edit_type),
+                            },
+                        })
+                            .then(function (resp) {
+                                // handle success
+                                if (resp.data.code === 0) {
+                                    console.log("OK!")
+                                    alert("OK")
+                                } else {
+                                    console.log(resp.data.msg)
+                                    alert(resp.data.msg)
+                                }
+                            })
+                            .catch(function (resp) {
+                                // handle error
+                                console.log(resp.data.msg)
+                                alert(resp.data.msg)
+                            })
+                    },
+                    reset: function () {
+                        this.name = ""
+                        this.inventory = 0
+                        this.introduction = ""
+                        this.price = 0.0
+                    },
+                },
+            })
+        </script>
+    </body>
 </html>
