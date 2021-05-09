@@ -46,7 +46,7 @@ func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []Search
 		commodity.Thumbnail, err = GetCommodityExtraInfoByCid(commodity.Cid, "thumbnail")
 		if err != nil {
 			if err.Error() == "sql: no rows in result set" {
-				commodity.Thumbnail = "default"
+				commodity.Thumbnail = "http://ishopping.gq/static/img/404.jpg"
 				err = nil
 			} else {
 				return
