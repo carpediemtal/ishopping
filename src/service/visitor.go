@@ -11,7 +11,7 @@ const (
 )
 
 type SearchedCommodity struct {
-	Cid         int     `json:"cid" map:"cid"`
+	Cid         int     `json:"commodity_id" map:"cid"`
 	Name        string  `json:"name" map:"name"`
 	Price       float64 `json:"price" map:"price"`
 	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
