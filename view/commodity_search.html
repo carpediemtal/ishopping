@@ -2,9 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>Register</title>
+        <title>Commodity Search</title>
+        <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon" />
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-        <link rel="shortcut icon" href="./static/icon/icon.jpg" type="image/x-icon" />
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
@@ -38,50 +38,41 @@
             integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E="
             crossorigin="anonymous"
         ></script>
-        <script src="./static/js/common.js"></script>
     </head>
-    <body style="font-size: 16px">
+    <body>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-            <img alt="shop.png" height="35" src="./static/icon/shop.png" />
+            <img alt="shop.png" height="35" src="../static/icon/shop.png" />
             <h5 class="my-0 mr-md-auto font-weight-normal"><a href="index.html">ISHOPPING</a></h5>
             <a href="index.html" class="btn btn-outline-primary">Home</a>
-            <a href="signin.html" class="btn btn-outline-primary ml-3">Signin</a>
         </div>
 
-        <div class="container" style="max-width: 960px">
-            <div class="row">
-                <div class="col-12 col-md">
-                    <form id="register-form" @submit.prevent="register">
-                        <div class="form-group">
-                            <label for="username">USERNAME</label>
-                            <input id="username" v-model="username" class="form-control" name="username" placeholder="username" type="text" />
-                        </div>
-                        <div class="form-group">
-                            <label for="password">PASSWORD</label>
-                            <input id="password" v-model="password" class="form-control" name="password" placeholder="password" type="password" />
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input
-                                class="form-check-input"
-                                type="radio"
-                                name="inlineRadioOptions"
-                                id="inlineRadio1"
-                                value="buyer"
-                                checked="checked"
-                                v-model="radio"
-                            />
-                            <label class="form-check-label" for="inlineRadio1">register as a buyer</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="seller" v-model="radio" />
-                            <label class="form-check-label" for="inlineRadio2">register as a seller</label>
-                        </div>
-                        <p></p>
-                        <div class="form-group">
-                            <button class="btn btn-outline-primary">Register</button>
-                        </div>
-                    </form>
-                </div>
+        <div class="container" style="max-width: 960px" id="app">
+            <label class="h3 text-primary" for="search" v-model="content">
+                <i class="fa fa-search"></i>
+                Search
+            </label>
+            <form class="form-inline" @submit.prevent="search">
+                <input id="search" class="mb-2 form-control" type="text" v-model="content" />
+                <button type="submit" class="btn btn-primary ml-4 mb-2">Confirm</button>
+            </form>
+
+            <div class="row mt-4" v-if="seen">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>price</th>
+                            <th>detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="commodity in commodityList">
+                            <td>{{ commodity.name }}</td>
+                            <td>{{ commodity.price }}</td>
+                            <td><a v-bind:href="getDetailUrl(commodity)">detail</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <footer class="pt-4 my-md-5 pt-md-5 border-top">
@@ -109,47 +100,36 @@
             </footer>
         </div>
     </body>
+    <script src="../static/js/common.js"></script>
     <script>
         const app = new Vue({
-            el: "#register-form",
+            el: "#app",
             data: {
-                username: "",
-                password: "",
-                radio: "buyer",
-                usertype: 0,
+                content: "",
+                commodityList: [],
+                seen: false,
             },
             methods: {
-                register: function () {
-                    console.log("start register")
-                    if (this.radio === "buyer") {
-                        this.usertype = 0
-                    } else {
-                        this.usertype = 1
-                    }
-                    axios({
-                        method: "post",
-                        url: api_url + "/register",
-                        data: {
-                            username: this.username,
-                            password: this.password,
-                            usertype: this.usertype,
-                        },
-                    })
+                getDetailUrl: function (commodity) {
+                    return `commodity_detail.html?cid=${commodity.cid}`
+                },
+                search: function () {
+                    const that = this
+                    console.log("search commodity")
+                    axios
+                        .get(`${api_url}/commodity_search?content=${this.content}`)
                         .then(function (resp) {
                             // handle success
-                            console.log(resp)
                             if (resp.data.code === 0) {
-                                console.log("successful")
-                                alert("register successful!")
+                                that.commodityList = resp.data.data.commodity_list
+                                that.seen = true
                             } else {
                                 console.log(resp.data.msg)
-                                alert(resp.data.msg)
                             }
                         })
                         .catch(function (resp) {
                             // handle error
                             console.log(resp.data.msg)
-                            alert(resp.data.msg)
                         })
                 },
             },
