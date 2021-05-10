@@ -43,11 +43,11 @@
                 <!-- <th>status</th> -->
             </thead>
             <tbody v-for="o in orders">
-                <td>{{o.order_id}}</td>
+                <td>{{o.oid}}</td>
                 <td>{{o.total_price}}</td>
                 <td>
                     <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>
-                    <button id="delivery" v-on:click="sendOrder(o.order_id)" v-else>Delivery</button>
+                    <button id="delivery" v-on:click="sendOrder(o.oid)" v-else>Delivery</button>
                 </td>
                 <!-- <td id="status" >
                     <p v-if="orderSended(o.delivery_id)">sended</p>
@@ -76,57 +76,56 @@
         
         new Vue({
             el: '#orderList',
-            data:{
-                
+            data(){
+                return {
                 res:12,
                 total: 0,
                 hasOrder: false,
+                
                 orders:[
                     //example
                     // {
-                    //     order_id: 1,
+                    //     oid: 100,
                     //     total_price:100,
                     //     delivery_id:-1     //>=0 deliveried  <0 not
                     // },
                     // {
-                    //     order_id: 2,
-                    //     total_price:200,
-                    //     delivery_id:0
+                    //     oid: 101,
+                    //     total_price:100,
+                    //     delivery_id:0     //>=0 deliveried  <0 not
                     // },
-                    // {
-                    //     order_id: 3,
-                    //     total_price:300,
-                    //     delivery_id:-1
-                    // }
-                ]
+                ]}
             },
             methods:{
-                
+                delete:function(oid){
+                    this.orders.some((item,i)=>{
+                        if(item.oid == oid){
+                            this.orders.splice(i,1)
+                            return true
+                        }
+                    })
+                },
                 sendOrder: function(id){
+                    const that = this
                     const token = window.localStorage.getItem("ishopping-token")
                     axios.defaults.headers.common = {Authorization:`${token}`}
                     axios({
                         method: 'post',
                         url: api_url + '/seller/order_delivery',
                         data:{
-                            'order_id':id
+                            'oid':`${id}`
                     }}).then(function(res){
                         console.log(id+" Deliveried")
                         if(res.data.code == 0){
-                            var or = []
-                            for(var ol in this.orders){
-                                if(ol.order_id == id){
-                                    // ol.delivery_id = res.data.data.delivery_id
+                            for(let i in that.orders){
+                                if(that.orders[i].oid == id){
+                                    // ol.delivery_id = res.data.data.delivery_ids
                                     ol.delivery_id = 0
                                 }
-                                or.push(ol)
                             }
-                            orders = or
-                            return orders
                         }else{
                             console.log(res.data.msg)
                         }
-                        
                     })
                     .catch(function (error) { 
                         console.log(error);
@@ -134,26 +133,26 @@
                 },
                 orderSended: function(delivery_id){
                     return (delivery_id >= 0)
-                }
+                },
+                
 
             },
             mounted(){
+                const that = this
                 const token = window.localStorage.getItem("ishopping-token")
                 axios.defaults.headers.common = {Authorization:`${token}`}
                 axios({
                     url: api_url + '/seller/order_list?order_status=1',
                     method: 'get',
-                    // 'Access-Control-Allow-Origin': '*',
-                    // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-                    // 'dataType':'JSONP',
                 })
                     .then(function(res){
-                        console.log(res)
-                        this.hasOrder = true
+                        that.hasOrder = true
                         if(res.data.code == 0){
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=-1
-                                orders.push(ol)
+                            console.log('will input res.data.data.order_list:')
+                            console.log(res.data.data.order_list)
+                            for(let i in res.data.data.order_list){
+                                res.data.data.order_list[i].delivery_id = -1
+                                that.orders.push(res.data.data.order_list[i])
                             }
                         }else{
                             console.log(res.data.msg)
@@ -162,20 +161,16 @@
                     })
                     .catch(function (error) { 
                         console.log(error)
-                        // window.alert(error)
                     });
-                    //http://localhost:7001/api/seller/order_list?order_status=2
                 axios({
                     url: api_url + '/seller/order_list?order_status=2',
                     method:'get',
                 })
                     .then(function(res){
-                        console.log(res)
                         if(res.data.code == 0){
-                            // this.orders.push(res.data.data.order_list)
-                            for(var ol in res.data.data.order_list){
-                                ol.delivery_id=0
-                                orders.push(ol)
+                            for(let i in res.data.data.order_list){
+                                res.data.data.order_list[i].delivery_id = -1
+                                that.orders.push(res.data.data.order_list[i])
                             }
                         }else{
                             console.log(res.data.msg)
@@ -184,7 +179,6 @@
                     })
                     .catch(function (error) { 
                         console.log(error);
-                        // window.alert(error)
                     });
             },
         })
