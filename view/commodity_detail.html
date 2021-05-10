@@ -60,8 +60,8 @@
                     </div>
 
                     <div class="mt-5">
-                        <button class="btn btn-primary">Purchase</button>
-                        <button class="btn btn-info ml-3">Add to Cart</button>
+                        <button class="btn btn-primary" @click="jumpToPurchase">Purchase</button>
+                        <!-- <button class="btn btn-info ml-3">Add to Cart</button> -->
                     </div>
                 </div>
             </div>
@@ -123,19 +123,8 @@
                 },
             },
             created: function () {
-                const search = window.location.search
-                const params = search.substring(1).split("&")
-                let cid
-                for (let i = 0; i < params.length; i++) {
-                    if (params[i].startsWith("cid=")) {
-                        cid = params[i].substring("cid=".length)
-                        break
-                    }
-                    // 查询参数错误
-                    if (i === params.length - 1) {
-                        alert("invalid cid")
-                    }
-                }
+                let url = new URL(window.location.href)
+                cid = url.searchParams.has("cid") ? parseInt(url.searchParams.get("cid")) : 0
 
                 const that = this
                 axios({
@@ -153,6 +142,12 @@
                         console.log(resp)
                         alert(resp.data.msg)
                     })
+            },
+            methods: {
+                jumpToPurchase: function () {
+                    console.log(cid)
+                    window.location.replace("./buyer/confirm_purchase.html?commodity_id=" + cid)
+                },
             },
         })
     </script>

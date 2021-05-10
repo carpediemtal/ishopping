@@ -21,15 +21,15 @@
                 <img alt="shop.png" height="35" src="static/img/shop.png" />
                 <h5 class="my-0 mr-md-auto font-weight-normal"><a href="index.html">ISHOPPING</a></h5>
                 <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-                <div v-if='isSignedIn == 0' >
-					<a href="buyer/buyer_index.html" class="btn btn-outline-primary ml-3">BuyerHome</a>
-				</div>                
-                <div v-if='isSignedIn == 1' >
-					<a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">SellerHome</a>
-				</div>
-				<div v-if='isSignedIn == 2' >
-					<a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
-				</div>
+                <div v-if="isSignedIn == 0">
+                    <a href="buyer/buyer_index.html" class="btn btn-outline-primary ml-3">BuyerHome</a>
+                </div>
+                <div v-if="isSignedIn == 1">
+                    <a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">SellerHome</a>
+                </div>
+                <div v-if="isSignedIn == 2">
+                    <a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
+                </div>
                 <!-- <a href="#" class="btn btn-outline-primary ml-3"><i class="iconfont">&#xe63f;</i>Cart</a> -->
             </div>
         </div>
@@ -98,9 +98,9 @@
                         <li v-for="item in goodsinfo">
                             <div class="goods-pic"><img :src="item.thumbnail" alt="" /></div>
                             <div class="goods-info">
-								<a href="#" class="goods-name" @click="jumpToDetail(item.commodity_id)">{{ item.name }}</a>
-								<p class="goods-price">{{ item.price }}yuan</p>
-								<a href="#" class="goods-btn" @click="jumpToPurchase(item.commodity_id)">Purchase</a>
+                                <a href="#" class="goods-name" @click="jumpToDetail(item.commodity_id)">{{ item.name }}</a>
+                                <p class="goods-price">{{ item.price }}yuan</p>
+                                <a href="#" class="goods-btn" @click="jumpToDetail(item.commodity_id)">Detail</a>
                             </div>
                         </li>
                     </ul>
@@ -134,6 +134,6 @@
         <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
         <script src="static/js/homepage.js"></script>
         <script src="static/js/mainbody-ad.js"></script>
-		<script src="static/js/index_Navigation.js"></script>
+        <script src="static/js/index_Navigation.js"></script>
     </body>
 </html>
