@@ -46,7 +46,7 @@
             <img alt="shop.png" height="35" src="../static/icon/shop.png" />
             <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
             <a href="seller_index.html" class="btn btn-outline-primary">SellerHome</a>
-            <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
+            <a href="commodity_edit.html" class="btn btn-outline-primary ml-3">CommodityAdd</a>
         </div>
 
         <div class="container" id="container">
@@ -140,26 +140,26 @@
         <script></script>
         <script>
             var imgData = ""
-            function ToBase64(a) {
-                var filename = $("#" + a).val()
-                if (!filename || !(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".gif"))) {
-                    alert("Can only upload image file.")
-                }
-                var img = document.getElementById(a)
-                //console.log(img)
-                var imgFile = new FileReader()
-                imgFile.readAsDataURL(img.files[0])
+            // function ToBase64(a) {
+            //     var filename = $("#" + a).val()
+            //     if (!filename || !(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".gif"))) {
+            //         alert("Can only upload image file.")
+            //     }
+            //     var img = document.getElementById(a)
+            //     //console.log(img)
+            //     var imgFile = new FileReader()
+            //     imgFile.readAsDataURL(img.files[0])
 
-                var adlist = []
-                imgFile.onload = function () {
-                    doSomething(this.result)
-                }
-                var doSomething = function (dataURL) {
-                    //console.log(dataURL)
-                    imgData = dataURL
-                }
-                console.log(dataURL)
-            }
+            //     var adlist = []
+            //     imgFile.onload = function () {
+            //         doSomething(this.result)
+            //     }
+            //     var doSomething = function (dataURL) {
+            //         //console.log(dataURL)
+            //         imgData = dataURL
+            //     }
+            //     console.log(dataURL)
+            // }
             const app = new Vue({
                 el: "#container",
                 data: {
@@ -199,20 +199,24 @@
                     confirm: function () {
                         // var tn = $('#small_img');
                         // this.thumbnails = ToBase64('small_img')
-                        console.log(this.thumbnail)
+                        // console.log(this.thumbnail)
                         var de = $("#1.detail_img")
                         for (var i = 0; i < 3; i++) {
                             this.details[i] = $("#" + String(i + 1)).val()
-                            console.log(this.details[i])
+                            // console.log(this.details[i])
                         }
                         const token = window.localStorage.getItem("ishopping-token")
                         axios.defaults.headers.common = { Authorization: `${token}` }
+                        axios.interceptors.response.use(function (response) {
+                            console.log(response)
+                            return response
+                        })
                         axios({
                             method: "post",
                             url: api_url + "/seller/commodity_edit",
                             data: {
-                                category_id: this.category_id,
-                                commodity_id: this.gid,
+                                category_id: parseInt(this.category_id),
+                                commodity_id: parseInt(this.gid),
                                 commodity_name: this.name,
                                 inventory: this.inventory,
                                 introduction: this.introduction,
@@ -223,9 +227,7 @@
                             },
                         })
                             .then(function (resp) {
-                                for (var i = 0; i < 3; i++) {
-                                    console.log(image[i])
-                                }
+                                console.log(resp)
                                 // handle success
                                 if (resp.data.code == 0) {
                                     console.log("OK!")
@@ -237,7 +239,7 @@
                             })
                             .catch(function (resp) {
                                 // handle error
-                                console.log(resp.data.msg)
+                                console.log(resp)
                                 alert(resp.data.msg)
                             })
                     },
@@ -250,7 +252,7 @@
                 },
             })
         </script>
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
             ;(oFReader = new FileReader()),
                 (rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i)
 
@@ -269,6 +271,6 @@
                 }
                 oFReader.readAsDataURL(oFile)
             }
-        </script>
+        </script> -->
     </body>
 </html>
