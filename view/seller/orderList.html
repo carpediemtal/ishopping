@@ -103,7 +103,8 @@
             methods:{
                 
                 sendOrder: function(id){
-                    axios.defaults.headers.common = {Authorization:true}
+                    const token = window.localStorage.getItem("ishopping-token")
+                    axios.defaults.headers.common = {Authorization:`${token}`}
                     axios({
                         method: 'post',
                         url: api_url + '/seller/order_delivery',
@@ -137,7 +138,8 @@
 
             },
             mounted(){
-                
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization:`${token}`}
                 axios({
                     url: api_url + '/seller/order_list?order_status=1',
                     method: 'get',
