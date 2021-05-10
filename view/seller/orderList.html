@@ -97,14 +97,6 @@
                 ]}
             },
             methods:{
-                delete:function(oid){
-                    this.orders.some((item,i)=>{
-                        if(item.oid == oid){
-                            this.orders.splice(i,1)
-                            return true
-                        }
-                    })
-                },
                 sendOrder: function(id){
                     const that = this
                     const token = window.localStorage.getItem("ishopping-token")
@@ -113,14 +105,12 @@
                         method: 'post',
                         url: api_url + '/seller/order_delivery',
                         data:{
-                            'oid':`${id}`
+                            'order_id':id
                     }}).then(function(res){
-                        console.log(id+" Deliveried")
                         if(res.data.code == 0){
                             for(let i in that.orders){
                                 if(that.orders[i].oid == id){
-                                    // ol.delivery_id = res.data.data.delivery_ids
-                                    ol.delivery_id = 0
+                                    that.orders[i].delivery_id = 0
                                 }
                             }
                         }else{
@@ -148,8 +138,6 @@
                     .then(function(res){
                         that.hasOrder = true
                         if(res.data.code == 0){
-                            console.log('will input res.data.data.order_list:')
-                            console.log(res.data.data.order_list)
                             for(let i in res.data.data.order_list){
                                 res.data.data.order_list[i].delivery_id = -1
                                 that.orders.push(res.data.data.order_list[i])
