@@ -40,17 +40,13 @@
         ></script>
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
-        <script src="../static/js/common.js"></script>
     </head>
     <body>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
             <img alt="shop.png" height="35" src="../static/icon/shop.png" />
-            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="home.html">ISHOPPING</a></h5>
-            <a href="home.html" class="btn btn-outline-primary">Home</a>
-            <a href="sign_in.html" class="btn btn-outline-primary ml-3">Sign In</a>
-            <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
-            <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
-            <a href="../未按规定格式上传的代码/templates/commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
+            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
+            <a href="seller_index.html" class="btn btn-outline-primary">SellerHome</a>
+            <a href="commodity_add.html" class="btn btn-outline-primary ml-3">Commodity Add</a>
         </div>
 
         <div class="container" id="container">
@@ -59,7 +55,6 @@
             <label for="name">Category ID</label>
             <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
         </div> -->
-<<<<<<< HEAD
                 <div class="form-group">
                     <input type="radio" id="modify" value="0" v-model="edit_type" />
                     <label for="modify">edit item</label>
@@ -67,34 +62,6 @@
                     <input type="radio" id="add" value="1" v-model="edit_type" />
                     <label for="add">add item</label>
                     <br />
-=======
-        <div class="form-group">
-            <input type="radio" id="modify" value=0 v-model="edit_type">
-            <label for="modify">edit item</label>
-            <br>
-            <input type="radio" id="add" value=1 v-model="edit_type">
-            <label for="add">add item</label>
-            <br>
-          </div>
-        <div class="form-group" v-if="isModifying">
-        <label for="name">Category ID</label>
-        <select v-model="category_id">
-            <option v-for="option in options" v-bind:value="option.category_id">
-              {{ option.category_name }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group" v-if="edit_type">
-            <label for="name">Commodity ID</label>
-            <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid">
-        </div>
-        <div class="form-group">
-            <div class="item-media"><i class="icon icon-form-name"></i></div>
-            <div class="item-inner">
-                <div class="item-title label">thumbnails</div>
-                <div class="item-input">
-                    <input type="text" id="small_img" placeholder="thumbnails" v-model="thumbnail">
->>>>>>> 6bf2bb28e206119f98ad361b960e03779e114604
                 </div>
                 <div class="form-group" v-if="isModifying">
                     <label for="name">Category ID</label>
@@ -111,15 +78,28 @@
                     <div class="item-inner">
                         <div class="item-title label">thumbnails</div>
                         <div class="item-input">
-                            <input type="text" id="small_img" placeholder="thumbnails" v-model="thumbnail" />
+                            <input type="text" id="small_img" placeholder="thumbnail" v-model="thumbnail" />
                         </div>
                     </div>
                 </div>
+                <!-- <form name="uploadForm">
+            <div class="item-title label">thumbnails</div>
+            <table>
+              <tbody>
+                <tr>
+                  <td><img id="uploadPreview" style="width: 100px; height: 100px;" src="" alt="Image preview" /></td>
+                  <td><input id="uploadImage" type="file" name="myPhoto" onchange="loadImageFile();" /></td>
+                </tr>
+              </tbody>
+            </table>
+        
+            <p><input type="submit" value="Send" /></p>
+          </form> -->
                 <div class="form-group">
                     <div class="item-media">
                         <i class="icon icon-form-email"></i>
                     </div>
-                    <!--进行事件绑定，每添加一个详情图片，就生成一个新的-->
+
                     <div class="item-inner detail-img-div">
                         <div class="item-title label">detail_img</div>
                         <div class="item-input" id="detail_img">
@@ -148,7 +128,7 @@
                 <div class="form-group">
                     <button class="btn btn-outline-primary">Confirm</button>
                     <button class="btn btn-outline-danger ml-3" type="button" onclick="reloadPage()">Reset</button>
-                    <script>
+                    <script type="application/javascript">
                         function reloadPage() {
                             location.reload()
                         }
@@ -156,133 +136,30 @@
                 </div>
             </form>
         </div>
+        <script src="../static/js/common.js"></script>
+        <script></script>
         <script>
+            var imgData = ""
             function ToBase64(a) {
-                /*转换base64*/
                 var filename = $("#" + a).val()
                 if (!filename || !(filename.endsWith(".jpg") || filename.endsWith(".png") || filename.endsWith(".gif"))) {
                     alert("Can only upload image file.")
                 }
-<<<<<<< HEAD
                 var img = document.getElementById(a)
-                console.log(img)
+                //console.log(img)
                 var imgFile = new FileReader()
                 imgFile.readAsDataURL(img.files[0])
-                var imgData = ""
+
+                var adlist = []
                 imgFile.onload = function () {
-                    imgData = this.result //base64数据
-                    console.log(imgData)
+                    doSomething(this.result)
                 }
-                return imgData
-=======
-                </script>
-        </div>
-    </form>
-</div>
-<script>
-    
-function ToBase64(a) {
- 
- /*转换base64*/
- var filename = $('#'+a).val();
-    if (!filename || !(filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif'))) {
-        alert('Can only upload image file.');
-    }
-    var img = document.getElementById(a)
-    console.log(img)
-    var imgFile = new FileReader();
-    imgFile.readAsDataURL(img.files[0]);
-    var imgData = ''
-    imgFile.onload = function () {
-    imgData = this.result; //base64数据  
-        console.log(imgData);
-    }
-        return imgData;
-    }
-</script>
-<script>
-    const app = new Vue({
-        el: '#container',
-        data: {
-            category_id:0,
-            isModifying:false,
-            gid: 0,
-            name: '',
-            inventory: 0,
-            introduction: '',
-            price: 0.0,
-            thumbnails: '',
-            details: new Array(),
-            options: new Array(),
-            edit_type:parseInt(0)
-        },
-	created:function(){
-				var that = this;
-                console.log("search commodity")
-				that.isModifying = false;
-                axios.get(api_url + '/seller/category_list')
-                    .then(function (resp) {
-                        // handle success
-                        if (resp.data.code === 0) {
-                            that.options = resp.data.data.category_list
-                            that.isModifying = true
-                        } else {
-                            console.log(resp.msg);
-                        }
-                    }).catch(function (resp) {
-                        // handle error
-                        console.log(resp.msg);
-                })	
-	},
-        methods: {
-            confirm: function () {
-                var tn = $('#small_img');
-                console.log(this.thumbnail)
-                // var de = $('#1.detail_img')
-                for(var i = 0;i<3;i++){
-                    this.details[i] = $('#'+String(i+1)).val()
-                    console.log(this.details[i])
+                var doSomething = function (dataURL) {
+                    //console.log(dataURL)
+                    imgData = dataURL
                 }
-                const token = window.localStorage.getItem("ishopping-token")
-                axios.defaults.headers.common = {Authorization: `${token}`}
-                axios({
-                    method: 'post',
-                    url: api_url + '/seller/order_delivery',
-                    data: {
-                        'category_id': this.category_id,
-                        'commodity_id': this.gid,
-                        'commodity_name': this.name,
-                        'inventory': this.inventory,
-                        'introduction': this.introduction,
-                        'price': this.price,
-                        'thumbnail': this.thumbnail,
-                        'image': this.details,
-                        'edit_type': parseInt(this.edit_type)
-                    },
-                }).then(function (resp) {
-                    // handle success
-                    if (resp.data.code === 0) {
-                        console.log("OK!")
-                        alert("OK")
-                    } else {
-                        console.log(resp.data.msg)
-                        alert(resp.data.msg)
-                    }
-                }).catch(function (resp) {
-                    // handle error
-                    console.log(resp.data.msg)
-                    alert(resp.data.msg)
-                })
-            },
-            reset: function () {
-                this.name = ''
-                this.inventory = 0
-                this.introduction = ''
-                this.price = 0.0
->>>>>>> 6bf2bb28e206119f98ad361b960e03779e114604
+                console.log(dataURL)
             }
-        </script>
-        <script>
             const app = new Vue({
                 el: "#container",
                 data: {
@@ -293,36 +170,37 @@ function ToBase64(a) {
                     inventory: 0,
                     introduction: "",
                     price: 0.0,
-                    thumbnails: "",
+                    thumbnail: "",
                     details: new Array(),
                     options: new Array(),
                     edit_type: 0,
                 },
-                methods: {
-                    initUserInfo: function () {
-                        var that = this
-                        console.log("search commodity")
-                        that.isModifying = false
-                        axios
-                            .get(api_url + "/seller/category_list")
-                            .then(function (resp) {
-                                // handle success
-                                if (resp.data.code === 0) {
-                                    that.options = resp.data.data.category_list
-                                    that.isModifying = true
-                                } else {
-                                    console.log(resp.msg)
-                                }
-                            })
-                            .catch(function (resp) {
-                                // handle error
+                created: function () {
+                    var that = this
+                    console.log("search commodity")
+                    that.isModifying = false
+                    axios
+                        .get(api_url + "/category_list")
+                        .then(function (resp) {
+                            // handle success
+                            if (resp.data.code === 0) {
+                                that.options = resp.data.data.category_list
+                                that.isModifying = true
+                            } else {
                                 console.log(resp.msg)
-                            })
-                    },
+                            }
+                        })
+                        .catch(function (resp) {
+                            // handle error
+                            console.log(resp.msg)
+                        })
+                },
+                methods: {
                     confirm: function () {
-                        var tn = $("#small_img")
+                        // var tn = $('#small_img');
+                        // this.thumbnails = ToBase64('small_img')
                         console.log(this.thumbnail)
-                        // var de = $('#1.detail_img')
+                        var de = $("#1.detail_img")
                         for (var i = 0; i < 3; i++) {
                             this.details[i] = $("#" + String(i + 1)).val()
                             console.log(this.details[i])
@@ -345,8 +223,11 @@ function ToBase64(a) {
                             },
                         })
                             .then(function (resp) {
+                                for (var i = 0; i < 3; i++) {
+                                    console.log(image[i])
+                                }
                                 // handle success
-                                if (resp.data.code === 0) {
+                                if (resp.data.code == 0) {
                                     console.log("OK!")
                                     alert("OK")
                                 } else {
@@ -368,6 +249,26 @@ function ToBase64(a) {
                     },
                 },
             })
+        </script>
+        <script type="text/javascript">
+            ;(oFReader = new FileReader()),
+                (rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i)
+
+            oFReader.onload = function (oFREvent) {
+                document.getElementById("uploadPreview").src = oFREvent.target.result
+            }
+
+            function loadImageFile() {
+                if (document.getElementById("uploadImage").files.length === 0) {
+                    return
+                }
+                var oFile = document.getElementById("uploadImage").files[0]
+                if (!rFilter.test(oFile.type)) {
+                    alert("You must select a valid image file!")
+                    return
+                }
+                oFReader.readAsDataURL(oFile)
+            }
         </script>
     </body>
 </html>

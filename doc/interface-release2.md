@@ -5,14 +5,14 @@
 - 对于接口有问题的、某些功能问题的、有一些good idea的，在大群里说或者私聊组长。
 - release2开发周期：**第6周** 至 **第8周**，请尽快。
 - release1的add接口合并到了seller 的 commodity_edit里
-- 最新更新时间：**2021-04-24 10:45**
 - 2021-04-17 23:30修改：Visitor index&category channel
 - 2021-04-18 20:30新增：Seller category_list
 - 2021-04-23 21:00删除：Seller order_delivery的物流单号删除，接口负责人请跟进
 - 2021-04-23 21:40修改：Seller commodity_edit的商品介绍单词拼错了，已订正
 - 2021-04-23 21:50修改：Seller category_list接口定义错了，已订正
 - 2021-04-24 10:45修改：Seller commodity_edit、Visitor index&category channel新增thumbnail
-- 2021-5-8 11:11:53修改：修改 /api/commodity_detail 接口返回的内容
+- 2021-05-08 11:11修改：修改 /api/commodity_detail 接口返回的内容
+- 2021-05-10 11:30修改：修改 category_list所属
 
 ## 待完成
 
@@ -78,7 +78,26 @@ list_item:
 | thumbnail    | string                 | 商品缩略图 |
 | images       | []string（字符串数组） | 商品图片   |
 
+## 3.category_list
 
+### 请求
+
+| 请求类型 | path                      |
+| :------- | :------------------------ |
+| get      | /api/category_list |
+
+### 返回
+
+| 字段名        | 类型            | 说明       |
+| ------------- | --------------- | ---------- |
+| category_list | []category_item | 所有的分类 |
+
+category_item：
+
+| 字段名        | 类型   | 说明   |
+| ------------- | ------ | ------ |
+| category_id   | int    | 分类id |
+| category_name | string | 分类名 |
 
 # Buyer
 
@@ -172,28 +191,7 @@ list_item:
 
 无data，成功code=0，错误code=-1，错误信息返回在msg里
 
-## 3.category_list
-
-### 请求
-
-| 请求类型 | path                      |
-| :------- | :------------------------ |
-| get      | /api/seller/category_list |
-
-### 返回
-
-| 字段名        | 类型            | 说明       |
-| ------------- | --------------- | ---------- |
-| category_list | []category_item | 所有的分类 |
-
-category_item：
-
-| 字段名        | 类型   | 说明   |
-| ------------- | ------ | ------ |
-| category_id   | int    | 分类id |
-| category_name | string | 分类名 |
-
-## 4.commodity_edit
+## 3.commodity_edit
 
 ### 请求
 
@@ -221,7 +219,7 @@ category_item：
 **add功能已被合并到edit**
 
 
-## 5.order_list
+## 4.order_list
 
 ### 请求
 
@@ -247,7 +245,7 @@ order：
 | total_price | float | 总价格   |
 | ……          |       | 想到再加 |
 
-## 6.order_delivery
+## 5.order_delivery
 
 ### 请求
 
