@@ -20,17 +20,30 @@ func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
 }
 
 func OrderDelivery(oid, uid int) error {
-	row := db.DB.QueryRow(`select status from purchase_order where oid = ?`, oid)
-	var status int
-	err := row.Scan(&status)
+	row := db.DB.QueryRow(`select status, cid from purchase_order where oid = ?`, oid)
+	var status, cid int
+	err := row.Scan(&status, &cid)
 	if err != nil {
 		return err
 	}
 
-	if status == 2 {
+	if status != 1 {
 		return errors.New("this order had been delivered")
 	}
 
-	_, err = db.DB.Exec(`update purchase_order set status = 2 where oid = ? and uid = ?`, oid, uid)
+	order_sid, err := getSidByCid(cid)
+	if err != nil {
+		return err
+	}
+
+	user_sid, err := getSidByUid(uid)
+	if err != nil {
+		return err
+	}
+	if order_sid != user_sid {
+		return errors.New("can't deliver order not belogng to you")
+	}
+
+	_, err = db.DB.Exec(`update purchase_order set status = 2 where oid = ?`, oid)
 	return err
 }
