@@ -2,12 +2,15 @@
 
 - 对于接口有问题的，在大群里说或私聊群里的大佬们。
 - release3开发周期：**第9周** 至 **第12周**，请尽快。
--  接口有修改请在次写下修改的地方。
-- 最新更新时间：**2021-05-08 23:53**
+- Important：`请不要随意更改接口文档内容`。
+- Important：请严格按照接口文档进行数据交换，不要充耳不闻，比如：
+  - 商品id时commodity_id，而不是cid；
+  - 价格是float类型，而不是int。
+- 最后修改时间：**05-11 16:00**
 
 # Visitor
 
-## search enhance
+## search
 
 ### 说明
 
@@ -41,6 +44,63 @@ list_item
 | commodity_price | float  | 商品价格   |
 | thumbnail       | string | 商品缩略图 |
 | sales           | int    | 销量       |
+
+## commodity detail
+
+### 说明
+
+该接口在release1已有，但要完善到该release要求
+
+### 请求
+
+| 请求类型 | path                  |
+| -------- | --------------------- |
+| GET      | /api/commodity_detail |
+
+| 字段名       | 类型 | 说明   |
+| ------------ | ---- | ------ |
+| commodity_id | int  | 商品id |
+
+### 返回
+
+| 字段名         | 类型     | 说明       |
+| -------------- | -------- | ---------- |
+| commodity_name | string   | 商品名     |
+| inventory      | int      | 商品库存   |
+| introduction   | string   | 商品介绍   |
+| price          | float    | 商品价格   |
+| thumbnail      | string   | 商品缩略图 |
+| image          | []string | 商品图片   |
+
+## commodity evaluation list
+
+### 说明
+
+在详情页用这个接口
+
+### 请求
+
+| 请求类型 | path                      |
+| -------- | ------------------------- |
+| get      | /api/commodity_evaluation |
+
+| 字段名       | 类型 | 说明   |
+| ------------ | ---- | ------ |
+| commodity_id | int  | 商品id |
+
+### 返回
+
+| 字段名 | 类型        | 说明     |
+| ------ | ----------- | -------- |
+| list   | []list_item | 评价列表 |
+
+list_item
+
+| 字段名    | 类型   | 说明           |
+| --------- | ------ | -------------- |
+| rate      | int    | 评分1-5        |
+| content   | string | 商品评价       |
+| timestamp | int    | 评价当时时间戳 |
 
 # Buyer
 
@@ -98,37 +158,11 @@ content| string | 评价内容
 
 无data，添加成功code=0，错误code=-1，错误信息返回在msg里
 
-## commodity evaluation
+## cart add
 
 ### 说明
 
-在详情页用这个接口
-
-### 请求
-
-| 请求类型 | path                            |
-| -------- | ------------------------------- |
-| get      | /api/buyer/commodity_evaluation |
-
-| 字段名       | 类型 | 说明   |
-| ------------ | ---- | ------ |
-| commodity_id | int  | 商品id |
-
-### 返回
-
-| 字段名 | 类型        | 说明     |
-| ------ | ----------- | -------- |
-| list   | []list_item | 评价列表 |
-
-list_item
-
-| 字段名    | 类型   | 说明           |
-| --------- | ------ | -------------- |
-| rate      | int    | 评分1-5        |
-| content   | string | 商品评价       |
-| timestamp | int    | 评价当时时间戳 |
-
-## cart add
+在商品详情页点击加入购物车时调用本接口
 
 ### 请求
 
@@ -145,7 +179,31 @@ post| /api/buyer/cart_add
 
 无data，添加成功code=0，错误code=-1，错误信息返回在msg里
 
-## cart_get
+## cart delete
+
+### 说明
+
+购物车里删除商品
+
+### 请求
+
+| 请求类型 | path                   |
+| -------- | ---------------------- |
+| post     | /api/buyer/cart_delete |
+
+| 字段名       | 类型 | 描述         |
+| ------------ | ---- | ------------ |
+| cart_item_id | int  | 要删除的项id |
+
+### 返回
+
+无data，添加成功code=0，错误code=-1，错误信息返回在msg里
+
+## cart get
+
+### 说明
+
+在我的购物车页面调用
 
 ### 请求
 
@@ -166,21 +224,102 @@ post| /api/buyer/cart_add
 
 list结构
 
-| Parameter      | 类型   | 描述       |
-| -------------- | ------ | ---------- |
-| commodity_id   | int    | 商品id     |
-| commodity_name | string | 商品名称   |
-| thumbnail      | string | 缩略图     |
-| price          | double | 价格       |
-| count          | int    | 购买的数量 |
+| Parameter      | 类型   | 描述           |
+| -------------- | ------ | -------------- |
+| cart_item_id   | int    | 购物车当前项id |
+| commodity_id   | int    | 商品id         |
+| commodity_name | string | 商品名称       |
+| thumbnail      | string | 缩略图         |
+| price          | double | 价格           |
+| count          | int    | 购买的数量     |
+
+# Seller
+
+## shop's commodity list
+
+### 说明
+
+卖家的全部商品列表
+
+### 请求
+
+| 请求类型 | path                       |
+| -------- | -------------------------- |
+| get      | /api/seller/commodity_list |
+
+| 字段名    | 类型 | 说明     |
+| --------- | ---- | -------- |
+| page      | int  | 页数     |
+| page_size | int  | 每页个数 |
+
+### 返回
+
+| 字段名         | 类型   | 说明     |
+| -------------- | ------ | -------- |
+| commodity_list | []item | 评价列表 |
+
+item
+
+| 字段名          | 类型   | 说明       |
+| --------------- | ------ | ---------- |
+| commodity_id    | id     | 商品id     |
+| name            | string | 商品名     |
+| commodity_price | float  | 商品价格   |
+| thumbnail       | string | 商品缩略图 |
+| sales           | int    | 销量       |
+
+## commodity detail
+
+### 说明
+
+在编辑商品前，需先获取到之前添加的商品详情，并渲染到前端里。
+
+### 请求
+
+| 请求类型 | path                         |
+| -------- | ---------------------------- |
+| get      | /api/seller/commodity_detail |
+
+| 字段名       | 类型 | 说明   |
+| ------------ | ---- | ------ |
+| commodity_id | int  | 商品id |
+
+### 返回
+
+| 字段名         | 类型     | 说明       |
+| -------------- | -------- | ---------- |
+| category_id    | int      | 分类id     |
+| commodity_name | string   | 商品名     |
+| inventory      | int      | 商品库存   |
+| introduction   | string   | 商品介绍   |
+| price          | float    | 商品价格   |
+| thumbnail      | string   | 商品缩略图 |
+| image          | []string | 商品图片   |
 
 # Manager
 
 ## admin login
 
-单独的管理员登录界面
+### 请求
 
-## evaluation list
+| 请求类型 | path             |
+| -------- | ---------------- |
+| POST     | /api/admin_login |
+
+| 字段名   | 类型   |
+| -------- | ------ |
+| username | string |
+| password | string |
+
+### 返回
+
+成功code=0，错误code=-1，错误信息在msg里。成功时data嵌套数据如下：
+
+| 字段名 | 类型   | 说明                                 |
+| ------ | ------ | ------------------------------------ |
+| token  | string | 身份token，前端把它设置cookie名为jwt |
+
+## all evaluation list
 
 ### 说明
 
