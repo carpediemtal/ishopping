@@ -35,7 +35,7 @@ func CommoditySearchHandler(c *gin.Context) {
 }
 
 func CommodityDetailHandler(c *gin.Context) {
-	cid, err := strconv.Atoi(c.Query("cid"))
+	cid, err := strconv.Atoi(c.Query("commodity_id"))
 	if err != nil {
 		JsonErr(c, "Commodity not found")
 		return
