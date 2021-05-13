@@ -6,7 +6,8 @@
 - Important：请严格按照接口文档进行数据交换，不要充耳不闻，比如：
   - 商品id时commodity_id，而不是cid；
   - 价格是float类型，而不是int。
-- 最后修改时间：**05-11 16:00**
+- 最后修改时间：**05-13 21:10**
+- 05-13 21:10：`ban buyer`和`ban seller` 合并为`ban user`
 
 # Visitor
 
@@ -323,7 +324,7 @@ item
 
 ### 说明
 
-请求该接口后配合使用delete evaluation、ban buyer
+请求该接口后配合使用delete evaluation、ban user
 
 ### 请求
 
@@ -369,27 +370,11 @@ evaluation_id|int | 评论的id
 
 无data，成功code=1，错误code=0,错误信息返回在msg里
 
-## ban buyer
-
-### 请求
-
-请求类型| path
--------- | -----
-post| /api/manager/ban_buyer 
-
-字段名| 类型 | 说明
--------- | ----- | -----
-buyer_id|int| 买家id 
-
-### 返回
-
-无data，成功code=1，错误code=0，错误信息返回在msg里
-
 ## search seller id
 
 ### 说明
 
-配合ban seller使用
+配合ban user使用
 
 ### 请求
 
@@ -403,22 +388,23 @@ buyer_id|int| 买家id
 
 ### 返回
 
-| 字段名    | 类型 | 说明   |
-| --------- | ---- | ------ |
-| seller_id | int  | 卖家id |
+| 字段名    | 类型 | 说明     |
+| --------- | ---- | -------- |
+| seller_id | int  | 卖家的id |
 
-## ban seller
+## ban user
 
 ### 请求
 
-请求类型| path
--------- | -----
-post| /api/manager/ban_seller 
+| 请求类型 | path                  |
+| -------- | --------------------- |
+| post     | /api/manager/ban_user |
 
-字段名| 类型 | 说明
--------- | ----- | -----
-seller_id|int| 卖家id 
+| 字段名  | 类型 | 说明   |
+| ------- | ---- | ------ |
+| user_id | int  | 用户id |
 
 ### 返回
 
 无data，成功code=1，错误code=0，错误信息返回在msg里
+
