@@ -11,11 +11,12 @@ const (
 )
 
 type SearchedCommodity struct {
-	Cid         int     `json:"commodity_id" map:"cid"`
-	Name        string  `json:"name" map:"name"`
-	Price       float64 `json:"price" map:"price"`
+	Cid       int     `json:"commodity_id" map:"cid"`
+	Name      string  `json:"name" map:"name"`
+	Price     float64 `json:"price" map:"price"`
 	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
 }
+
 //
 // 通过cid与meta_key查找meta_val
 func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err error) {
@@ -28,9 +29,9 @@ func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err er
 func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []SearchedCommodity, err error) {
 	var rows *sql.Rows
 	if caid == 0 { // AllCategories
-		rows, err = db.DB.Query("select cid, name, price from commodity limit ?, ?", (page-1)*PageMaxLimits, PageMaxLimits)
+		rows, err = db.DB.Query("select cid, name, price from commodity limit ?, ? order by cid desc", (page-1)*PageMaxLimits, PageMaxLimits)
 	} else { // Specific Category
-		rows, err = db.DB.Query("select cid, name, price from commodity where caid = ? limit ?, ?", caid, (page-1)*PageMaxLimits, PageMaxLimits)
+		rows, err = db.DB.Query("select cid, name, price from commodity where caid = ? limit ?, ? order by cid desc", caid, (page-1)*PageMaxLimits, PageMaxLimits)
 	}
 	if err != nil {
 		return
