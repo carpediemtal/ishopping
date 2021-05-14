@@ -50,7 +50,7 @@ func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
 	row := db.DB.QueryRow(`select name, inventory, sales, price from commodity where cid = ?`, cid)
 	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price)
 	if err != nil {
-		return detail, errors.New("commodity searching error")
+		return detail, errors.New("commodity_detail searching error")
 	}
 
 	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "introduction")

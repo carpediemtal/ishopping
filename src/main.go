@@ -34,6 +34,7 @@ func main() {
 	auth.POST("/userType", handler.UserTypeHandler)
 
 	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
+	r.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
