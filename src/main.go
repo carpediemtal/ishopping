@@ -33,6 +33,8 @@ func main() {
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
 	auth.POST("/userType", handler.UserTypeHandler)
 
+	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
+
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
 	}

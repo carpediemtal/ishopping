@@ -125,3 +125,17 @@ func BuyCommodityToOrderHandler(c *gin.Context) {
 	}
 	JsonOK(c, data)
 }
+
+func CommodityEvaluationHandler(c *gin.Context) {
+	cid, err := strconv.Atoi(c.Query("commodity_id"))
+	if err != nil {
+		JsonErr(c, errors.New("commodity_id not found").Error())
+		return
+	}
+	list, err := service.GetCommodityEvaluationListByCommodityId(cid)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+	JsonOK(c, gin.H{"list": list})
+}
