@@ -16,7 +16,7 @@
 
 ### 说明
 
-把 release1 的搜索合并到改接口，该接口可以实现搜索特定价格区间的商品。
+把 release1 的搜索合并到该接口，该接口可以实现搜索特定价格区间的商品。
 
 ### 请求
 
@@ -298,7 +298,7 @@ item
 | thumbnail      | string   | 商品缩略图 |
 | image          | []string | 商品图片   |
 
-# Manager
+# Admin
 
 ## admin login
 
@@ -306,7 +306,7 @@ item
 
 | 请求类型 | path             |
 | -------- | ---------------- |
-| POST     | /api/admin_login |
+| POST     | /api/admin/login |
 
 | 字段名   | 类型   |
 | -------- | ------ |
@@ -329,9 +329,9 @@ item
 
 ### 请求
 
-| 请求类型 | path                         |
-| -------- | ---------------------------- |
-| get      | /api/manager/evaluation_list |
+| 请求类型 | path                       |
+| -------- | -------------------------- |
+| get      | /api/admin/evaluation_list |
 
 | 字段名    | 类型 | 说明     |
 | --------- | ---- | -------- |
@@ -359,9 +359,9 @@ list_evalution
 
 ### 请求
 
-| 请求类型 | path                           |
-| -------- | ------------------------------ |
-| post     | /api/manager/delete_evaluation |
+| 请求类型 | path                         |
+| -------- | ---------------------------- |
+| post     | /api/admin/delete_evaluation |
 
 | 字段名        | 类型 | 说明      |
 | ------------- | ---- | --------- |
@@ -369,7 +369,7 @@ list_evalution
 
 ### 返回
 
-无 data，成功 code=1，错误 code=0,错误信息返回在 msg 里
+无 data，成功 code返回0值，失败时返回非0值，失败原因在 msg 里
 
 ## search seller id
 
@@ -379,9 +379,9 @@ list_evalution
 
 ### 请求
 
-| 请求类型 | path                          |
-| -------- | ----------------------------- |
-| post     | /api/manager/search_seller_id |
+| 请求类型 | path                        |
+| -------- | --------------------------- |
+| post     | /api/admin/search_seller_id |
 
 | 字段名    | 类型   | 说明   |
 | --------- | ------ | ------ |
@@ -393,13 +393,13 @@ list_evalution
 | --------- | ---- | --------- |
 | seller_id | int  | 卖家的 id |
 
-## ban user
+## ban
 
 ### 请求
 
-| 请求类型 | path                  |
-| -------- | --------------------- |
-| post     | /api/manager/ban_user |
+| 请求类型 | path           |
+| -------- | -------------- |
+| post     | /api/admin/ban |
 
 | 字段名  | 类型 | 说明    |
 | ------- | ---- | ------- |
@@ -407,4 +407,20 @@ list_evalution
 
 ### 返回
 
-无 data，成功 code=1，错误 code=0，错误信息返回在 msg 里
+无 data，成功 code返回0值，失败时返回非0值，失败原因在 msg 里
+
+## unban
+
+### 请求
+
+| 请求类型 | path             |
+| -------- | ---------------- |
+| post     | /api/admin/unban |
+
+| 字段名  | 类型 | 说明    |
+| ------- | ---- | ------- |
+| user_id | int  | 用户 id |
+
+### 返回
+
+无 data，成功 code返回0值，失败时返回非0值，失败原因在 msg 里
