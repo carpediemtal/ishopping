@@ -316,15 +316,15 @@ item
 
 ### 返回
 
-| 字段名         | 类型     | 说明       |
-| -------------- | -------- | ---------- |
-| category_id    | int      | 分类 id    |
-| commodity_name | string   | 商品名     |
-| inventory      | int      | 商品库存   |
-| introduction   | string   | 商品介绍   |
-| price          | float    | 商品价格   |
-| thumbnail      | string   | 商品缩略图 |
-| image          | []string | 商品图片   |
+| 字段名       | 类型     | 说明       |
+| ------------ | -------- | ---------- |
+| category_id  | int      | 分类 id    |
+| name         | string   | 商品名     |
+| inventory    | int      | 商品库存   |
+| introduction | string   | 商品介绍   |
+| price        | float    | 商品价格   |
+| thumbnail    | string   | 商品缩略图 |
+| image        | []string | 商品图片   |
 
 # Admin
 
