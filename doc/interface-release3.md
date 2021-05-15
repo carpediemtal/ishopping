@@ -6,12 +6,12 @@
 -   Important：请严格按照接口文档进行数据交换，不要充耳不闻，比如：
     -   商品 id 时 commodity_id，而不是 cid；
     -   价格是 float 类型，而不是 int。
--   最后修改时间：**05-12 22:20**
 -   05-13 21:10：`ban buyer`和`ban seller` 合并为`ban user`
 -   05-12 22:20：修改`visitor commodity detail`入参、返回
--   5-14 10:48:35：修改admin相关接口的path，增加了unban接口
-
--  **05-15 14：35** order history 返回字段 paid_time 修改为 modify_time 
+-   05-14 10:48：修改用户类型`manager`为`admin`，及修改相关接口的path
+-   05-14 10:48：增加`unban`接口
+-  05-15 14:35：修改`order history `接口的返回字段 `paid_time` 为 `modify_time `
+-  05-15 15:14：修改`admin search seller id`请求方法为`get`
 
 
 # Visitor
@@ -385,7 +385,7 @@ list_evalution
 
 | 请求类型 | path                        |
 | -------- | --------------------------- |
-| post     | /api/admin/search_seller_id |
+| get      | /api/admin/search_seller_id |
 
 | 字段名    | 类型   | 说明   |
 | --------- | ------ | ------ |
