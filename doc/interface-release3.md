@@ -1,12 +1,22 @@
 # 说明
 
 - 对于接口有问题的，在大群里说或私聊群里的大佬们。
+
 - release3开发周期：**第9周** 至 **第12周**，请尽快。
+
 - Important：`请不要随意更改接口文档内容`。
+
 - Important：请严格按照接口文档进行数据交换，不要充耳不闻，比如：
   - 商品id时commodity_id，而不是cid；
   - 价格是float类型，而不是int。
+  
 - 最后修改时间：**05-11 16:00**
+
+  
+
+- order history 返回字段 paid_time 修改为 modify_time 
+
+- 修改时间 **05-15 14：35**
 
 # Visitor
 
@@ -127,7 +137,7 @@ list_item
 | 字段名       | 类型   | 说明                   |
 | ------------ | ------ | ---------------------- |
 | create_time  | string | 订单创建的时间         |
-| paid_time    | string | 订单付款的时间         |
+| modify_time  | string | 订单最近状态变更的时间 |
 | pay_price    | string | 买家确认收货的付款金额 |
 | order_id     | int    | 订单id                 |
 | item_img     | string | 商品图片               |

@@ -125,3 +125,7 @@ func BuyCommodityToOrderHandler(c *gin.Context) {
 	}
 	JsonOK(c, data)
 }
+
+func CommodityCommentAddHandler(c *gin.Context) { //增添商品评价
+
+}
