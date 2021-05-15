@@ -277,10 +277,10 @@ list 结构
 | -------- | -------------------------- |
 | get      | /api/seller/commodity_list |
 
-| 字段名     | 类型 | 说明         |
-| ---------- | ---- | ------------ |
-| page_index | int  | 第几页       |
-| page_size  | int  | 每页商品个数 |
+| 字段名     | 类型 | 说明               |
+| ---------- | ---- | ------------------ |
+| page_index | int  | 第几页（从零开始） |
+| page_size  | int  | 每页商品个数       |
 
 ### 返回
 
@@ -290,13 +290,13 @@ list 结构
 
 item
 
-| 字段名          | 类型   | 说明       |
-| --------------- | ------ | ---------- |
-| commodity_id    | id     | 商品 id    |
-| name            | string | 商品名     |
-| commodity_price | float  | 商品价格   |
-| thumbnail       | string | 商品缩略图 |
-| sales           | int    | 销量       |
+| 字段名       | 类型   | 说明       |
+| ------------ | ------ | ---------- |
+| commodity_id | id     | 商品 id    |
+| name         | string | 商品名     |
+| price        | float  | 商品价格   |
+| thumbnail    | string | 商品缩略图 |
+| sales        | int    | 销量       |
 
 ## commodity detail
 
