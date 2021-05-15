@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"ishopping/src/service"
-	"log"
 	"strconv"
 	"strings"
 
@@ -18,20 +17,53 @@ const (
 
 func CommoditySearchHandler(c *gin.Context) {
 	content := c.Query("content")
-	commodities, err := service.GetCommodities()
+	page, err := strconv.Atoi(c.Query("page_index"))
 	if err != nil {
-		JsonErr(c, err.Error())
+		JsonErr(c, errors.New("invalid argument page_index").Error())
+		return
+	}
+	size, err := strconv.Atoi(c.Query("page_size"))
+	if err != nil {
+		JsonErr(c, errors.New("invalid argument page_size").Error())
+		return
+	}
+	minPrice, err := strconv.ParseFloat(c.Query("price_min"), 64)
+
+	if err != nil {
+		JsonErr(c, errors.New("invalid argument min price").Error())
+		return
+	}
+	maxPrice, err := strconv.ParseFloat(c.Query("price_max"), 64)
+	if err != nil {
+		JsonErr(c, errors.New("invalid argument max price").Error())
+		return
 	}
 
-	var ans []service.Commodity
+	commodities, err := service.GetCommoditySearchResults()
+	if err != nil {
+		JsonErr(c, errors.New("search failed:"+err.Error()).Error())
+		return
+	}
+
+	var ret []service.CommoditySearchResult
 	for _, commodity := range commodities {
-		if strings.Contains(commodity.Name, content) {
-			log.Println("Whats this all about ?", commodity.Name, content)
-			ans = append(ans, commodity)
+		if strings.Contains(commodity.Name, content) && commodity.Price >= minPrice && commodity.Price <= maxPrice {
+			ret = append(ret, commodity)
 		}
 	}
 
-	JsonOK(c, gin.H{"commodity_list": ans})
+	if page*size >= len(ret) {
+		JsonErr(c, "page out of range")
+		return
+	}
+
+	var ans []service.CommoditySearchResult
+	for i, cnt := page*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
+		ans = append(ans, ret[i])
+		cnt++
+	}
+
+	JsonOK(c, gin.H{"list": ans})
 }
 
 func CommodityDetailHandler(c *gin.Context) {

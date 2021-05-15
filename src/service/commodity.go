@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+const (
+	Image404 = "http://ishopping.gq/static/img/404.jpg"
+)
+
 type Commodity struct {
 	Cid       int     `json:"cid" map:"cid"`
 	Sid       int     `json:"sid" map:"sid"`
@@ -18,6 +22,33 @@ type Commodity struct {
 	Caid      int     `json:"caid" map:"caid"`
 }
 
+func GetCommodities() (commodities []Commodity, err error) {
+	err = db.DB.Select(&commodities, `select * from commodity`)
+	return
+}
+
+type CommoditySearchResult struct {
+	Cid       int     `json:"cid" map:"cid"`
+	Name      string  `json:"name" map:"name"`
+	Price     float64 `json:"price" map:"price"`
+	Sales     int     `json:"sales" map:"sales"`
+	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
+}
+
+func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
+	if err = db.DB.Select(&results, `select cid, name, price, sales from commodity`); err != nil {
+		return
+	}
+
+	for i, commodity := range results {
+		row := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
+		if err = row.Scan(&commodity.Thumbnail); err != nil {
+			results[i].Thumbnail = Image404
+		}
+	}
+	return results, nil
+}
+
 type CommodityDetail struct {
 	Name         string   `json:"name" map:"name"`
 	Inventory    int      `json:"inventory" map:"inventory"`
@@ -26,24 +57,6 @@ type CommodityDetail struct {
 	Introduction string   `json:"introduction" map:"introduction"`
 	Thumbnail    string   `json:"thumbnail" map:"thumbnail"`
 	Images       []string `json:"images" map:"images"`
-}
-
-type CommodityEdit struct {
-	Caid         int      `json:"category_id"`
-	Cid          int      `json:"commodity_id"`
-	Name         string   `json:"commodity_name"`
-	Inventory    int      `json:"inventory"`
-	Introduction string   `json:"introduction"`
-	Price        float64  `json:"price"`
-	Thumbnail    string   `json:"thumbnail"`
-	Image        []string `json:"image"`
-	EditType     int      `json:"edit_type"`
-}
-
-func GetCommodityByCid(cid int) (commodity Commodity, err error) {
-	row1 := db.DB.QueryRow("select * from commodity where cid = ?", cid)
-	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
-	return
 }
 
 func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
@@ -64,20 +77,33 @@ func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
 	err = row.Scan(&detail.Thumbnail)
 	if err != nil {
 		log.Println("no thumbnail found", err)
-		detail.Thumbnail = "http://ishopping.gq/static/img/404.jpg"
+		detail.Thumbnail = Image404
 	}
 
 	err = db.DB.Select(&detail.Images, `select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "image")
 	if err != nil || len(detail.Images) == 0 {
 		log.Println("no image found", err)
-		detail.Images = []string{"http://ishopping.gq/static/img/404.jpg"}
+		detail.Images = []string{Image404}
 	}
 
 	return detail, nil
 }
 
-func GetCommodities() (commodities []Commodity, err error) {
-	err = db.DB.Select(&commodities, `select * from commodity`)
+type CommodityEdit struct {
+	Caid         int      `json:"category_id"`
+	Cid          int      `json:"commodity_id"`
+	Name         string   `json:"commodity_name"`
+	Inventory    int      `json:"inventory"`
+	Introduction string   `json:"introduction"`
+	Price        float64  `json:"price"`
+	Thumbnail    string   `json:"thumbnail"`
+	Image        []string `json:"image"`
+	EditType     int      `json:"edit_type"`
+}
+
+func GetCommodityByCid(cid int) (commodity Commodity, err error) {
+	row1 := db.DB.QueryRow("select * from commodity where cid = ?", cid)
+	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
 	return
 }
 

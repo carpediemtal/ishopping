@@ -13,7 +13,7 @@ func main() {
 
 	r.POST("/api/login", handler.LoginHandler)
 	r.POST("/api/register", handler.RegisterHandler)
-	r.GET("/api/commodity_search", handler.CommoditySearchHandler)
+	r.GET("/api/search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
 	r.GET("/api/category_list", handler.CategoryListHandler)
 
