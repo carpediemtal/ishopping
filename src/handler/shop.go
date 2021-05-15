@@ -2,8 +2,9 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
+
+	"github.com/gin-gonic/gin"
 )
 
 func ShopDetailHandler(c *gin.Context) {
@@ -48,4 +49,14 @@ func UpdateShopInfoHandler(c *gin.Context) {
 	}
 
 	JsonOK(c, gin.H{})
+}
+
+func SearchSellerIdHandler(c *gin.Context) {
+	shopName := c.Query("shop_name")
+	p, err := service.GetSellerIdByShopName(shopName)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+	JsonOK(c, gin.H{"seller_id": p})
 }

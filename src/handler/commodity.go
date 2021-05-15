@@ -35,7 +35,7 @@ func CommoditySearchHandler(c *gin.Context) {
 }
 
 func CommodityDetailHandler(c *gin.Context) {
-	cid, err := strconv.Atoi(c.Query("cid"))
+	cid, err := strconv.Atoi(c.Query("commodity_id"))
 	if err != nil {
 		JsonErr(c, "Commodity not found")
 		return
@@ -126,6 +126,21 @@ func BuyCommodityToOrderHandler(c *gin.Context) {
 	JsonOK(c, data)
 }
 
+<<<<<<< HEAD
 func CommodityCommentAddHandler(c *gin.Context) { //增添商品评价
 
+=======
+func CommodityEvaluationHandler(c *gin.Context) {
+	cid, err := strconv.Atoi(c.Query("commodity_id"))
+	if err != nil {
+		JsonErr(c, errors.New("commodity_id not found").Error())
+		return
+	}
+	list, err := service.GetCommodityEvaluationListByCommodityId(cid)
+	if err != nil {
+		JsonErr(c, err.Error())
+		return
+	}
+	JsonOK(c, gin.H{"list": list})
+>>>>>>> f6b4be95db498f54cfadfcdfbd9438a48fd35cb2
 }
