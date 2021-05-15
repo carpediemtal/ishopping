@@ -50,6 +50,7 @@ func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
 }
 
 type CommodityDetail struct {
+	Caid         int      `json:"caid" map:"caid"`
 	Name         string   `json:"name" map:"name"`
 	Inventory    int      `json:"inventory" map:"inventory"`
 	Sales        int      `json:"sales" map:"sales"`
@@ -60,8 +61,8 @@ type CommodityDetail struct {
 }
 
 func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
-	row := db.DB.QueryRow(`select name, inventory, sales, price from commodity where cid = ?`, cid)
-	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price)
+	row := db.DB.QueryRow(`select name, inventory, sales, price, caid from commodity where cid = ?`, cid)
+	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price, &detail.Caid)
 	if err != nil {
 		return detail, errors.New("commodity_detail searching error")
 	}
@@ -69,14 +70,14 @@ func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
 	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "introduction")
 	err = row.Scan(&detail.Introduction)
 	if err != nil {
-		log.Println("no introduction found", err)
+		log.Println("no introduction found, use default introduction instead", err)
 		detail.Introduction = "There Is No Introduction"
 	}
 
 	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "thumbnail")
 	err = row.Scan(&detail.Thumbnail)
 	if err != nil {
-		log.Println("no thumbnail found", err)
+		log.Println("no thumbnail found, use 404 photo instead", err)
 		detail.Thumbnail = Image404
 	}
 
