@@ -86,12 +86,14 @@ create table photo
 
 create table purchase_order
 (
-    oid       int auto_increment
+    oid         int auto_increment
         primary key,
-    status    int not null,
-    uid       int not null,
-    cid       int not null,
-    timestamp int not null
+    status      int           not null,
+    uid         int           not null,
+    cid         int           not null,
+    create_time int           not null,
+    modify_time int           not null,
+    count       int default 0 not null
 );
 
 create table shop
@@ -177,7 +179,6 @@ select `ishopping`.`user`.`uid`      AS `uid`,
        `ishopping`.`user`.`type`     AS `type`
 from `ishopping`.`user`
 where `ishopping`.`user`.`uid` in (select `ishopping`.`user_ban`.`uid` from `ishopping`.`user_ban`) is false;
-
 
 
 ```
