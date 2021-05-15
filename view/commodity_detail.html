@@ -124,7 +124,7 @@
             },
             created: function () {
                 let url = new URL(window.location.href)
-                cid = url.searchParams.has("cid") ? parseInt(url.searchParams.get("cid")) : 0
+                const cid = url.searchParams.has("cid") ? parseInt(url.searchParams.get("cid")) : 0
 
                 const that = this
                 axios({
