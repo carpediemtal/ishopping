@@ -12,6 +12,8 @@
 -   05-14 10:48：增加`unban`接口
 -  05-15 14:35：修改`order history `接口的返回字段 `paid_time` 为 `modify_time `
 -  05-15 15:14：修改`admin search seller id`请求方法为`get`
+-  05-15 15:39：修改`buyer cart get`入参、`buyer cart delete`返回值
+-  05-15 15:52：新增`buyer cart confirm`接口
 
 
 # Visitor
@@ -199,7 +201,7 @@ list_item
 
 | 字段名       | 类型 | 描述          |
 | ------------ | ---- | ------------- |
-| cart_item_id | int  | 要删除的项 id |
+| commodity_id | int  | 要删除商品 id |
 
 ### 返回
 
@@ -230,14 +232,33 @@ list_item
 
 list 结构
 
-| Parameter      | 类型   | 描述            |
-| -------------- | ------ | --------------- |
-| cart_item_id   | int    | 购物车当前项 id |
-| commodity_id   | int    | 商品 id         |
-| commodity_name | string | 商品名称        |
-| thumbnail      | string | 缩略图          |
-| price          | double | 价格            |
-| count          | int    | 购买的数量      |
+| Parameter      | 类型   | 描述       |
+| -------------- | ------ | ---------- |
+| commodity_id   | int    | 商品 id    |
+| commodity_name | string | 商品名称   |
+| thumbnail      | string | 缩略图     |
+| price          | double | 价格       |
+| count          | int    | 购买的数量 |
+
+## cart confirm
+
+### 说明
+
+购物车商品下单
+
+### 请求
+
+| 请求类型 | path                    |
+| -------- | ----------------------- |
+| post     | /api/buyer/cart_confirm |
+
+| 字段名       | 类型  | 描述              |
+| ------------ | ----- | ----------------- |
+| commodity_id | []int | 要删除商品 id列表 |
+
+### 返回
+
+无 data，添加成功 code=0，错误 code=-1，错误信息返回在 msg 里
 
 # Seller
 
