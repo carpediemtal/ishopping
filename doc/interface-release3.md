@@ -33,7 +33,7 @@
 | 字段名     | 类型   | 说明               |
 | ---------- | ------ | ------------------ |
 | content    | string | 搜索框内内容       |
-| page_index | int    | 第几页（从零开始） |
+| page_index | id     | 第几页（从零开始） |
 | page_size  | int    | 每页的记录数       |
 | price_min  | float  | 最低价格           |
 | price_max  | float  | 最高价格           |
@@ -46,13 +46,13 @@
 
 list_item
 
-| 字段名      | 类型   | 说明       |
-| ----------- | ------ | ---------- |
-| comodity_id | int    | 商品 id    |
-| name        | string | 商品名     |
-| price       | float  | 商品价格   |
-| thumbnail   | string | 商品缩略图 |
-| sales       | int    | 销量       |
+| 字段名    | 类型   | 说明       |
+| --------- | ------ | ---------- |
+| cid       | int    | 商品 id    |
+| name      | string | 商品名     |
+| price     | float  | 商品价格   |
+| thumbnail | string | 商品缩略图 |
+| sales     | int    | 销量       |
 
 查询越界时返回错误信息：“page out of range”
 
@@ -277,10 +277,10 @@ list 结构
 | -------- | -------------------------- |
 | get      | /api/seller/commodity_list |
 
-| 字段名    | 类型 | 说明     |
-| --------- | ---- | -------- |
-| page      | int  | 页数     |
-| page_size | int  | 每页个数 |
+| 字段名     | 类型 | 说明         |
+| ---------- | ---- | ------------ |
+| page_index | int  | 第几页       |
+| page_size  | int  | 每页商品个数 |
 
 ### 返回
 
@@ -306,25 +306,26 @@ item
 
 ### 请求
 
-| 请求类型 | path                         |
-| -------- | ---------------------------- |
-| get      | /api/seller/commodity_detail |
+| 请求类型 | path                  |
+| -------- | --------------------- |
+| get      | /api/commodity_detail |
 
-| 字段名       | 类型 | 说明    |
-| ------------ | ---- | ------- |
-| commodity_id | int  | 商品 id |
+| 字段名 | 类型 | 说明    |
+| ------ | ---- | ------- |
+| cid    | int  | 商品 id |
 
 ### 返回
 
 | 字段名       | 类型     | 说明       |
 | ------------ | -------- | ---------- |
-| category_id  | int      | 分类 id    |
+| caid         | int      | 分类 id    |
 | name         | string   | 商品名     |
 | inventory    | int      | 商品库存   |
 | introduction | string   | 商品介绍   |
 | price        | float    | 商品价格   |
 | thumbnail    | string   | 商品缩略图 |
 | image        | []string | 商品图片   |
+| sales        | int      | 商品销量   |
 
 # Admin
 
