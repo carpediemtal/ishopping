@@ -1,6 +1,9 @@
 package service
 
-import "ishopping/src/db"
+import (
+	"errors"
+	"ishopping/src/db"
+)
 
 type Shop struct {
 	Uid            int    `json:"uid" map:"uid"` //buyer 的 id
@@ -66,5 +69,18 @@ func UpdateShopInfo(uid int, shopName, address, phoneNum string) (err error) {
 
 	}
 
+	return
+}
+
+type params struct {
+	Sid int `json:"seller_id"`
+}
+
+func GetSellerIdByShopName(shop_name string) (seller_id params, err error) {
+	row := db.DB.QueryRow("select sid from shop where shop_name = ?", shop_name)
+	err = row.Scan(&seller_id.Sid)
+	if err != nil {
+		return seller_id, errors.New("shop_name not found")
+	}
 	return
 }

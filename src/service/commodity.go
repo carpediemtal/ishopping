@@ -63,7 +63,7 @@ func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
 	row := db.DB.QueryRow(`select name, inventory, sales, price from commodity where cid = ?`, cid)
 	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price)
 	if err != nil {
-		return
+		return detail, errors.New("commodity_detail searching error")
 	}
 
 	row = db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, cid, "introduction")
@@ -201,5 +201,19 @@ func CreatPurchaseOrderByCid(uid int, cid int) (pur_order Pur_order, err error) 
 	_, err = db.DB.Exec(`insert into purchase_order (status, uid, cid, timestamp) values (?, ?, ?, ?)`, 1, uid, cid, timestamp)
 	row := db.DB.QueryRow("select * from purchase_order  where uid = ? and cid= ? order by oid desc", uid, cid)
 	err = row.Scan(&pur_order.Oid, &pur_order.Status, &pur_order.Uid, &pur_order.Cid, &pur_order.TimeStamp)
+	return
+}
+
+type list_item struct {
+	Rate      int    `json:"rate" map:"rate"`
+	Content   string `json:"content" map:"content"`
+	Timestamp int    `json:"timestamp" map:"timestamp"`
+}
+
+func GetCommodityEvaluationListByCommodityId(cid int) (list []list_item, err error) {
+	err = db.DB.Select(&list, `select rate, content, timestamp from comment where cid = ?`, cid)
+	if len(list) == 0 {
+		return list, errors.New("Commodity evaluation-No records selected")
+	}
 	return
 }
