@@ -25,6 +25,7 @@ func main() {
 	auth.GET("/seller/order_list", handler.OrderListHandler)
 	auth.POST("/seller/order_delivery", handler.OrderDeliveryHandler)
 	auth.POST("/seller/commodity_edit", handler.CommodityEditHandler)
+	auth.GET("/seller/commodity_list", handler.CommodityListHandler)
 	auth.GET("/seller/shop_information", handler.ShopDetailHandler)
 	auth.POST("/seller/shop_information_modify", handler.UpdateShopInfoHandler)
 

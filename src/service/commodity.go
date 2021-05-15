@@ -28,7 +28,7 @@ func GetCommodities() (commodities []Commodity, err error) {
 }
 
 type CommoditySearchResult struct {
-	Cid       int     `json:"cid" map:"cid"`
+	Cid       int     `json:"commodity_id" map:"cid"`
 	Name      string  `json:"name" map:"name"`
 	Price     float64 `json:"price" map:"price"`
 	Sales     int     `json:"sales" map:"sales"`
@@ -217,4 +217,26 @@ func GetCommodityEvaluationListByCommodityId(cid int) (list []list_item, err err
 		return list, errors.New("Commodity evaluation-No records selected")
 	}
 	return
+}
+
+type CommodityList struct {
+	Cid       int     `json:"commodity_id" map:"cid"`
+	Name      string  `json:"name" map:"name"`
+	Price     float64 `json:"price" map:"price"`
+	Thumbnail string  `json:"thumbnail" map:"thumbnail"`
+	Sales     int     `json:"sales" map:"sales"`
+}
+
+func GetCommodityList() (list []CommodityList, err error) {
+	err = db.DB.Select(&list, `select cid, name, price, sales from commodity`)
+	if err != nil {
+		return
+	}
+	for i, v := range list {
+		row := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, v.Cid, "thumbnail")
+		if err = row.Scan(&list[i].Thumbnail); err != nil {
+			list[i].Thumbnail = Image404
+		}
+	}
+	return list, nil
 }

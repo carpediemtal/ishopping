@@ -174,4 +174,33 @@ func CommodityEvaluationHandler(c *gin.Context) {
 
 func CommodityListHandler(c *gin.Context) {
 	// TODO:
+	pageIndex, err := strconv.Atoi(c.Query("page_index"))
+	if err != nil {
+		JsonErr(c, errors.New("invalid argument page_index").Error())
+		return
+	}
+	pageSize, err := strconv.Atoi(c.Query("page_size"))
+	if err != nil {
+		JsonErr(c, errors.New("invalid argument page_size").Error())
+		return
+	}
+
+	commodityList, err := service.GetCommodityList()
+	if err != nil {
+		JsonErr(c, "get commodity list failed: "+err.Error())
+		return
+	}
+
+	if pageIndex*pageSize >= len(commodityList) {
+		JsonErr(c, "page out of range")
+		return
+	}
+
+	var ans []service.CommodityList
+	for i, cnt := pageSize*pageSize, 0; i < len(commodityList) && cnt < pageSize; i, cnt = i+1, cnt+1 {
+		ans = append(ans, commodityList[i])
+		cnt++
+	}
+
+	JsonOK(c, gin.H{"commodity_list": commodityList})
 }
