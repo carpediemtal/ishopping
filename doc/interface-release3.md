@@ -30,12 +30,13 @@
 | -------- | ----------- |
 | get      | /api/search |
 
-| 字段名    | 类型   | 说明         |
-| --------- | ------ | ------------ |
-| content   | string | 搜索框内内容 |
-| page      | id     | 页数         |
-| price_min | float  | 最低价格     |
-| price_max | float  | 最高价格     |
+| 字段名     | 类型   | 说明               |
+| ---------- | ------ | ------------------ |
+| content    | string | 搜索框内内容       |
+| page_index | id     | 第几页（从零开始） |
+| page_size  | int    | 每页的记录数       |
+| price_min  | float  | 最低价格           |
+| price_max  | float  | 最高价格           |
 
 ### 返回
 
@@ -45,13 +46,15 @@
 
 list_item
 
-| 字段名          | 类型   | 说明       |
-| --------------- | ------ | ---------- |
-| commodity_id    | id     | 商品 id    |
-| name            | string | 商品名     |
-| commodity_price | float  | 商品价格   |
-| thumbnail       | string | 商品缩略图 |
-| sales           | int    | 销量       |
+| 字段名    | 类型   | 说明       |
+| --------- | ------ | ---------- |
+| cid       | int    | 商品 id    |
+| name      | string | 商品名     |
+| price     | float  | 商品价格   |
+| thumbnail | string | 商品缩略图 |
+| sales     | int    | 销量       |
+
+查询越界时返回错误信息：“page out of range”
 
 ## commodity detail
 
