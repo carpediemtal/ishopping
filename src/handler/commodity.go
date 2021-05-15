@@ -126,10 +126,6 @@ func BuyCommodityToOrderHandler(c *gin.Context) {
 	JsonOK(c, data)
 }
 
-<<<<<<< HEAD
-func CommodityCommentAddHandler(c *gin.Context) { //增添商品评价
-
-=======
 func CommodityEvaluationHandler(c *gin.Context) {
 	cid, err := strconv.Atoi(c.Query("commodity_id"))
 	if err != nil {
@@ -142,5 +138,4 @@ func CommodityEvaluationHandler(c *gin.Context) {
 		return
 	}
 	JsonOK(c, gin.H{"list": list})
->>>>>>> f6b4be95db498f54cfadfcdfbd9438a48fd35cb2
 }

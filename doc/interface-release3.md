@@ -1,18 +1,5 @@
 # 说明
 
-<<<<<<< HEAD
-- 对于接口有问题的，在大群里说或私聊群里的大佬们。
-
-- release3开发周期：**第9周** 至 **第12周**，请尽快。
-
-- Important：`请不要随意更改接口文档内容`。
-
-- Important：请严格按照接口文档进行数据交换，不要充耳不闻，比如：
-  - 商品id时commodity_id，而不是cid；
-  - 价格是float类型，而不是int。
-  
-- 最后修改时间：**05-11 16:00**
-=======
 -   对于接口有问题的，在大群里说或私聊群里的大佬们。
 -   release3 开发周期：**第 9 周** 至 **第 12 周**，请尽快。
 -   Important：`请不要随意更改接口文档内容`。
@@ -23,9 +10,6 @@
 -   05-13 21:10：`ban buyer`和`ban seller` 合并为`ban user`
 -   05-12 22:20：修改`visitor commodity detail`入参、返回
 -   5-14 10:48:35：修改admin相关接口的path，增加了unban接口
->>>>>>> f6b4be95db498f54cfadfcdfbd9438a48fd35cb2
-
-  
 
 -  **05-15 14：35** order history 返回字段 paid_time 修改为 modify_time 
 
