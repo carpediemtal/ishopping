@@ -38,12 +38,6 @@ create table buyer
         unique (phone_num)
 );
 
-create table cart
-(
-    cid int not null,
-    uid int not null
-);
-
 create table category
 (
     caid int auto_increment
@@ -121,6 +115,26 @@ create table user
         unique (username)
 );
 
+create table cart
+(
+    cartid int auto_increment
+        primary key,
+    cid    int           not null,
+    uid    int           not null,
+    count  int default 0 not null,
+    constraint cid
+        foreign key (cid) references commodity (cid),
+    constraint userid
+        foreign key (uid) references user (uid)
+);
+
+create table user_ban
+(
+    uid int null,
+    constraint uid
+        foreign key (uid) references user (uid)
+);
+
 create table user_meta
 (
     mid      int auto_increment
@@ -129,6 +143,42 @@ create table user_meta
     meta_key varchar(64) not null,
     meta_val text        not null
 );
+
+create definer = root@localhost view ub_cart as
+select `ishopping`.`cart`.`cartid` AS `cartid`,
+       `ishopping`.`cart`.`cid`    AS `cid`,
+       `ishopping`.`cart`.`uid`    AS `uid`,
+       `ishopping`.`cart`.`count`  AS `count`
+from `ishopping`.`cart`
+where `ishopping`.`cart`.`cid` in (select `ub_commodity`.`cid` from `ishopping`.`ub_commodity`);
+
+create definer = root@localhost view ub_commodity as
+select `ishopping`.`commodity`.`cid`       AS `cid`,
+       `ishopping`.`commodity`.`sid`       AS `sid`,
+       `ishopping`.`commodity`.`name`      AS `name`,
+       `ishopping`.`commodity`.`price`     AS `price`,
+       `ishopping`.`commodity`.`sales`     AS `sales`,
+       `ishopping`.`commodity`.`inventory` AS `inventory`,
+       `ishopping`.`commodity`.`caid`      AS `caid`
+from `ishopping`.`commodity`
+where `ishopping`.`commodity`.`sid` in (select `ub_shop`.`sid` from `ishopping`.`ub_shop`);
+
+create definer = root@localhost view ub_shop as
+select `ishopping`.`shop`.`sid`       AS `sid`,
+       `ishopping`.`shop`.`uid`       AS `uid`,
+       `ishopping`.`shop`.`shop_name` AS `shop_name`
+from `ishopping`.`shop`
+where `ishopping`.`shop`.`uid` in (select `ishopping`.`user_ban`.`uid` from `ishopping`.`user_ban`) is false;
+
+create definer = root@localhost view ub_user as
+select `ishopping`.`user`.`uid`      AS `uid`,
+       `ishopping`.`user`.`username` AS `username`,
+       `ishopping`.`user`.`password` AS `password`,
+       `ishopping`.`user`.`type`     AS `type`
+from `ishopping`.`user`
+where `ishopping`.`user`.`uid` in (select `ishopping`.`user_ban`.`uid` from `ishopping`.`user_ban`) is false;
+
+
 
 ```
 
