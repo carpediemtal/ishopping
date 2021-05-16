@@ -19,6 +19,13 @@ func main() {
 	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
 
+	// release3 admin
+	r.GET("/api/admin/evaluation_list", handler.CommentsGetHandler)
+	r.POST("/api/admin/delete_evaluation", handler.CommentDeleteHandler)
+	r.POST("/api/admin/ban", handler.BanUserHandler)
+	r.POST("/api/admin/unban", handler.UnBanUserHandler)
+	r.GET("/api/admin/banned_user_list", handler.BannedUsersGetHandler)
+
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
