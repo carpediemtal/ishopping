@@ -76,23 +76,10 @@ func RegisterHandler(c *gin.Context) {
 
 func UserTypeHandler(c *gin.Context) {
 	uid := c.GetInt("UserID")
-	userType, err := service.UserType(uid)
-	//user, err := service.GetUserByUid(uid)
+	userType, err := service.GetUserType(uid)
 	if err != nil {
-		JsonErr(c, err.Error())
+		JsonErr(c, "user not found"+err.Error())
 		return
 	}
-	/*b, err := json.Marshal(user)
-	if err != nil {
-		panic(err)
-	}
-
-	var data gin.H
-	err = json.Unmarshal(b, &data)
-	if err != nil {
-		panic(err)
-	}
-	JsonOK(c, data)*/
 	JsonOK(c, gin.H{"type": userType})
-
 }

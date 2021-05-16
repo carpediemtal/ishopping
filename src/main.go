@@ -32,7 +32,7 @@ func main() {
 	auth.GET("/buyer/information", handler.BuyerDetailHandler)
 	auth.POST("/buyer/information_modify", handler.UpdateBuyerInfoHandler)
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
-	auth.POST("/userType", handler.UserTypeHandler)
+	auth.GET("/userType", handler.UserTypeHandler)
 
 	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
 	r.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)

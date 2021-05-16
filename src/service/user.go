@@ -40,7 +40,7 @@ func CreateShop(uid int, shopName string) error {
 	return err
 }
 
-func UserType(uid int) (userType int8, err error) {
+func GetUserType(uid int) (userType int8, err error) {
 	row := db.DB.QueryRow("select type from user where uid = ?", uid)
 	err = row.Scan(&userType)
 	return
