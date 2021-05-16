@@ -2,6 +2,7 @@ package service
 
 import (
 	"ishopping/src/db"
+	"time"
 )
 
 type Buyer struct {
@@ -25,5 +26,17 @@ func UpdateBuyerInfo(uid int, name, address, phoneNum string) (err error) {
 func GetBuyerProfileById(uid int) (buyer Buyer, err error) {
 	row := db.DB.QueryRow("select * from buyer where uid = ?", uid)
 	err = row.Scan(&buyer.Uid, &buyer.Name, &buyer.Address, &buyer.PhoneNum)
+	return
+}
+
+func BuyerEvaluateCommodity(uid, order_id, rate int, content string) (err error) {
+	var cid int
+	row := db.DB.QueryRow("select cid from purchase_order where oid = ?", order_id)
+	err = row.Scan(&cid)
+	if err != nil {
+		return err
+	}
+	timestamp := time.Now().Unix()
+	_, err = db.DB.Exec(`insert into comment (cid, uid, content, timestamp, rate) values (?, ?, ?, ?, ?)`, cid, uid, content, timestamp, rate)
 	return
 }

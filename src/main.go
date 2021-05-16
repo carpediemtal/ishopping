@@ -34,6 +34,12 @@ func main() {
 	auth.GET("/userType", handler.UserTypeHandler)
 
 	auth.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)
+	auth.POST("/buyer/evaluate", handler.BuyerEvaluateHandler)
+	auth.POST("/buyer/cart_add", handler.CartAddHandler)
+	auth.POST("/buyer/cart_delete", handler.CartDeleteHandler)
+	auth.GET("/buyer/Cart_get", handler.CartGetHandler)
+	auth.GET("/buyer/order_history", handler.OrderHistoryHandler)
+	auth.POST("buyer/cart_confirm", handler.CartDeleteHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)

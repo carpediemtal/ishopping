@@ -2,8 +2,9 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"ishopping/src/service"
+
+	"github.com/gin-gonic/gin"
 )
 
 func BuyerDetailHandler(c *gin.Context) {
@@ -44,6 +45,32 @@ func UpdateBuyerInfoHandler(c *gin.Context) {
 	err = service.UpdateBuyerInfo(uid, p.Name, p.Address, p.PhoneNum)
 	if err != nil {
 		JsonErr(c, "update buyer info error: "+err.Error())
+		return
+	}
+
+	JsonOK(c, gin.H{})
+}
+
+func BuyerEvaluateHandler(c *gin.Context) {
+	type params struct {
+		Order_id int    `json:"order_id"`
+		Rate     int    `json:"rate"`
+		Content  string `json:"content"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, "BindJsonError: "+err.Error())
+		return
+	}
+	if p.Rate > 5 || p.Rate < 1 {
+		JsonErr(c, "The rate is nonstandard!")
+		return
+	}
+	uid := c.GetInt("UserID")
+	err = service.BuyerEvaluateCommodity(uid, p.Order_id, p.Rate, p.Content)
+	if err != nil {
+		JsonErr(c, "Buyer evaluate error: "+err.Error())
 		return
 	}
 
