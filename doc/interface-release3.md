@@ -115,6 +115,37 @@ list_item
 | content   | string | 商品评价       |
 | timestamp | int    | 评价当时时间戳 |
 
+## commodity detail
+
+### 说明
+
+在编辑商品前，需先获取到之前添加的商品详情，并渲染到前端里。
+
+### 请求
+
+| 请求类型 | path                  |
+| -------- | --------------------- |
+| get      | /api/commodity_detail |
+
+| 字段名 | 类型 | 说明    |
+| ------ | ---- | ------- |
+| cid    | int  | 商品 id |
+
+### 返回
+
+| 字段名       | 类型     | 说明       |
+| ------------ | -------- | ---------- |
+| caid         | int      | 分类 id    |
+| name         | string   | 商品名     |
+| inventory    | int      | 商品库存   |
+| introduction | string   | 商品介绍   |
+| price        | float    | 商品价格   |
+| thumbnail    | string   | 商品缩略图 |
+| image        | []string | 商品图片   |
+| sales        | int      | 商品销量   |
+
+
+
 # Buyer
 
 ## order history
@@ -298,35 +329,6 @@ item
 | price        | float  | 商品价格   |
 | thumbnail    | string | 商品缩略图 |
 | sales        | int    | 销量       |
-
-## commodity detail
-
-### 说明
-
-在编辑商品前，需先获取到之前添加的商品详情，并渲染到前端里。
-
-### 请求
-
-| 请求类型 | path                  |
-| -------- | --------------------- |
-| get      | /api/commodity_detail |
-
-| 字段名 | 类型 | 说明    |
-| ------ | ---- | ------- |
-| cid    | int  | 商品 id |
-
-### 返回
-
-| 字段名       | 类型     | 说明       |
-| ------------ | -------- | ---------- |
-| caid         | int      | 分类 id    |
-| name         | string   | 商品名     |
-| inventory    | int      | 商品库存   |
-| introduction | string   | 商品介绍   |
-| price        | float    | 商品价格   |
-| thumbnail    | string   | 商品缩略图 |
-| image        | []string | 商品图片   |
-| sales        | int      | 商品销量   |
 
 # Admin
 

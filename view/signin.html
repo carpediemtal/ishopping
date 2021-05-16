@@ -124,7 +124,7 @@
 
                                 axios.defaults.headers.common = { Authorization: `${token}` }
                                 axios({
-                                    method: "post",
+                                    method: "get",
                                     url: `${api_url}/userType`,
                                 })
                                     .then(function (resp) {
