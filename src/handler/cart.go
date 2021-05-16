@@ -110,3 +110,23 @@ func OrderHistoryHandler(c *gin.Context) {
 
 	JsonOK(c, gin.H{"list": ans})
 }
+
+func CartConfirmHandler(c *gin.Context) {
+	type params struct {
+		Commodity_id []int `json:"commodity_id"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, "BindJsonError: "+err.Error())
+		return
+	}
+	uid := c.GetInt("UserID")
+	err = service.CartConfimCommodity(uid, p.Commodity_id)
+	if err != nil {
+		JsonErr(c, "Cart confirm error: "+err.Error())
+		return
+	}
+
+	JsonOK(c, gin.H{})
+}
