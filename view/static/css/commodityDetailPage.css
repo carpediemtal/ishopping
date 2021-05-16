@@ -1,0 +1,33 @@
+.thumbnailBox{
+    float: left;
+    width: 250px;
+    height: 250px;
+	overflow:hidden;
+	text-align: center;
+	vertical-align: center;
+}
+.imageBox{
+    float: mainbody;
+	text-align: center;
+	vertical-align: center;
+}
+.profileBox{
+	float: left;
+	width:450px;
+	height:400px;
+	padding:110px 50px;
+}
+.mainBox{
+	float: left;
+	width:850px;
+	height:200px;
+	padding: 30px 30px;
+}
+.box{
+	width:900px;
+	height:200px;
+	background-color: white;
+	margin: 20px 0px;
+	box-shadow: 5px 5px 10px 3px rgba(0,0,0,.2);
+	border-radius: 30px;
+}

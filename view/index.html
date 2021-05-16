@@ -23,11 +23,17 @@
                 <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
                 <div v-if="isSignedIn == 0">
                     <a href="buyer/buyer_index.html" class="btn btn-outline-primary ml-3">BuyerHome</a>
+                    <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
                 </div>
                 <div v-if="isSignedIn == 1">
                     <a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">SellerHome</a>
+                    <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
                 </div>
                 <div v-if="isSignedIn == 2">
+                    <a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">Admin</a>
+                    <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
+                </div>
+                <div v-if="isSignedIn == 3">
                     <a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
                 </div>
                 <!-- <a href="#" class="btn btn-outline-primary ml-3"><i class="iconfont">&#xe63f;</i>Cart</a> -->
@@ -73,7 +79,6 @@
                 </div>
             </div>
         </div>
-
         <div class="mainbody">
             <div class="container" style="max-width: 1256px">
                 <div class="mainbody-ad">
@@ -92,11 +97,12 @@
                         <a><span>5</span></a>
                     </div>
                 </div>
-
                 <div class="zoning1-goods">
                     <ul class="clearfix">
                         <li v-for="item in goodsinfo">
-                            <div class="goods-pic"><img :src="item.thumbnail" alt="" /></div>
+                            <div class="goods-pic">
+								<img :src="item.thumbnail" alt=""  style="height:100%"/>
+							</div>
                             <div class="goods-info">
                                 <a href="#" class="goods-name" @click="jumpToDetail(item.commodity_id)">{{ item.name }}</a>
                                 <p class="goods-price">{{ item.price }}yuan</p>
@@ -105,7 +111,6 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="page-bar">
                     <ul>
                         <li v-if="cur>1"><a v-on:click="cur--,pageClick()">Previous</a></li>
@@ -126,14 +131,11 @@
                 </div>
             </div>
         </div>
-
         <script src="static/js/common.js"></script>
-
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
         <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
         <script src="static/js/homepage.js"></script>
         <script src="static/js/mainbody-ad.js"></script>
-        <script src="static/js/index_Navigation.js"></script>
+        <script src="static/js/navigationBar.js"></script>
     </body>
 </html>

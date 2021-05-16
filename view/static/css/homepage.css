@@ -203,6 +203,9 @@ ul{
     float: left;
     width: 190px;
     height: 190px;
+	overflow:hidden;
+	text-align: center;
+	vertical-align: center;
 }
 .zoning1-goods .goods-pic img{
     height: 190px;
