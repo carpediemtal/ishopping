@@ -67,7 +67,7 @@ func CartGetHandler(c *gin.Context) {
 		JsonErr(c, "Cart search error: "+err.Error())
 		return
 	}
-	if (page-1)*size >= len(ret) {
+	if (page-1)*size >= len(ret) || (page-1)*size < 0 { //页数从1开始
 		JsonErr(c, "page out of range")
 		return
 	}
@@ -100,13 +100,13 @@ func OrderHistoryHandler(c *gin.Context) {
 		JsonErr(c, "Cart search error: "+err.Error())
 		return
 	}
-	if page*size >= len(ret) {
+	if (page-1)*size >= len(ret) || (page-1)*size < 0 { //页数从1开始
 		JsonErr(c, "page out of range")
 		return
 	}
 
 	var ans []service.OrderHistory
-	for i, cnt := page*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
+	for i, cnt := (page-1)*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
 		ans = append(ans, ret[i])
 	}
 

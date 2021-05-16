@@ -56,7 +56,12 @@ func GetCountById(uid, cid int) (count int, err error) {
 }
 
 func CartDeleteCommodity(uid, cid int) (err error) {
-	_, err = db.DB.Exec(`delete from cart where cid = ? and uid = ?`, cid, uid)
+	_, err = GetCountById(uid, cid)
+	if err != nil {
+		return errors.New("no this record")
+	} else {
+		_, err = db.DB.Exec(`delete from cart where cid = ? and uid = ?`, cid, uid)
+	}
 	return
 }
 
