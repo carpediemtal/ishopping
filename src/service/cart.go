@@ -20,14 +20,14 @@ type CartCommodity struct {
 }
 
 type OrderHistory struct {
-	Oid       int    `json:"order_id" map:"order_id"`
-	Status    int    `json:"order_status" map:"order_status"`
-	Cid       string `json:"commodity_id" map:"commodity_id"`
-	Cre_time  string `json:"create_time" map:"create_time"`
-	Mod_time  string `json:"modify_time" map:"modify_time"`
+	Oid       int    `json:"order_id" map:"oid"`
+	Status    int    `json:"order_status" map:"status"`
+	Cid       string `json:"commodity_id" map:"cid"`
+	Cre_time  int    `json:"create_time" map:"create_time"`
+	Mod_time  int    `json:"modify_time" map:"modify_time"`
 	Count     int    `json:"item_num" map:"item_num"`
 	Shop_name string `json:"shop_name" map:"shop_name"`
-	Price     string `json:"pay_price" map:"pay_price"`
+	Price     string `json:"pay_price" map:"price"`
 	Img       string `json:"item_img" map:"item_img"`
 }
 
@@ -98,4 +98,14 @@ func GetOrderHistoryByUid(uid int) (results []OrderHistory, err error) {
 		}
 	}
 	return results, nil
+}
+
+func CartConfimCommodity(uid int, cids []int) (err error) {
+	for _, cid := range cids {
+		err = CartDeleteCommodity(uid, cid)
+		if err != nil {
+			return errors.New("confim error")
+		}
+	}
+	return
 }
