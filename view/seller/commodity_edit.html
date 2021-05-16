@@ -40,6 +40,8 @@
         ></script>
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-base64@2.5.2/base64.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
     </head>
     <body>
         <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -55,23 +57,34 @@
             <label for="name">Category ID</label>
             <input type="text" class="form-control" id="name" placeholder="name" v-model="name">
         </div> -->
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <input type="radio" id="modify" value="0" v-model="edit_type" />
                     <label for="modify">edit item</label>
                     <br />
                     <input type="radio" id="add" value="1" v-model="edit_type" />
                     <label for="add">add item</label>
                     <br />
-                </div>
+                </div> -->
+                <div>
+                    <!-- `greet` 是在下面定义的方法名 -->
+                    <label for="modify">edit or add</label>
+                    <button v-on:click="greet()">{{msg}}</button>
+                  </div>
                 <div class="form-group" v-if="isModifying">
                     <label for="name">Category ID</label>
                     <select v-model="category_id">
                         <option v-for="option in options" v-bind:value="option.category_id">{{ option.category_name }}</option>
                     </select>
                 </div>
-                <div class="form-group" v-if="edit_type">
+                <div class="form-group" id = 'curl'>
+                    <label for="name">Commodity URL</label>
+                    <input type="text" class="form-control" id="gid" placeholder="Commodity URL" v-model="url" />
+                    <button v-on:click="submit()" id = "submit">submit</button>
+                </div>
+                <div class="form-group" id = 'cid'>
                     <label for="name">Commodity ID</label>
-                    <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid" />
+                    <!-- <input type="number" class="form-control" id="gid" placeholder="Commodity id" v-model="gid" /> -->
+                    <p>{{gid}}</p>
                 </div>
                 <div class="form-group">
                     <div class="item-media"><i class="icon icon-form-name"></i></div>
@@ -123,7 +136,7 @@
                 </div>
                 <div class="form-group">
                     <label for="price">Commodity Price</label>
-                    <input type="number" class="form-control" id="price" placeholder="price" v-model.number="price" />
+                    <input type="number" min="0.00" step="0.01" class="form-control" id="price" placeholder="price" v-model.number="price" />
                 </div>
                 <div class="form-group">
                     <button class="btn btn-outline-primary">Confirm</button>
@@ -132,12 +145,13 @@
                         function reloadPage() {
                             location.reload()
                         }
-                    </script>
+                    </script>   
                 </div>
             </form>
         </div>
         <script src="../static/js/common.js"></script>
-        <script></script>
+        <script>
+        </script>
         <script>
             var imgData = ""
             // function ToBase64(a) {
@@ -174,6 +188,9 @@
                     details: new Array(),
                     options: new Array(),
                     edit_type: 0,
+                    msg:'edit',
+                    time:0,
+                    url:''
                 },
                 created: function () {
                     var that = this
@@ -196,6 +213,80 @@
                         })
                 },
                 methods: {
+                    submit:function(){
+                        var str = this.url.split('=')[1];
+                        if(str==null){
+                            alert("wrong url")
+                            return 
+                        } 
+                        this.gid = parseInt(str)
+                        axios
+                        .get(api_url + "/api/commodity_detail", {
+                        params: {
+                            commodity_id:this.gid
+                        }})
+                        .then(function (resp) {
+                            // handle success
+                            if (resp.data.code === 0) {
+                                this.name = resp.data.data.name
+                                this.inventory = resp.data.data.inventory
+                                this.price = resp.data.data.price
+                                this.introduction = resp.data.data.introduction
+                                this.thumbnail = resp.data.data.thumbnail
+                                this.details = resp.data.data.images
+                            } else {
+                                console.log(resp.msg)
+                            }
+                        })
+                        .catch(function (resp) {
+                            // handle error
+                            console.log(resp.msg)
+                        })
+                        //测试代码
+                        // this.name = 'resp.data.data.name'
+                        // this.inventory = 2
+                        // this.price = 2.2
+                        // this.introduction = 'resp.data.data.introduction'
+                        // this.thumbnail = 'resp.data.data.thumbnail'
+                        // var arr = ['1','2','3']
+                        // this.details = arr
+                        $('#small_img').val(this.thumbnail)
+                        for (var i = 0; i < 3; i++) {
+                            $("#" + String(i + 1)).val(this.details[i])
+                        }
+                        $('#name').val(this.name)
+                        $('#inventory').val(this.inventory)
+                        $('#introduction').val(this.introduction)
+                        $('#price').val(this.price) 
+                    },
+                    clear:function(){
+                        this.name = ''
+                        this.inventory = 0
+                        this.price = 0
+                        this.introduction = ''
+                        this.thumbnail = ''
+                        var arr = new Array()
+                        this.details = arr
+                        for (var i = 0; i < 3; i++) {
+                            $("#" + String(i + 1)).val('')
+                        }
+                    },
+                    greet: function () {
+                    this.time = this.time+1;
+                        if(this.time%2==0){
+                            this.clear()
+                            this.msg = 'edit'
+                            $("#curl").show()
+                            $("#cid").show()
+                        }
+                        else{
+                            this.clear()
+                            this.msg = 'add'
+                            $("#curl").hide()  
+                            $("#cid").hide()
+                            this.gid = 0  
+                    }
+                    },
                     confirm: function () {
                         // var tn = $('#small_img');
                         // this.thumbnails = ToBase64('small_img')
@@ -211,6 +302,15 @@
                             console.log(response)
                             return response
                         })
+                        // console.log(this.category_id),
+                        // console.log(parseInt(this.gid)),
+                        // console.log(this.name),
+                        // console.log(this.inventory),
+                        // console.log(this.introduction),
+                        // console.log(this.price),
+                        // console.log(this.thumbnail),
+                        // console.log(this.details),
+                        // console.log(parseInt(this.time%2))
                         axios({
                             method: "post",
                             url: api_url + "/seller/commodity_edit",
@@ -223,7 +323,7 @@
                                 price: this.price,
                                 thumbnail: this.thumbnail,
                                 image: this.details,
-                                edit_type: parseInt(this.edit_type),
+                                edit_type: parseInt(this.time%2),
                             },
                         })
                             .then(function (resp) {
@@ -255,11 +355,9 @@
         <!-- <script type="text/javascript">
             ;(oFReader = new FileReader()),
                 (rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i)
-
             oFReader.onload = function (oFREvent) {
                 document.getElementById("uploadPreview").src = oFREvent.target.result
             }
-
             function loadImageFile() {
                 if (document.getElementById("uploadImage").files.length === 0) {
                     return

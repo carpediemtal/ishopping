@@ -132,9 +132,11 @@
                                         if (resp.data.data.type === 0) {
                                             // buyer
                                             window.location.replace("./buyer/buyer_index.html")
-                                        } else {
+                                        } else if(resp.data.data.type === 1 {
                                             // seller
-                                            window.location.replace("./seller/shop_profile.html")
+                                            window.location.replace("./seller/shop_index.html")
+                                        }else if(resp.data.data.type === 2){
+                                            window.location.replace("admin_index.html")
                                         }
                                     })
                                     .catch(function (resp) {

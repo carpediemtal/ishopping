@@ -5,6 +5,7 @@
         <title>Commodity Detail</title>
         <link rel="shortcut icon" href="static/icon/icon.jpg" type="image/x-icon" />
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="static/css/commodityDetailPage.css" />
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
@@ -40,29 +41,63 @@
         ></script>
     </head>
     <body>
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-            <img alt="shop.png" height="35" src="static/icon/shop.png" />
-            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="index.html">ISHOPPING</a></h5>
-            <a href="index.html" class="btn btn-outline-primary">Home</a>
-        </div>
+		<div class="topbar" id="navigation">
+		    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+		        <img alt="shop.png" height="35" src="static/img/shop.png" />
+		        <h5 class="my-0 mr-md-auto font-weight-normal"><a href="index.html">ISHOPPING</a></h5>
+		        <a href="commodity_search.html" class="btn btn-outline-primary ml-3">Search</a>
+		        <div v-if="isSignedIn == 0">
+		            <a href="buyer/buyer_index.html" class="btn btn-outline-primary ml-3">BuyerHome</a>
+		            <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
+		        </div>
+		        <div v-if="isSignedIn == 1">
+		            <a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">SellerHome</a>
+		            <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
+		        </div>
+		        <div v-if="isSignedIn == 2">
+		            <a href="seller/seller_index.html" class="btn btn-outline-primary ml-3">Admin</a>
+		            <a href="#" @click="signOut()" class="btn btn-outline-primary ml-3">Sign Out</a>
+		        </div>
+		        <div v-if="isSignedIn == 3">
+		            <a href="signin.html" class="btn btn-outline-primary ml-3">Sign In</a>
+		        </div>
+		        <!-- <a href="#" class="btn btn-outline-primary ml-3"><i class="iconfont">&#xe63f;</i>Cart</a> -->
+		    </div>
+		</div>
 
         <div class="container" id="container">
             <div class="row">
-                <div class="col">
-                    <img :src="detail.thumbnail" alt="thumbnail" />
-                </div>
-                <div class="col">
-                    <div>
-                        <p>Commodity Name: {{ detail.name }}</p>
-                        <p>Inventory: {{ detail.inventory }}</p>
-                        <p>Sales: {{ detail.sales }}</p>
-                        <p>Price: {{ detail.price }}</p>
-                    </div>
-
-                    <div class="mt-5">
-                        <button class="btn btn-primary" @click="jumpToPurchase">Purchase</button>
-                        <!-- <button class="btn btn-info ml-3">Add to Cart</button> -->
-                    </div>
+                <div class="thumbnailBox">
+                    <img :src="detail.thumbnail" alt="thumbnail" style="height:100%"/>
+                </div>	
+				<div>
+						<table cellspacing="20" cellpadding="10">
+							<tr id="tr_name">
+								<th><img src="static/icon/commodity.png" width="30" height="30"></th>
+								<td id="th_name"><b>Commodity Name:</b></td>
+								<td id="td_name">{{ detail.name }}</td>
+							</tr>
+							<tr id="tr_inventory">
+								<th><img src="static/icon/inventory.png" width="30" height="30"></th>
+								<td id="th_inventory"><b>Inventory: </b></td>
+								<td id="td_inventory">{{ detail.inventory }}</td>
+							</tr>
+							<tr id="tr_sales">
+								<th><img src="static/icon/sales.png" width="30" height="30"></th>
+								<td id="th_sales"><b>Sales: </b></td>
+								<td id="td_sales">{{ detail.sales }} </td>
+							</tr>
+							<tr id="tr_price">
+								<th><img src="static/icon/price.png" width="30" height="30"></th>
+								<td id="th_price"><b>Price: </b></td>
+								<td id="td_price">{{ detail.price }}</td>
+							</tr>
+							<tr id="tr_btn" class="form-group">
+								<th><img src="static/icon/cart.png" width="30" height="30"></th>
+								<td><input type="text" class="form-control" name="count" id="count" v-model="count"/></td>
+								<td id="td_btn"><button class="btn btn-primary" @click="addToCart">Add to Cart</button></td>
+							</tr>
+						</table>
                 </div>
             </div>
 
@@ -86,69 +121,54 @@
                             Images
                         </a>
                     </li>
+					<li class="nav-item" role="presentation">
+                        <a class="nav-link" id="evaluations-tab" data-toggle="tab" href="#evaluations" role="tab" aria-controls="profile" aria-selected="false">
+                            Evaluation
+                        </a>
+                    </li>
                 </ul>
-
                 <div class="tab-content mt-4" id="myTabContent">
                     <div class="tab-pane fade show active" id="introduction" role="tabpanel" aria-labelledby="introduction-tab">
                         <p>{{ detail.introduction }}</p>
                     </div>
                     <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
                         <div v-for="image in detail.images">
+							<div class="imageBox">
                             <img class="mt-4" v-bind:src="image" alt="ALT" />
+							</div>
                         </div>
+                    </div>
+					<div class="tab-pane fade" id="evaluations" role="tabpanel" aria-labelledby="evaluations-tab">
+						<ul style="list-style:none;">
+							<li v-for="item in comments">
+								<div class="box">
+									<div class="mainBox">
+										<table cellspacing="10" cellpadding="10">
+											<tr id="tr_rate">
+												<th><img src="static/icon/grade.png" width="30" height="30"></th>
+												<td id="th_rate"><b>Rate: </b></td>
+												<td id="td_rate">{{ item.rate }}</td>
+											</tr>
+											<tr>
+												<th><img src="static/icon/comment.png" width="30" height="30"></th>
+												<td><b>Content:</b></td>
+												<td>{{ item.content }}</td>
+											</tr>	
+											<tr>
+												<th><img src="static/icon/timestamp.png" width="30" height="30"></th>
+												<td><b>timeStamp:</b></td>
+												<td>{{ item.timestamp }}</td></tr>
+										</table>
+									</div>
+								</div>
+							</li>
+						</ul>
                     </div>
                 </div>
             </div>
         </div>
+		<script src="static/js/common.js"></script>
+        <script src="static/js/navigationBar.js"></script>
+        <script src="static/js/commodityDetail.js"></script>
     </body>
-
-    <script src="static/js/common.js"></script>
-    <script>
-        const app = new Vue({
-            el: "#container",
-            data: {
-                detail: {
-                    name: "commodity name",
-                    inventory: "inventory",
-                    sales: "sales",
-                    price: "price",
-                    introduction:
-                        "Placeholder content for the tab panel. This one relates to the home tab. Takes you miles high, so high, 'cause she’s got that one international smile. There's a stranger in my bed, there's a pounding in my head. Oh, no. In another life I would make you stay. ‘Cause I, I’m capable of anything. Suiting up for my crowning battle. Used to steal your parents' liquor and climb to the roof. Tone, tan fit and ready, turn it up cause its gettin' heavy. Her love is like a drug. I guess that I forgot I had a choice.",
-                    thumbnail: "http://ww1.sinaimg.cn/large/005VT09Qly1gqaqpj8yi1j306o06omxh.jpg",
-                    images: [
-                        "http://ww1.sinaimg.cn/large/005VT09Qly1gqaqpj8yi1j306o06omxh.jpg",
-                        "http://ww1.sinaimg.cn/large/005VT09Qly1gqaqpj8yi1j306o06omxh.jpg",
-                        "http://ww1.sinaimg.cn/large/005VT09Qly1gqaqpj8yi1j306o06omxh.jpg",
-                    ],
-                },
-            },
-            created: function () {
-                let url = new URL(window.location.href)
-                const cid = url.searchParams.has("cid") ? parseInt(url.searchParams.get("cid")) : 0
-
-                const that = this
-                axios({
-                    method: "get",
-                    url: `${api_url}/commodity_detail?cid=${cid}`,
-                })
-                    .then(function (resp) {
-                        if (resp.data.code === 0) {
-                            that.detail = resp.data.data
-                        } else {
-                            alert("commodity not found:" + resp.data.msg)
-                        }
-                    })
-                    .catch(function (resp) {
-                        console.log(resp)
-                        alert(resp.data.msg)
-                    })
-            },
-            methods: {
-                jumpToPurchase: function () {
-                    console.log(cid)
-                    window.location.replace("./buyer/confirm_purchase.html?commodity_id=" + cid)
-                },
-            },
-        })
-    </script>
 </html>
