@@ -46,7 +46,6 @@
             <a href="index.html" class="btn btn-outline-primary">Home</a>
             <a href="register.html" class="btn btn-outline-primary ml-3">Register</a>
         </div>
-
         <div class="container" style="max-width: 960px">
             <div class="row">
                 <div class="col-12 col-md">
@@ -68,7 +67,6 @@
                     </form>
                 </div>
             </div>
-
             <footer class="pt-4 my-md-5 pt-md-5 border-top">
                 <div class="row">
                     <div class="col-12 col-md">
@@ -121,7 +119,6 @@
                                 console.log("token:", token)
                                 window.localStorage.setItem("ishopping-token", token)
                                 // alert("login successful, your token has been saved")
-
                                 axios.defaults.headers.common = { Authorization: `${token}` }
                                 axios({
                                     method: "get",
@@ -132,11 +129,12 @@
                                         if (resp.data.data.type === 0) {
                                             // buyer
                                             window.location.replace("./buyer/buyer_index.html")
-                                        } else if(resp.data.data.type === 1 {
+                                        } else if (resp.data.data.type === 1)  {
                                             // seller
-                                            window.location.replace("./seller/shop_index.html")
-                                        }else if(resp.data.data.type === 2){
-                                            window.location.replace("admin_index.html")
+                                            window.location.replace("./seller/buyer_index.html")
+                                        } else if (resp.data.data.type === 2)  {
+                                            // seller
+                                            window.location.replace("admin.html")
                                         }
                                     })
                                     .catch(function (resp) {

@@ -52,31 +52,8 @@ const app = new Vue({
                     })
             },
             methods: {
-				jumpToPurchase:function(){
-					const token = window.localStorage.getItem("ishopping-token")
-					if (token){
-						axios.defaults.headers.common = {Authorization: `${token}`}
-						axios({
-							method: "get",
-							url: api_url + '/userType'
-						})
-						.then(function (resp) {
-							// handle success
-							if (resp.data.data.type == 0)
-								window.location.replace("./buyer/confirm_purchase.html?commodity_id=" + this.commodity_id)
-							if (resp.data.data.type == 1)
-								alert("please sign in as a buyer!");
-						}).catch(function (resp) {
-							// handle error
-							console.log(resp.msg);
-						})
-					}
-					else{
-						alert("please sign in first!");
-						window.location.replace("signin.html");
-					}
-				},
 				addToCart:function(){
+					var that = this;
 					const token = window.localStorage.getItem("ishopping-token")
 					if (token){
 						axios.defaults.headers.common = {Authorization: `${token}`}
@@ -92,8 +69,8 @@ const app = new Vue({
 									method: "post",
 									url: api_url + "/buyer/cart_add",
 									data: {
-										commodity_id: this.commodity_id,
-										count: this.count,
+										'commodity_id' : that.commodity_id,
+										'count' : that.count
 									},
 								})
 									.then(function (resp) {
@@ -103,7 +80,7 @@ const app = new Vue({
 											alert("OK!");
 											location.reload();
 										} else {
-											console.log(resp.msg);
+											console.log(resp.data.msg);
 											alert("Error!");
 											location.reload();
 										}
