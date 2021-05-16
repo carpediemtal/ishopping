@@ -45,10 +45,3 @@ func GetUserType(uid int) (userType int8, err error) {
 	err = row.Scan(&userType)
 	return
 }
-
-/*func GetUserByUid(uid int) (user User, err error) {
-	//row := db.DB.QueryRow("select uid,username,password,type*1 from user where uid = ?", uid)
-	row := db.DB.QueryRow("select * from user where uid = ?", uid)
-	err = row.Scan(&user.Uid, &user.Username, &user.Password, &user.usertype)
-	return
-}*/

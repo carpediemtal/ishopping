@@ -22,11 +22,6 @@ type Commodity struct {
 	Caid      int     `json:"caid" map:"caid"`
 }
 
-func GetCommodities() (commodities []Commodity, err error) {
-	err = db.DB.Select(&commodities, `select * from commodity`)
-	return
-}
-
 type CommoditySearchResult struct {
 	Cid       int     `json:"commodity_id" map:"cid"`
 	Name      string  `json:"name" map:"name"`
@@ -115,12 +110,6 @@ func getSidByUid(uid int) (sid int, err error) {
 	return
 }
 
-func getCidBySid(sid int) (cid int, err error) {
-	row := db.DB.QueryRow(`select cid from commodity where sid = ?`, sid)
-	err = row.Scan(&cid)
-	return
-}
-
 func getSidByCid(cid int) (sid int, err error) {
 	row := db.DB.QueryRow(`select sid from commodity where cid = ?`, cid)
 	err = row.Scan(&sid)
@@ -189,7 +178,7 @@ func AddCommodity(cm CommodityEdit, uid int) error {
 	return nil
 }
 
-type Pur_order struct {
+type PurchaseOrder struct {
 	Oid       int `json:"oid" map:"oid"`
 	Status    int `json:"status" map:"status"`
 	Uid       int `json:"uid" map:"uid"`
@@ -197,21 +186,21 @@ type Pur_order struct {
 	TimeStamp int `json:"time" map:"time"`
 }
 
-func CreatPurchaseOrderByCid(uid int, cid int) (pur_order Pur_order, err error) {
+func CreatPurchaseOrderByCid(uid int, cid int) (order PurchaseOrder, err error) {
 	timestamp := time.Now().Unix()
 	_, err = db.DB.Exec(`insert into purchase_order (status, uid, cid, timestamp) values (?, ?, ?, ?)`, 1, uid, cid, timestamp)
 	row := db.DB.QueryRow("select * from purchase_order  where uid = ? and cid= ? order by oid desc", uid, cid)
-	err = row.Scan(&pur_order.Oid, &pur_order.Status, &pur_order.Uid, &pur_order.Cid, &pur_order.TimeStamp)
+	err = row.Scan(&order.Oid, &order.Status, &order.Uid, &order.Cid, &order.TimeStamp)
 	return
 }
 
-type list_item struct {
+type ListItem struct {
 	Rate      int    `json:"rate" map:"rate"`
 	Content   string `json:"content" map:"content"`
 	Timestamp int    `json:"timestamp" map:"timestamp"`
 }
 
-func GetCommodityEvaluationListByCommodityId(cid int) (list []list_item, err error) {
+func GetCommodityEvaluationListByCommodityId(cid int) (list []ListItem, err error) {
 	err = db.DB.Select(&list, `select rate, content, timestamp from comment where cid = ?`, cid)
 	if len(list) == 0 {
 		return list, errors.New("Commodity evaluation-No records selected")

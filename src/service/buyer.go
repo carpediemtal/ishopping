@@ -27,11 +27,3 @@ func GetBuyerProfileById(uid int) (buyer Buyer, err error) {
 	err = row.Scan(&buyer.Uid, &buyer.Name, &buyer.Address, &buyer.PhoneNum)
 	return
 }
-
-func GetBuyerProfileByUsername(username string) (buyer Buyer, err error) {
-	uid, err := getIdByUsername(username)
-	if err != nil {
-		return
-	}
-	return GetBuyerProfileById(uid)
-}
