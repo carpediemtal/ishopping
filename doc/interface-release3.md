@@ -14,6 +14,7 @@
 -  05-15 15:14：修改`admin search seller id`请求方法为`get`
 -  05-15 15:39：修改`buyer cart get`入参、`buyer cart delete`返回值
 -  05-15 15:52：新增`buyer cart confirm`接口
+-  05-16 09:30：删除admin的login接口，所有用户统一用一个登录接口：`/api/login`
 
 
 # Visitor
@@ -328,27 +329,6 @@ item
 | sales        | int      | 商品销量   |
 
 # Admin
-
-## admin login
-
-### 请求
-
-| 请求类型 | path             |
-| -------- | ---------------- |
-| POST     | /api/admin/login |
-
-| 字段名   | 类型   |
-| -------- | ------ |
-| username | string |
-| password | string |
-
-### 返回
-
-成功 code=0，错误 code=-1，错误信息在 msg 里。成功时 data 嵌套数据如下：
-
-| 字段名 | 类型   | 说明                                     |
-| ------ | ------ | ---------------------------------------- |
-| token  | string | 身份 token，前端把它设置 cookie 名为 jwt |
 
 ## all evaluation list
 
