@@ -16,9 +16,8 @@ func main() {
 	r.GET("/api/search", handler.CommoditySearchHandler)
 	r.GET("/api/commodity_detail", handler.CommodityDetailHandler)
 	r.GET("/api/category_list", handler.CategoryListHandler)
-
-	// release2 index_category_channel
 	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
+	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
 
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
@@ -34,8 +33,7 @@ func main() {
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
 	auth.GET("/userType", handler.UserTypeHandler)
 
-	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
-	r.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)
+	auth.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
@@ -57,9 +55,3 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-// auth.Use(authMiddleware.MiddlewareFunc())
-// auth.GET("/refresh_token", authMiddleware.RefreshHandler)
-// auth.GET("/query_buyer_by_id", queryBuyerByIdHandler)
-// auth.GET("/query_buyer_by_username", queryBuyerByUsernameHandler)
-// auth.POST("/update_buyer_info", updateBuyerInfoHandler)

@@ -52,6 +52,14 @@ func UpdateShopInfoHandler(c *gin.Context) {
 }
 
 func SearchSellerIdHandler(c *gin.Context) {
+	uid := c.GetInt("UserID")
+	userType, err := service.GetUserType(uid)
+	// admin的userType为2
+	if userType != 2 {
+		JsonErr(c, "illegal user")
+		return
+	}
+
 	shopName := c.Query("shop_name")
 	p, err := service.GetSellerIdByShopName(shopName)
 	if err != nil {
