@@ -15,6 +15,7 @@
 -  05-15 15:39：修改`buyer cart get`入参、`buyer cart delete`返回值
 -  05-15 15:52：新增`buyer cart confirm`接口
 -  05-16 09:30：删除admin的login接口，所有用户统一用一个登录接口：`/api/login`
+-  05-16 15:07：新增`admin banned user list`接口
 
 
 # Visitor
@@ -419,6 +420,36 @@ list_evalution
 ### 返回
 
 无 data，成功 code返回0值，失败时返回非0值，失败原因在 msg 里
+
+## banned user list
+
+### 说明
+
+被ban的用户列表。（改接口有待商议，可能会变动）
+
+### 请求
+
+| 请求类型 | path                        |
+| -------- | --------------------------- |
+| get      | /api/admin/banned_user_list |
+
+| 字段名    | 类型 | 说明     |
+| --------- | ---- | -------- |
+| page      | int  | 页数     |
+| page_size | int  | 每页个数 |
+
+### 返回
+
+| 字段名 | 类型        | 说明   |
+| ------ | ----------- | ------ |
+| list   | []list_item | 列表项 |
+
+list_item
+
+| 字段名  | 类型   | 说明               |
+| ------- | ------ | ------------------ |
+| user_id | int    | 用户 id            |
+| name    | string | 买家名或卖家店铺名 |
 
 ## unban
 
