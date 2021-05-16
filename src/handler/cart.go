@@ -91,19 +91,20 @@ func OrderHistoryHandler(c *gin.Context) {
 		JsonErr(c, "Page_size not found")
 		return
 	}
+
 	uid := c.GetInt("UserID")
 	ret, err := service.GetOrderHistoryByUid(uid)
 	if err != nil {
 		JsonErr(c, "Cart search error: "+err.Error())
 		return
 	}
-	if (page-1)*size >= len(ret) {
+	if page*size >= len(ret) {
 		JsonErr(c, "page out of range")
 		return
 	}
 
 	var ans []service.OrderHistory
-	for i, cnt := (page-1)*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
+	for i, cnt := page*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
 		ans = append(ans, ret[i])
 	}
 

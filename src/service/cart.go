@@ -20,15 +20,15 @@ type CartCommodity struct {
 }
 
 type OrderHistory struct {
-	Oid       int    `json:"order_id" map:"order_id"`
-	Status    int    `json:"order_status" map:"order_status"`
-	Cid       string `json:"commodity_id" map:"commodity_id"`
-	Cre_time  string `json:"create_time" map:"create_time"`
-	Mod_time  string `json:"modify_time" map:"modify_time"`
-	Count     int    `json:"item_num" map:"item_num"`
-	Shop_name string `json:"shop_name" map:"shop_name"`
-	Price     string `json:"pay_price" map:"pay_price"`
-	Img       string `json:"item_img" map:"item_img"`
+	Oid        int    `json:"order_id" map:"oid" db:"oid"`
+	Status     int    `json:"order_status" map:"status" db:"status"`
+	Cid        string `json:"commodity_id" map:"cid" db:"cid"`
+	CreateTime int    `json:"create_time" map:"create_time" db:"create_time"`
+	ModifyTime int    `json:"modify_time" map:"modify_time" db:"modify_time"`
+	Count      int    `json:"item_num" map:"count" db:"count"`
+	ShopName   string `json:"shop_name" map:"shop_name" db:"shop_name"`
+	Price      string `json:"pay_price" map:"pay_price" db:"pay_price"`
+	Img        string `json:"item_img" map:"item_img" db:"item_img"`
 }
 
 func CartAddCommodity(uid, cid, count int) (err error) {
@@ -89,7 +89,7 @@ func GetOrderHistoryByUid(uid int) (results []OrderHistory, err error) {
 			return results, errors.New("no this commodity")
 		}
 		row2 := db.DB.QueryRow(`select shop_name from shop where sid = ?`, sid)
-		if err = row2.Scan(&results[i].Shop_name); err != nil {
+		if err = row2.Scan(&results[i].ShopName); err != nil {
 			return results, errors.New("no this shop")
 		}
 		row3 := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
