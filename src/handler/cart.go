@@ -30,7 +30,7 @@ func CartAddHandler(c *gin.Context) {
 
 func CartDeleteHandler(c *gin.Context) {
 	type params struct {
-		Commodity_id int `json:"commodity_id"`
+		Cids []int `json:"commodity_id"`
 	}
 	var p params
 	err := c.BindJSON(&p)
@@ -38,13 +38,15 @@ func CartDeleteHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError: "+err.Error())
 		return
 	}
-	uid := c.GetInt("UserID")
-	err = service.CartDeleteCommodity(uid, p.Commodity_id)
-	if err != nil {
-		JsonErr(c, "Cart delete error: "+err.Error())
-		return
-	}
 
+	uid := c.GetInt("UserID")
+	for _, cid := range p.Cids {
+		err = service.CartDeleteCommodity(uid, cid)
+		if err != nil {
+			JsonErr(c, "Cart delete error: "+err.Error())
+			return
+		}
+	}
 	JsonOK(c, gin.H{})
 }
 
@@ -113,7 +115,7 @@ func OrderHistoryHandler(c *gin.Context) {
 
 func CartConfirmHandler(c *gin.Context) {
 	type params struct {
-		Commodity_id []int `json:"commodity_id"`
+		Cids []int `json:"commodity_id"`
 	}
 	var p params
 	err := c.BindJSON(&p)
@@ -121,12 +123,14 @@ func CartConfirmHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError: "+err.Error())
 		return
 	}
-	uid := c.GetInt("UserID")
-	err = service.CartConfimCommodity(uid, p.Commodity_id)
-	if err != nil {
-		JsonErr(c, "Cart confirm error: "+err.Error())
-		return
-	}
 
+	uid := c.GetInt("UserID")
+	for _, cid := range p.Cids {
+		err = service.CartDeleteCommodity(uid, cid)
+		if err != nil {
+			JsonErr(c, "Cart confirm error: "+err.Error())
+			return
+		}
+	}
 	JsonOK(c, gin.H{})
 }

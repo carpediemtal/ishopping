@@ -99,13 +99,3 @@ func GetOrderHistoryByUid(uid int) (results []OrderHistory, err error) {
 	}
 	return results, nil
 }
-
-func CartConfimCommodity(uid int, cids []int) (err error) {
-	for _, cid := range cids {
-		err = CartDeleteCommodity(uid, cid)
-		if err != nil {
-			return errors.New("confim error")
-		}
-	}
-	return
-}
