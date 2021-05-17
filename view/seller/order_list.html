@@ -55,12 +55,18 @@
                 <table v-if="hasOrder">
                     <thead>
                         <th>order id</th>
+                        <th>buyer name</th>
+                        <th>buyer phone</th>
+                        <th>buyer address</th>
                         <th>total price</th>
                         <th>delivery</th>
                         <!-- <th>status</th> -->
                     </thead>
                     <tbody v-for="o in orders">
                         <td>{{o.oid}}</td>
+                        <td>{{o.buyer_name}}</td>
+                        <td>{{o.buyer_phone}}</td>
+                        <td>{{o.buyer_address}}</td>
                         <td>{{o.total_price}}</td>
                         <td>
                             <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>

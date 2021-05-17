@@ -239,11 +239,14 @@ category_item：
 
 order：
 
-| 字段名      | 类型  | 说明     |
-| ----------- | ----- | -------- |
-| order_id    | int   | 订单号   |
-| total_price | float | 总价格   |
-| ……          |       | 想到再加 |
+| 字段名        | 类型   | 说明     |
+| ------------- | ------ | -------- |
+| order_id      | int    | 订单号   |
+| total_price   | float  | 总价格   |
+| buyer_name    | string | 客户姓名 |
+| buyer_phone   | string | 客户电话 |
+| buyer_address | string | 客户地址 |
+|               |        |          |
 
 ## 5.order_delivery
 

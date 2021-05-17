@@ -6,8 +6,11 @@ import (
 )
 
 type Order struct {
-	Oid   int     `json:"oid" map:"oid"`
-	Price float64 `json:"total_price" map:"total_price"`
+	Oid     int     `json:"oid" db:"oid"`
+	Price   float64 `json:"total_price" db:"price"`
+	Name    string  `json:"buyer_name" db:"name"`
+	Phone   string  `json:"buyer_phone" db:"phone_num"`
+	Address string  `json:"buyer_address" db:"address"`
 }
 
 func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
@@ -15,7 +18,11 @@ func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
 	if err != nil {
 		return
 	}
-	err = db.DB.Select(&orderList, `select oid, price from commodity, purchase_order where commodity.cid = purchase_order.cid and status = ? and sid = ?`, status, sid)
+	err = db.DB.Select(&orderList, `select oid, price, buyer.name, buyer.phone_num, buyer.address from purchase_order, commodity, buyer where purchase_order.cid = commodity.cid and purchase_order.uid = buyer.uid and status = ? and sid = ?`, status, sid)
+	if err != nil {
+		return
+	}
+
 	return
 }
 
