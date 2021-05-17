@@ -1,0 +1,1 @@
+api_url = "http://ishopping.gq/api"
