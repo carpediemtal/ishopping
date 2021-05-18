@@ -52,6 +52,16 @@
         </div>
 
         <div class="container" id="container">
+            <div @submit.preven="greet">
+                <!-- `greet` 是在下面定义的方法名 -->
+                <label for="modify">edit or add</label>
+                <button v-on:click="greet()">{{msg}}</button>
+              </div>
+              <div class="form-group" id = 'curl' @submit.preven="submit">
+                <label for="name">Commodity URL</label>
+                <input type="text" class="form-control" id="gid" placeholder="Commodity URL" v-model="url" />
+                <button v-on:click="submit()" id = "submit">submit</button>
+            </div>
             <form @submit.prevent="confirm">
                 <!-- <div class="form-group">
             <label for="name">Category ID</label>
@@ -65,21 +75,11 @@
                     <label for="add">add item</label>
                     <br />
                 </div> -->
-                <div>
-                    <!-- `greet` 是在下面定义的方法名 -->
-                    <label for="modify">edit or add</label>
-                    <button v-on:click="greet()">{{msg}}</button>
-                  </div>
                 <div class="form-group" v-if="isModifying">
                     <label for="name">Category ID</label>
                     <select v-model="category_id">
                         <option v-for="option in options" v-bind:value="option.category_id">{{ option.category_name }}</option>
                     </select>
-                </div>
-                <div class="form-group" id = 'curl'>
-                    <label for="name">Commodity URL</label>
-                    <input type="text" class="form-control" id="gid" placeholder="Commodity URL" v-model="url" />
-                    <button v-on:click="submit()" id = "submit">submit</button>
                 </div>
                 <div class="form-group" id = 'cid'>
                     <label for="name">Commodity ID</label>
@@ -193,7 +193,7 @@
                     url:''
                 },
                 created: function () {
-                    var that = this
+                    const that = this
                     console.log("search commodity")
                     that.isModifying = false
                     axios
@@ -214,6 +214,7 @@
                 },
                 methods: {
                     submit:function(){
+                        const that = this
                         var str = this.url.split('=')[1];
                         if(str==null){
                             alert("wrong url")
@@ -228,12 +229,12 @@
                         .then(function (resp) {
                             // handle success
                             if (resp.data.code === 0) {
-                                this.name = resp.data.data.name
-                                this.inventory = resp.data.data.inventory
-                                this.price = resp.data.data.price
-                                this.introduction = resp.data.data.introduction
-                                this.thumbnail = resp.data.data.thumbnail
-                                this.details = resp.data.data.images
+                                that.name = resp.data.data.name
+                                that.inventory = resp.data.data.inventory
+                                that.price = resp.data.data.price
+                                that.introduction = resp.data.data.introduction
+                                that.thumbnail = resp.data.data.thumbnail
+                                that.details = resp.data.data.images
                             } else {
                                 console.log(resp.data.msg)
                             }
@@ -252,7 +253,7 @@
                         // this.details = arr
                         $('#small_img').val(this.thumbnail)
                         for (var i = 0; i < 3; i++) {
-                            $("#" + String(i + 1)).val(this.details[i])
+                            $("#" + String(i + 1)).val(that.details[i])
                         }
                         $('#name').val(this.name)
                         $('#inventory').val(this.inventory)
