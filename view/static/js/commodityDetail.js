@@ -76,7 +76,6 @@ const app = new Vue({
 									.then(function (resp) {
 										// handle success
 										if (resp.data.code === 0) {
-											console.log("OK!");
 											alert("OK!");
 											location.reload();
 										} else {
