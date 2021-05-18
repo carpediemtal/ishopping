@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping Cart</title>
+    <link rel="shortcut icon" href="../static/icon/icon.jpg" type="image/x-icon"/>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
+            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../static/css/cart.css">
+
+</head>
+
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <img alt="shop.png" height="35" src="../static/icon/shop.png"/>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
+    <a href="buyer_index.html" class="btn btn-outline-primary">Buyer Home</a>
+    <a href="buyer_profile.html" class="btn btn-outline-primary ml-3">Profile</a>
+</div>
+<div id="app">
+    <h1>Shopping List</h1>
+    <table>
+        <thead>
+        <tr>
+            <td width>Select</td>
+            <td width="500">Commodity Infromation</td>
+            <td width>Price</td>
+            <td width>Count</td>
+            <td width="500">Total Price</td>
+            <td width>Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in list" :key="item.commodity_id">
+            <td>
+                <input type="checkbox" v-model="commodity_id" value="item.commodity_id">
+            </td>
+            <td>
+                <img :src="item.thumbnail">
+                <div class="info">
+                    <h6>{{ item.commodity_name }}</h6>
+                </div>
+            </td>
+            <td>{{ item.price }}</td>
+            <td>
+                <div class="num"><span v-on:click="item.count--"> - </span><input type="text" name="" id=""
+                                                                                  v-model="item.count"><span
+                        v-on:click="item.count++"> + </span></div>
+            </td>
+            <td>{{ item.price * item.count }}</td>
+            <td>
+                <button type="button" class="btn btn-primary" v-on:click="deleteGoods(item.commodity_id)">&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+            </td>
+        </tr>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <!--<td colspan="2"><button v-on:click="deleteGoods">Delete the selected commodity</button></td>-->
+            <td colspan="4" class="text-right">{{ getGoodsNums.goodsNum }} commodities in
+                total：{{ getGoodsNums.goodsPrice }} yuan
+            </td>
+            <td colspan="2">
+                <button type="button" class="btn btn-primary" v-on:click="cart_comfirm(item.commodity_id)">&nbsp;&nbsp;Confirm&nbsp;&nbsp;&nbsp;</button>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <div class="page-bar">
+        <ul>
+            <li v-if="cur>1"><a v-on:click="cur--,pageClick()">Previous</a></li>
+            <li v-if="cur==1"><a class="banclick">Previous</a></li>
+            <!-- <li v-for="index in indexs"  v-bind:class="{ 'active': cur == index}">
+                <a v-on:click="btnClick(index)">{{ index }}</a>
+            </li> -->
+            <li v-if="cur<all"><a v-on:click="cur++,pageClick()">&nbsp;&nbsp;Next&nbsp;&nbsp;</a></li>
+            <li v-if="cur == all"><a class="banclick">&nbsp;&nbsp;Next&nbsp;&nbsp;</a></li>
+            <!-- <li><a>Total<i>{{ all }}</i>pages</a></li> -->
+        </ul>
+    </div>
+</div>
+<script src="../static/js/common.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            all: 10,
+            cur: 1,
+            list: [
+                {
+                    commodity_id: 1,
+                    commodity_name: 'commodity 1',
+                    thumbnail: 'img/1.jpg',
+                    price: 529,
+                    count: '1',
+                },
+                {
+                    commodity_id: 2,
+                    commodity_name: 'commodity 2',
+                    thumbnail: 'img/2.jpg',
+                    price: 1024,
+                    count: '2',
+                },
+            ]
+        },
+        mounted() {
+            var that = this
+            const token = window.localStorage.getItem("ishopping-token")
+            axios.defaults.headers.common = {Authorization: `${token}`}
+            axios.get(api_url + '/buyer/Cart_get?page=1&page_size=10')
+                .then(function (response) {
+                    // TODO: if response.data.code===0 ...
+                    console.log(response)
+                    that.list = response.data.data.list
+                }).catch(function (response) {
+                console.log(response)
+            })
+        },
+        methods: {
+            cartGet: function () {
+                console.log(this.cur)
+                var that = this
+                axios.get(api_url + '/buyer/Cart_get?page=' + that.cur + '&page_size=10')
+                    .then(function (response) {
+                        console.log(response)
+                        if (response.data.code) {
+                            that.cur--
+                            alert('This is the last page.')
+                            return
+                        }
+                        that.list = response.data.data.list
+                    }).catch(function (response) {
+                    console.log(response)
+                })
+
+            },
+            deleteGoods: function (data) {
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization: `${token}`}
+                console.log(data)
+                axios({
+                    method: 'post',
+                    url: `${api_url}/buyer/cart_delete`,
+                    data: {
+                        commodity_id: data
+                    }
+                }).then(function (resp) {
+                    // TODO: if resp.data.code === 0 ...
+                    console.log(resp)
+                    alert('Delete commodity successfully!')
+                    window.location.reload()
+                }).catch(function (resp) {
+                    console.log(resp)
+                });
+            },
+            cartConfirm: function (data) {
+                console.log(data)
+                axios.post(api_url + '/buyer/cart_comfirm', {
+                    commodity_id: data
+                }).then(function (response) {
+                    console.log(response)
+                    alert('Confirm commodity successfully!')
+                    window.location.reload()
+                }).catch(function (response) {
+                    console.log(response)
+                })
+            },
+            banClick: function (data) {
+                if (data != this.cur) {
+                    this.cur = data;
+                }
+                this.cartGet()
+            },
+            pageClick: function () {
+                console.log('现在在' + this.cur + '页');
+                this.cartGet()
+            },
+        },
+        computed: {
+            indexs: function () {
+                var left = 1;
+                var right = this.all;
+                var ar = [];
+                if (this.all >= 5) {
+                    //这里最大范围从3到6，如果到达7，那么下边加2变成9，已经超过最大的范围值
+                    if (this.cur > 3 && this.cur < this.all - 1) {
+                        //以4为参考基准，左面加2右边加2
+                        left = this.cur - 2
+                        right = this.cur + 2
+                    } else {
+                        if (this.cur <= 3) {
+                            left = 1
+                            right = 5
+                        } else {
+                            right = this.all
+                            left = this.all - 4
+                        }
+                    }
+                }
+                while (left <= right) {
+                    ar.push(left)
+                    left++
+                }
+                console.log(ar);
+                return ar
+            },
+            // isSelectAll:function(){
+            //     return this.list.every(function(e){
+            //         return e.selected;
+            //     });
+            // },
+            getGoodsNums: function (e) {
+                //已选中商品
+                var goods = this.list.filter(function (e) {
+                    return e.commodity_id;
+                });
+                //已选中商品总价格
+                var totalGoodsPrice = 0;
+                for (var i = 0; i < goods.length; i++) {
+                    totalGoodsPrice += goods[i].price * goods[i].count;
+                }
+                return {
+                    goodsNum: goods.length,
+                    goodsPrice: totalGoodsPrice
+                }
+            }
+        },
+    })
+</script>
+
+</body>
+</html>

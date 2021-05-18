@@ -1,0 +1,87 @@
+*{padding: 0; margin: 0;}
+#app{
+    width: 1080px;
+    height: auto;
+    margin: 0 auto;
+}
+table{
+    width: 100%;
+    border: solid #cccccc 1px;
+    border-spacing: 0;
+}
+thead, tfoot{
+    background-color: #eeeeee;
+    line-height: 40px;
+}
+.border-bottom{
+    border-bottom: solid #cccccc 1px;
+}
+img{width: 150px; display: inline-block; vertical-align: bottom
+}
+.info{display: inline-block;
+    font-size: 14px;
+}
+.info h6{
+    font-size: 20px;
+    margin: 0;
+    -webkit-margin-before:0;
+    -webkit-margin-after: 0;
+    padding: 0;
+}
+p{
+    margin: 10px 0;
+}
+td{
+    padding: 0 20px;
+}
+tbody td{padding: 20px 20px;}
+.text-right{
+    text-align: right;
+}
+.num{width: 50px;
+    border: #cccccc solid 1px;
+    
+}
+.num input{
+    width: 20px;
+    border: none;
+    text-align: center;
+}
+.page-bar{
+    margin:40px 300px;
+}
+li{
+    list-style: none
+}
+.page-bar li:first-child>a {
+   margin-left: 120px
+}
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer
+}
+.page-bar a:hover{
+    background-color: #eee;
+}
+.page-bar a.banclick{
+    cursor:not-allowed;
+}
+.page-bar .active a{
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+}

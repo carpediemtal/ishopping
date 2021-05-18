@@ -30,7 +30,7 @@ func CartAddHandler(c *gin.Context) {
 
 func CartDeleteHandler(c *gin.Context) {
 	type params struct {
-		Cids []int `json:"commodity_id"`
+		Cid int `json:"commodity_id"`
 	}
 	var p params
 	err := c.BindJSON(&p)
@@ -40,12 +40,10 @@ func CartDeleteHandler(c *gin.Context) {
 	}
 
 	uid := c.GetInt("UserID")
-	for _, cid := range p.Cids {
-		err = service.CartDeleteCommodity(uid, cid)
-		if err != nil {
-			JsonErr(c, "Cart delete error: "+err.Error())
-			return
-		}
+	err = service.CartDeleteCommodity(uid, p.Cid)
+	if err != nil {
+		JsonErr(c, "Cart delete error: "+err.Error())
+		return
 	}
 	JsonOK(c, gin.H{})
 }
@@ -75,7 +73,6 @@ func CartGetHandler(c *gin.Context) {
 	var ans []service.CartCommodity
 	for i, cnt := (page-1)*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
 		ans = append(ans, ret[i])
-		//cnt++
 	}
 
 	JsonOK(c, gin.H{"list": ans})
