@@ -79,7 +79,7 @@
                 total：{{ getGoodsNums.goodsPrice }} yuan
             </td>
             <td colspan="2">
-                <button type="button" class="btn btn-primary" v-on:click="cart_comfirm(item.commodity_id)">&nbsp;&nbsp;Confirm&nbsp;&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-primary" v-on:click="cartConfirm(item.commodity_id)">&nbsp;&nbsp;Confirm&nbsp;&nbsp;&nbsp;</button>
             </td>
         </tr>
         </tfoot>
@@ -127,7 +127,8 @@
             axios.defaults.headers.common = {Authorization: `${token}`}
             axios.get(api_url + '/buyer/Cart_get?page=1&page_size=10')
                 .then(function (response) {
-                    if (response.data.data.code === 0) {
+                    console.log(response)
+                    if (response.data.code === 0) {
                         that.list = response.data.data.list;
                     } else {
                         that.list = []
