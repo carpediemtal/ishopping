@@ -221,7 +221,7 @@
                         } 
                         this.gid = parseInt(str)
                         axios
-                        .get(api_url + "/api/commodity_detail", {
+                        .get(api_url + "/commodity_detail", {
                         params: {
                             commodity_id:this.gid
                         }})
@@ -235,12 +235,12 @@
                                 this.thumbnail = resp.data.data.thumbnail
                                 this.details = resp.data.data.images
                             } else {
-                                console.log(resp.msg)
+                                console.log(resp.data.msg)
                             }
                         })
                         .catch(function (resp) {
                             // handle error
-                            console.log(resp.msg)
+                            console.log(resp.data.msg)
                         })
                         //测试代码
                         // this.name = 'resp.data.data.name'
