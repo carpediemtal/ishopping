@@ -127,9 +127,12 @@
             axios.defaults.headers.common = {Authorization: `${token}`}
             axios.get(api_url + '/buyer/Cart_get?page=1&page_size=10')
                 .then(function (response) {
-                    // TODO: if response.data.code===0 ...
-                    console.log(response)
-                    that.list = response.data.data.list
+                    if (response.data.data.code === 0) {
+                        that.list = response.data.data.list;
+                    } else {
+                        that.list = []
+                    }
+
                 }).catch(function (response) {
                 console.log(response)
             })
