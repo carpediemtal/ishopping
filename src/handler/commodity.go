@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"ishopping/src/service"
-	"log"
 	"strconv"
 	"strings"
 
@@ -110,7 +109,6 @@ func CommodityEditHandler(c *gin.Context) {
 	}
 
 	uid := c.GetInt("UserID")
-	log.Printf("%+v", p)
 	switch p.EditType {
 	case CommodityUpdate:
 		if err := service.UpdateCommodityInfo(p); err != nil {
