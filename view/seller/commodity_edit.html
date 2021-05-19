@@ -206,6 +206,8 @@
                             $("#curl").hide()  
                             $("#cid").hide()
                             this.gid = 0
+                            this.commodity_id = 0
+                            this.edit_type = 1
                         }
                         else{
                             this.gid = parseInt(str)
@@ -388,7 +390,7 @@
                                 price: this.price,
                                 thumbnail: this.thumbnail,
                                 image: this.details,
-                                edit_type: parseInt(this.time%2),
+                                edit_type: this.edit_type,
                             },
                         })
                             .then(function (resp) {
