@@ -39,6 +39,11 @@ func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
 		row := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
 		if err = row.Scan(&commodity.Thumbnail); err != nil {
 			results[i].Thumbnail = Image404
+		} else {
+			err = row.Scan(&results[i].Thumbnail)
+			if err != nil {
+				return
+			}
 		}
 	}
 	return results, nil
