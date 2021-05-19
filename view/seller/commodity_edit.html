@@ -52,16 +52,16 @@
         </div>
 
         <div class="container" id="container">
-            <div @submit.preven="greet">
-                <!-- `greet` 是在下面定义的方法名 -->
+            <!-- <div @submit.prevent="greet">
+                `greet` 是在下面定义的方法名
                 <label for="modify">edit or add</label>
                 <button v-on:click="greet()">{{msg}}</button>
               </div>
-              <div class="form-group" id = 'curl' @submit.preven="submit">
+              <div class="form-group" id = 'curl' @submit.prevent="submit">
                 <label for="name">Commodity URL</label>
                 <input type="text" class="form-control" id="gid" placeholder="Commodity URL" v-model="url" />
                 <button v-on:click="submit()" id = "submit">submit</button>
-            </div>
+            </div> -->
             <form @submit.prevent="confirm">
                 <!-- <div class="form-group">
             <label for="name">Category ID</label>
@@ -139,7 +139,7 @@
                     <input type="number" min="0.00" step="0.01" class="form-control" id="price" placeholder="price" v-model.number="price" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-outline-primary">Confirm</button>
+                    <button class="btn btn-outline-primary" id=5>Confirm</button>
                     <button class="btn btn-outline-danger ml-3" type="button" onclick="reloadPage()">Reset</button>
                     <script type="application/javascript">
                         function reloadPage() {
@@ -194,6 +194,68 @@
                 },
                 created: function () {
                     const that = this
+                    var url = window.location.href
+                    var str = url.split('cid=')[1];
+                        if(str==null){
+                            alert("wrong url")
+                            return 
+                        } 
+                        else if(str=="0"){
+                            this.clear()
+                            this.msg = 'add'
+                            $("#curl").hide()  
+                            $("#cid").hide()
+                            this.gid = 0
+                        }
+                        else{
+                            this.gid = parseInt(str)
+                            //this.clear()
+                            this.msg = 'edit'
+                            $("#curl").show()
+                            $("#cid").show()
+                            axios.interceptors.response.use(function (resp) {
+                            // 对响应数据做点什么
+                            if(resp.data.msg=="commodity_detail searching error"){
+                                 alert("invalid id")
+                                 $("#5").hide()
+                            }
+                            return resp;
+                        }, function (error) {
+                            return resp;
+                        })
+                        axios
+                        .get(api_url + "/commodity_detail", {
+                        params: {
+                            commodity_id:this.gid
+                        }})
+                        .then(function (resp) {
+                            // handle success
+                            if (resp.data.code === 0) {
+                                that.name = resp.data.data.name
+                                that.inventory = resp.data.data.inventory
+                                that.price = resp.data.data.price
+                                that.introduction = resp.data.data.introduction
+                                that.thumbnail = resp.data.data.thumbnail
+                                that.details[0] = resp.data.data.images[0]
+                                that.details[1] = resp.data.data.images[1]
+                                that.details[2] = resp.data.data.images[2]
+                            } else {
+                                console.log(resp.data.msg)
+                            }
+                        })
+                        .catch(function (resp) {
+                            // handle error
+                            console.log(resp.data.msg)
+                        })
+                        $('#small_img').val(this.thumbnail)
+                        for (var i =0; i < 3; i++) {
+                            $("#" + String(i + 1)).val(that.details[i])
+                        }
+                        $('#name').val(this.name)
+                        $('#inventory').val(this.inventory)
+                        $('#introduction').val(this.introduction)
+                        $('#price').val(this.price) 
+                        }
                     console.log("search commodity")
                     that.isModifying = false
                     axios
@@ -213,53 +275,55 @@
                         })
                 },
                 methods: {
-                    submit:function(){
-                        const that = this
-                        var str = this.url.split('=')[1];
-                        if(str==null){
-                            alert("wrong url")
-                            return 
-                        } 
-                        this.gid = parseInt(str)
-                        axios
-                        .get(api_url + "/commodity_detail", {
-                        params: {
-                            commodity_id:this.gid
-                        }})
-                        .then(function (resp) {
-                            // handle success
-                            if (resp.data.code === 0) {
-                                that.name = resp.data.data.name
-                                that.inventory = resp.data.data.inventory
-                                that.price = resp.data.data.price
-                                that.introduction = resp.data.data.introduction
-                                that.thumbnail = resp.data.data.thumbnail
-                                that.details = resp.data.data.images
-                            } else {
-                                console.log(resp.data.msg)
-                            }
-                        })
-                        .catch(function (resp) {
-                            // handle error
-                            console.log(resp.data.msg)
-                        })
-                        //测试代码
-                        // this.name = 'resp.data.data.name'
-                        // this.inventory = 2
-                        // this.price = 2.2
-                        // this.introduction = 'resp.data.data.introduction'
-                        // this.thumbnail = 'resp.data.data.thumbnail'
-                        // var arr = ['1','2','3']
-                        // this.details = arr
-                        $('#small_img').val(this.thumbnail)
-                        for (var i = 0; i < 3; i++) {
-                            $("#" + String(i + 1)).val(that.details[i])
-                        }
-                        $('#name').val(this.name)
-                        $('#inventory').val(this.inventory)
-                        $('#introduction').val(this.introduction)
-                        $('#price').val(this.price) 
-                    },
+                    // submit:function(){
+                    //     const that = this
+                    //     var str = this.url.split('=')[1];
+                    //     if(str==null){
+                    //         alert("wrong url")
+                    //         return 
+                    //     } 
+                    //     this.gid = parseInt(str)
+                    //     axios
+                    //     .get(api_url + "/commodity_detail", {
+                    //     params: {
+                    //         commodity_id:this.gid
+                    //     }})
+                    //     .then(function (resp) {
+                    //         // handle success
+                    //         if (resp.data.code === 0) {
+                    //             that.name = resp.data.data.name
+                    //             that.inventory = resp.data.data.inventory
+                    //             that.price = resp.data.data.price
+                    //             that.introduction = resp.data.data.introduction
+                    //             that.thumbnail = resp.data.data.thumbnail
+                    //             that.details[0] = resp.data.data.images[0]
+                    //             that.details[1] = resp.data.data.images[1]
+                    //             that.details[2] = resp.data.data.images[2]
+                    //         } else {
+                    //             console.log(resp.data.msg)
+                    //         }
+                    //     })
+                    //     .catch(function (resp) {
+                    //         // handle error
+                    //         console.log(resp.data.msg)
+                    //     })
+                    //     //测试代码
+                    //     // this.name = 'resp.data.data.name'
+                    //     // this.inventory = 2
+                    //     // this.price = 2.2
+                    //     // this.introduction = 'resp.data.data.introduction'
+                    //     // this.thumbnail = 'resp.data.data.thumbnail'
+                    //     // var arr = ['1','2','3']
+                    //     // this.details = arr
+                    //     $('#small_img').val(this.thumbnail)
+                    //     for (var i =0; i < 3; i++) {
+                    //         $("#" + String(i + 1)).val(that.details[i])
+                    //     }
+                    //     $('#name').val(this.name)
+                    //     $('#inventory').val(this.inventory)
+                    //     $('#introduction').val(this.introduction)
+                    //     $('#price').val(this.price) 
+                    // },
                     clear:function(){
                         this.name = ''
                         this.inventory = 0
