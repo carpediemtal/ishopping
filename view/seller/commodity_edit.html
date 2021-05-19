@@ -116,9 +116,9 @@
                     <div class="item-inner detail-img-div">
                         <div class="item-title label">detail_img</div>
                         <div class="item-input" id="detail_img">
-                            <input type="text" id="1" class="detail_img" />
-                            <input type="text" id="2" class="detail_img" />
-                            <input type="text" id="3" class="detail_img" />
+                            <input type="text" id="1" class="detail_img" v-model="details[0]" />
+                            <input type="text" id="2" class="detail_img" v-model="details[1]"/>
+                            <input type="text" id="3" class="detail_img" v-model="details[2]"/>
                         </div>
                     </div>
                 </div>
@@ -236,9 +236,7 @@
                                 that.price = resp.data.data.price
                                 that.introduction = resp.data.data.introduction
                                 that.thumbnail = resp.data.data.thumbnail
-                                that.details[0] = resp.data.data.images[0]
-                                that.details[1] = resp.data.data.images[1]
-                                that.details[2] = resp.data.data.images[2]
+                                that.details= resp.data.data.images
                             } else {
                                 console.log(resp.data.msg)
                             }
@@ -247,9 +245,11 @@
                             // handle error
                             console.log(resp.data.msg)
                         })
+                        // var arr = ['1','2','3']
+                        // this.details = arr
                         $('#small_img').val(this.thumbnail)
                         for (var i =0; i < 3; i++) {
-                            $("#" + String(i + 1)).val(that.details[i])
+                            $("#" + String(i + 1)).val(this.details[i])
                         }
                         $('#name').val(this.name)
                         $('#inventory').val(this.inventory)

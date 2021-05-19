@@ -127,16 +127,16 @@
                                 console.log(resp.data.msg)
                             }
                         })
-                        // .get(`${api_url}/search_seller_id?shop_name=${this.shop_name}`)
-                        // .then(function (resp) {
-                        //     // handle success
-                        //     if (resp.data.code === 0) {
-                        //         this.id = resp.data.data
-                        //         // that.seen = true
-                        //     } else {
-                        //         console.log(resp.data.msg)
-                        //     }
-                        // })
+                         .get(`${api_url}/search_seller_id?shop_name=${this.shop_name}`)
+                         .then(function (resp) {
+                             // handle success
+                             if (resp.data.code === 0) {
+                                this.id = resp.data.data
+                                // that.seen = true
+                             } else {
+                                 console.log(resp.data.msg)
+                             }
+                         })
                         .catch(function (resp) {
                             // handle error
                             console.log(resp.data.msg)
