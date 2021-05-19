@@ -37,10 +37,8 @@ func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
 
 	for i, commodity := range results {
 		row := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
-		if err = row.Scan(&commodity.Thumbnail); err != nil {
+		if err = row.Scan(&results[i].Thumbnail); err != nil {
 			results[i].Thumbnail = Image404
-		} else {
-			_ = row.Scan(&results[i].Thumbnail)
 		}
 	}
 	return results, nil
