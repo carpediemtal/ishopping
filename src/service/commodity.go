@@ -40,10 +40,7 @@ func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
 		if err = row.Scan(&commodity.Thumbnail); err != nil {
 			results[i].Thumbnail = Image404
 		} else {
-			err = row.Scan(&results[i].Thumbnail)
-			if err != nil {
-				return
-			}
+			_ = row.Scan(&results[i].Thumbnail)
 		}
 	}
 	return results, nil
