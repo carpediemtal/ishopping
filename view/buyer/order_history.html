@@ -51,7 +51,7 @@
             <a href="order_history.html" class="btn btn-outline-primary ml-3">order_history</a>
             </div>
             <div id="orderhistory">
-                <table v-if="hasOrder">
+                <table v-if="orders.length" >
                     <thead>
                         <th>create_time</th>
                         <th>modify_time </th>
@@ -62,27 +62,23 @@
                         <th>commodity_id</th>
                         <th>shop_name</th>
                         <th>order_status</th>
+                        <th>operation</th>
                     </thead>
-                    <tbody v-for="o in orders">
-                        <td>{{o.create_time}}</td>
-                        <td>{{o.modify_time}}</td>
-                        <td>{{o.pay_price}}</td>
-                        <td>{{o.order_id}}</td>
-                        <td>{{o.item_img}}</td>
-                        <td>{{o.item_num}}</td>
-                        <td>{{o.commodity_id}}</td>
-                        <td>{{o.shop_name}}</td>
-                        <td>{{o.order_status}}</td>
-                        <td>
-                            <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>
-                            <button id="delivery" v-on:click="sendOrder(o.oid)" v-else>Delivery</button>
-                        </td>
-                        <!-- <td id="status" >
-                    <p v-if="orderSended(o.delivery_id)">sended</p>
-                    <p v-if="orderReceived(o.delivery_id)">received</p>
-                    <p v-if="orderPayed(o.delivery_id) && !orderSended(o.delivery_id)">payed</p>
-                    <p v-if="orderUnpayed(o.delivery_id)">unpayed</p>
-                </td> -->
+                    <tbody >
+                        <tr v-for="o in orders" >
+                            <td>{{o.create_time}}</td>
+                            <td>{{o.modify_time}}</td>
+                            <td>{{o.pay_price}}</td>
+                            <td>{{o.order_id}}</td>
+                            <td>{{o.item_img}}</td>
+                            <td>{{o.item_num}}</td>
+                            <td>{{o.commodity_id}}</td>
+                            <td>{{o.shop_name}}</td>
+                            <td>{{o.order_status  == 1 ? '未发货' : o.order_status  == 2 ? '已发货' : '已确认收货'}}</td>
+                            <td>
+                                <button v-if="o.order_status == 3"  @click="evaluate(o.order_id)" >evaluate</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <h1 id="noOrder" v-else>Order list is empty!</h1>
@@ -114,24 +110,30 @@
         <script>
             new Vue({
                 el: "#orderhistory",
-                data() {
-                    return {
+                data:{
                         res: 12,
                         total: 0,
                         hasOrder: false,
 
                         orders: [
-                           
                         ],
-                    }
                 },
                 
                 mounted() {
-                    const that = this
+                    
+                   this.init()
+                },
+                methods: {
+                    evaluate(order_id) {
+                        window.location.href="evaluate.html?order_id=" + order_id;
+                    },
+                    init() {
+                        const that = this
                     const token = window.localStorage.getItem("ishopping-token")
+                    
                     axios.defaults.headers.common = { Authorization: `${token}` }
                     axios({
-                        url: api_url + "buyer/order_history?",
+                        url: api_url + "buyer/order_history?page=1&page_size=30",
                         method: "get",
                     })
                         .then(function (res) {
@@ -148,8 +150,10 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-                   
-                },
+                    }
+
+                    },
+                // }
             })
         </script>
         <style>
