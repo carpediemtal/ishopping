@@ -127,7 +127,14 @@ func GetAllCategories() (categories []Category, err error) {
 }
 
 func UpdateCommodityInfo(cm CommodityEdit) error {
-	if _, err := db.DB.Exec(`update commodity set name = ?, price = ?, inventory = ?, caid = ?`, cm.Name, cm.Price, cm.Inventory, cm.Caid); err != nil {
+	// 判断商品是否存在
+	row := db.DB.QueryRow(`select cid from commodity where cid = ?`, cm.Cid)
+	var cid int
+	if err := row.Scan(&cid); err != nil {
+		return errors.New("commodity not found")
+	}
+
+	if _, err := db.DB.Exec(`update commodity set name = ?, price = ?, inventory = ?, caid = ? where cid = ?`, cm.Name, cm.Price, cm.Inventory, cm.Caid, cm.Cid); err != nil {
 		return err
 	}
 
