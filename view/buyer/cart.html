@@ -51,7 +51,7 @@
         <tbody>
         <tr v-for="(item, index) in list" :key="item.commodity_id">
             <td>
-                <input type="checkbox" v-model="commodity_id" value="item.commodity_id">
+                <input type="checkbox" v-model="commodityId" value="item.commodity_id">
             </td>
             <td>
                 <img :src="item.thumbnail">
@@ -67,7 +67,7 @@
             </td>
             <td>{{ item.price * item.count }}</td>
             <td>
-                <button type="button" class="btn btn-primary" v-on:click="deleteGoods(item.commodity_id)">&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-primary" v-on:click="deleteGoods(commodityId)">&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
             </td>
         </tr>
 
@@ -104,6 +104,7 @@
         data: {
             all: 10,
             cur: 1,
+            commdityId:[],
             list: [
                 {
                     commodity_id: 1,
@@ -142,6 +143,8 @@
             cartGet: function () {
                 console.log(this.cur)
                 var that = this
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization: `${token}`}
                 axios.get(api_url + '/buyer/Cart_get?page=' + that.cur + '&page_size=10')
                     .then(function (response) {
                         console.log(response)
@@ -167,24 +170,40 @@
                         commodity_id: data
                     }
                 }).then(function (resp) {
-                    // TODO: if resp.data.code === 0 ...
-                    console.log(resp)
-                    alert('Delete commodity successfully!')
-                    window.location.reload()
+                    if(resp.data.code === 0){
+                        console.log(resp)
+                        alert('Delete commodity successfully!')
+                        window.location.reload()
+                    } else {
+                        alert("Fail to delete commodity:" + resp.data.msg)
+                        window.location.reload()
+                    }
                 }).catch(function (resp) {
                     console.log(resp)
                 });
             },
             cartConfirm: function (data) {
                 console.log(data)
-                axios.post(api_url + '/buyer/cart_comfirm', {
-                    commodity_id: data
-                }).then(function (response) {
-                    console.log(response)
-                    alert('Confirm commodity successfully!')
-                    window.location.reload()
-                }).catch(function (response) {
-                    console.log(response)
+                const token = window.localStorage.getItem("ishopping-token")
+                axios.defaults.headers.common = {Authorization: `${token}`}
+                axios({
+                    method: 'post',
+                    url: `${api_url}/buyer/cart_confirm`,
+                    data: {
+                        commodityId: data
+                    }
+                }).then(function (resp) {
+                    if(resp.data.code === 0){
+                        console.log(resp)
+                        alert('Confirm commodity successfully!')
+                        window.location.reload()
+                    }else{
+                        alert('Failed to confirm commodity:'+ resp.data.msg)
+                        console.log(resp.data.msg)
+                        window.location.reload()
+                    }
+                }).catch(function (resp) {
+                    console.log(resp)
                 })
             },
             banClick: function (data) {
