@@ -7,5 +7,5 @@
 
     在本地调试时可以把这个文件下下来，改值为本地的地址
 */
-const api_url = "http://localhost:7001/api";
-// const api_url = "http://ishopping.gq/api"
+// const api_url = "http://localhost:7001/api";
+const api_url = "http://ishopping.gq/api"
