@@ -56,8 +56,8 @@
                 <input type="checkbox" v-model="commodityId" value="item.commodity_id">
             </td>
             <td>
+				<img :src="item.thumbnail">
                 <div class="info">
-					<img :src="item.thumbnail">
                     <h6>{{ item.commodity_name }}</h6>
                 </div>
             </td>
