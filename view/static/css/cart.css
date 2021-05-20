@@ -16,7 +16,7 @@ thead, tfoot{
 .border-bottom{
     border-bottom: solid #cccccc 1px;
 }
-img{width: 150px; display: inline-block; vertical-align: bottom
+.info img{width: 150px; display: inline-block; vertical-align: bottom
 }
 .info{display: inline-block;
     font-size: 14px;
