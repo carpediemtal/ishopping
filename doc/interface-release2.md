@@ -242,6 +242,7 @@ order：
 | 字段名        | 类型   | 说明     |
 | ------------- | ------ | -------- |
 | order_id      | int    | 订单号   |
+| commodity_id  | int    | 商品id   |
 | total_price   | float  | 总价格   |
 | buyer_name    | string | 客户姓名 |
 | buyer_phone   | string | 客户电话 |

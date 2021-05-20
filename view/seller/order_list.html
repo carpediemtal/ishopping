@@ -55,6 +55,7 @@
                 <table v-if="hasOrder">
                     <thead>
                         <th>order id</th>
+                        <th>commodity_id</th>
                         <th>buyer name</th>
                         <th>buyer phone</th>
                         <th>buyer address</th>
@@ -64,6 +65,7 @@
                     </thead>
                     <tbody v-for="o in orders">
                         <td>{{o.oid}}</td>
+                        <td><a v-bind:href="['/commodity_detail.html?cid='+o.commodity_id]" target="_blank">{{o.commodity_id}}</a></td>
                         <td>{{o.buyer_name}}</td>
                         <td>{{o.buyer_phone}}</td>
                         <td>{{o.buyer_address}}</td>
