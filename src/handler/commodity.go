@@ -60,14 +60,13 @@ func CommoditySearchHandler(c *gin.Context) {
 	var ans []service.CommoditySearchResult
 	for i, cnt := page*size, 0; i < len(ret) && cnt < size; i, cnt = i+1, cnt+1 {
 		ans = append(ans, ret[i])
-		cnt++
 	}
 
 	JsonOK(c, gin.H{"list": ans})
 }
 
 func CommodityDetailHandler(c *gin.Context) {
-	cid, err := strconv.Atoi(c.Query("cid"))
+	cid, err := strconv.Atoi(c.Query("commodity_id"))
 	if err != nil {
 		JsonErr(c, "Commodity not found")
 		return

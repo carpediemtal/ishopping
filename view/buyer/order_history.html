@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Order_History</title>
+        <link rel="shortcut icon" href="../static/icon/icon.jpg" type="../image/x-icon" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+            integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0="
+            crossorigin="anonymous"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"
+            integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E="
+            crossorigin="anonymous"
+        ></script>
+        <script src="../static/js/common.js"></script>
+    </head>
+
+    <body>
+        <div>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+            <img alt="shop.png" height="35" src="../static/icon/shop.png" />
+            <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
+            <a href="buyer_index.html" class="btn btn-outline-primary">BuyerHome</a>
+            <a href="buyer_profile.html" class="btn btn-outline-primary ml-3">Profile</a>
+            <a href="cart.html" class="btn btn-outline-primary ml-3">Cart</a>
+            <a href="order_history.html" class="btn btn-outline-primary ml-3">Order</a>
+        </div>
+            <div id="orderhistory">
+                <table v-if="orders.length" >
+                    <thead>
+                        <th>create_time</th>
+                        <th>modify_time </th>
+                        <th>pay_price</th>
+                        <th>order_id</th>
+                        <th>item_img</th>
+                        <th>item_num</th>
+                        <th>commodity_id</th>
+                        <th>shop_name</th>
+                        <th>order_status</th>
+                        <th>operation</th>
+                    </thead>
+                    <tbody >
+                        <tr v-for="o in orders" >
+                            <td>{{o.create_time}}</td>
+                            <td>{{o.modify_time}}</td>
+                            <td>{{o.pay_price}}</td>
+                            <td>{{o.order_id}}</td>
+                            <td>{{o.item_img}}</td>
+                            <td>{{o.item_num}}</td>
+                            <td>{{o.commodity_id}}</td>
+                            <td>{{o.shop_name}}</td>
+                            <td>{{o.order_status  == 1 ? '未发货' : o.order_status  == 2 ? '已发货' : '已确认收货'}}</td>
+                            <td>
+                                <button v-if="o.order_status == 3"  @click="evaluate(o.order_id)" >evaluate</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h1 id="noOrder" v-else>Order list is empty!</h1>
+            </div>
+            <footer class="pt-4 my-md-5 pt-md-5 border-top">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <h5>Copyright&copy;2021</h5>
+                        <p>
+                            <a target="_blank">
+                                <i class="fa fa-leaf"></i>
+                                Blog
+                            </a>
+                            -
+                            <a target="_blank">
+                                <i class="fa fa-github"></i>
+                                Github
+                            </a>
+                            -
+                            <a target="_blank">
+                                <i class="fa fa-question"></i>
+                                Help
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script>
+            new Vue({
+                el: "#orderhistory",
+                data:{
+                        res: 12,
+                        total: 0,
+                        hasOrder: false,
+
+                        orders: [
+                        ],
+                },
+                
+                mounted() {
+                    
+                   this.init()
+                },
+                methods: {
+                    evaluate(order_id) {
+                        window.location.href="evaluate.html?order_id=" + order_id;
+                    },
+                    init() {
+                        const that = this
+                    const token = window.localStorage.getItem("ishopping-token")
+                    
+                    axios.defaults.headers.common = { Authorization: `${token}` }
+                    axios({
+                        url: api_url + "buyer/order_history?page=1&page_size=30",
+                        method: "get",
+                    })
+                        .then(function (res) {
+                            that.hasOrder = true
+                            if (res.data.code == 0) {
+                                for (let i in res.data.data.order_list) {
+                             
+                                    that.orders.push(res.data.data.order_list[i])
+                                }
+                            } else {
+                                console.log(res.data.msg)
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                    }
+
+                    },
+                // }
+            })
+        </script>
+        <style>
+            table {
+                margin: auto;
+                border: 2px solid black;
+                text-align: center;
+                font-size: 22px;
+                width: 1000px;
+            }
+            tbody {
+                font-size: 20px;
+            }
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
+    </body>
+</html>

@@ -62,7 +62,7 @@
                             <button class="btn btn-outline-primary">Sign In</button>
                         </div>
                         <div class="form-group" id="account">
-                            <a href="#">Have no account?</a>
+                            <a href="register.html">Have no account?</a>
                         </div>
                     </form>
                 </div>
@@ -131,10 +131,10 @@
                                             window.location.replace("./buyer/buyer_index.html")
                                         } else if (resp.data.data.type === 1)  {
                                             // seller
-                                            window.location.replace("./seller/buyer_index.html")
+                                            window.location.replace("./seller/seller_index.html")
                                         } else if (resp.data.data.type === 2)  {
                                             // seller
-                                            window.location.replace("admin.html")
+                                            window.location.replace("admin/admin_index.html")
                                         }
                                     })
                                     .catch(function (resp) {

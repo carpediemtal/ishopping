@@ -1,0 +1,95 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 2500px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-weight: 400;
+    background-color: #fff;
+}
+ul,li{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style-type: none;
+}
+
+.header .header-title{
+    color: #007bff;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #007bff;
+}
+
+.mainbody .commentlist .commentlist-li{
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+.mainbody .commentlist .commentlist-li .li-left{
+    display: inline-block;
+    width: 900px;
+}
+.mainbody .commentlist .commentlist-li .li-right{
+    float: right;
+    display: inline-block;
+    width: 100px;
+}
+.mainbody .commentlist .commentlist-li .li-left .li-buyername{
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    color: #ac644e;
+}
+.mainbody .commentlist .commentlist-li .li-left .li-commentcontent{
+    margin-top: 8px;
+    color: #5e5e5e;
+    font-size: 16px;
+}
+.mainbody .commentlist .commentlist-li .li-left .li-commodityname{
+    color: rgba(0, 0, 0, 0.493);
+    font-size: 14px;
+}
+.mainbody .commentlist .commentlist-li .li-right .btn{
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+.page-bar{
+    margin:40px 350px;
+}
+li{
+    list-style: none
+}
+.page-bar li:first-child>a {
+   margin-left: 140px
+}
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer
+}
+.page-bar a:hover{
+    background-color: #eee;
+}
+.page-bar a.banclick{
+    cursor:not-allowed;
+}
+.page-bar .active a{
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+}
