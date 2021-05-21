@@ -40,7 +40,7 @@ tbody td{padding: 20px 20px;}
 }
 .num{width: 50px;
     border: #cccccc solid 1px;
-    
+
 }
 .num input{
     width: 20px;
@@ -84,4 +84,4 @@ li{
     color: #d44950;
     margin: 0px 4px;
     font-size: 12px;
-}
+} 
