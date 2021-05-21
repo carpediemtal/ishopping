@@ -146,6 +146,10 @@ func UpdateCommodityInfo(cm CommodityEdit) error {
 		return err
 	}
 
+	if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "thumbnail", cm.Thumbnail); err != nil {
+		return err
+	}
+
 	for _, image := range cm.Image {
 		if _, err := db.DB.Exec(`insert into commodity_meta (cid, meta_key, meta_val) values (?, ?, ?)`, cm.Cid, "image", image); err != nil {
 			return err
