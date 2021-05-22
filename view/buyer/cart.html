@@ -25,18 +25,15 @@
             integrity="sha256-JLmknTdUZeZZ267LP9qB+/DT7tvxOOKctSKeUC2KT6E=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="../static/css/cart.css">
-
 </head>
 
 <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <img alt="shop.png" height="35" src="../static/icon/shop.png" />
-        <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
-        <a href="buyer_index.html" class="btn btn-outline-primary">BuyerHome</a>
-        <a href="buyer_profile.html" class="btn btn-outline-primary ml-3">Profile</a>
-        <a href="cart.html" class="btn btn-outline-primary ml-3">Cart</a>
-        <a href="order_history.html" class="btn btn-outline-primary ml-3">Order</a>
-    </div>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <img alt="shop.png" height="35" src="../static/icon/shop.png"/>
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
+    <a href="buyer_index.html" class="btn btn-outline-primary">Buyer Home</a>
+    <a href="buyer_profile.html" class="btn btn-outline-primary ml-3">Profile</a>
+</div>
 <div id="app">
     <h1>Shopping List</h1>
     <table>
@@ -56,33 +53,26 @@
                 <input type="checkbox" v-model="commodityId" value="item.commodity_id">
             </td>
             <td>
-				<img :src="item.thumbnail">
+                <img :src="item.thumbnail">
                 <div class="info">
                     <h6>{{ item.commodity_name }}</h6>
                 </div>
             </td>
             <td>{{ item.price }}</td>
             <td>
-                <div class="num"><span v-on:click="item.count--"> - </span><input type="text" name="" id=""
-                                                                                  v-model="item.count"><span
-                        v-on:click="item.count++"> + </span></div>
+                <div class="num"><span v-on:click="item.count--"> - </span><input type="text" name="" id="" v-model="item.count"><span v-on:click="item.count++"> + </span></div>
             </td>
             <td>{{ item.price * item.count }}</td>
             <td>
-                <button type="button" class="btn btn-primary" v-on:click="deleteGoods(commodityId)">&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-primary" v-on:click="deleteGoods(item.commodity_id)">&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
             </td>
         </tr>
-
         </tbody>
         <tfoot>
         <tr>
             <!--<td colspan="2"><button v-on:click="deleteGoods">Delete the selected commodity</button></td>-->
-            <td colspan="4" class="text-right">{{ getGoodsNums.goodsNum }} commodities in
-                total：{{ getGoodsNums.goodsPrice }} yuan
-            </td>
-            <td colspan="2">
-                <button type="button" class="btn btn-primary" v-on:click="cartConfirm(item.commodity_id)">&nbsp;&nbsp;Confirm&nbsp;&nbsp;&nbsp;</button>
-            </td>
+            <td colspan="4" class="text-right">{{ getGoodsNums.goodsNum }} commodities in total：{{ getGoodsNums.goodsPrice }} yuan</td>
+            <td colspan="2"><button type="button" class="btn btn-primary" v-on:click="cartConfirm(commodityId)">&nbsp;&nbsp;Confirm&nbsp;&nbsp;&nbsp;</button></td>
         </tr>
         </tfoot>
     </table>
@@ -106,7 +96,7 @@
         data: {
             all: 10,
             cur: 1,
-            commdityId:[],
+            commodityId:[],
             list: [
                 {
                     commodity_id: 1,
@@ -136,7 +126,6 @@
                     } else {
                         that.list = []
                     }
-
                 }).catch(function (response) {
                 console.log(response)
             })
