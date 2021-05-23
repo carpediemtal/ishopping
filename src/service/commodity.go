@@ -116,6 +116,23 @@ func getSidByCid(cid int) (sid int, err error) {
 	return
 }
 
+func getInventoryByCid(cid int) (inventory int, err error) {
+	row := db.DB.QueryRow(`select inventory from commodity where cid = ?`, cid)
+	err = row.Scan(&inventory)
+	return
+}
+
+func DecreaseInventoryByCid(cid, count int) (err error) {
+	invetory, err := getInventoryByCid(cid)
+	if err != nil {
+		return
+	}
+	if _, err := db.DB.Exec(`update commodity set inventory = ? where cid = ?`, invetory-count, cid); err != nil {
+		return err
+	}
+	return
+}
+
 type Category struct {
 	Caid int    `json:"category_id"`
 	Name string `json:"category_name"`

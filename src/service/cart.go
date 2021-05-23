@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"ishopping/src/db"
+	"time"
 )
 
 type Cart struct {
@@ -52,6 +53,36 @@ func CartAddCommodity(uid, cid, count int) (err error) {
 func GetCountById(uid, cid int) (count int, err error) {
 	row := db.DB.QueryRow("select count from cart where uid = ? and cid = ?", uid, cid)
 	err = row.Scan(&count)
+	return
+}
+
+func CartToOrder(uid, cid int) (err error) {
+	count, err := GetCountById(uid, cid)
+	if err != nil {
+		return errors.New("no this record")
+	} else {
+		inventory, err := getInventoryByCid(cid)
+		if err != nil {
+			return errors.New("no this commodity")
+		} else if inventory < count {
+			return errors.New("in a short inventory")
+		} else {
+			timestamp := time.Now().Unix()
+			_, err = db.DB.Exec(`insert into purchase_order (status,uid, cid, create_time,modify_time,count) values (?, ?, ?, ?, ?, ?)`, 1, uid, cid, timestamp, timestamp, count)
+			if err != nil {
+				return errors.New("can't insert into order")
+			}
+			err = DecreaseInventoryByCid(cid, count)
+			if err != nil {
+				return err
+			}
+			err = CartDeleteCommodity(uid, cid)
+			if err != nil {
+				return err
+			}
+		}
+
+	}
 	return
 }
 
