@@ -14,7 +14,7 @@ var (
 // TODO: 运行时记得在这里修改数据库用户名和密码
 const (
 	Username = "root"
-	Password = "000000"
+	Password = "root"
 )
 
 func init() {
