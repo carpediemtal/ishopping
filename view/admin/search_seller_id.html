@@ -46,9 +46,9 @@
             <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
                 <img alt="shop.png" height="35" src="../static/icon/shop.png" />
                 <h5 class="my-0 mr-md-auto font-weight-normal"><a href="../index.html">ISHOPPING</a></h5>
-        <a href="admin_user.html" class="btn btn-outline-primary ml-3">user</a>
-        <a href="admin_bannedList.html" class="btn btn-outline-primary ml-3">user banned</a>
-        <a href="../index.html" class="btn btn-outline-primary ml-3">admin</a>
+                <a href="admin_index.html" class="btn btn-outline-primary">AdminHome</a>
+                <a href="Comment management.html" class="btn btn-outline-primary ml-3">CommentSysetem</a>
+                <a href="Unban buyer.html" class="btn btn-outline-primary ml-3">UnbanBuyer</a>
         <a href="search_seller_id.html" class="btn btn-outline-primary ml-3">search_seller_id</a>
             </div>
             <div class="row mt-4">
@@ -65,7 +65,9 @@
                     <tbody>
                         <tr v-if="seen">
                             <td>{{ seller_id }}</td>
-                            <td><button @click="edit" >Disable</button> </td>
+                            <th style="float: right;" >
+                            <td><button class="btn btn-primary ml-4 mb-2" @click="edit(seller_id)" >Ban</button> </td>
+                            </th>
                         </tr>
                     </tbody>
                 </table>
@@ -116,8 +118,13 @@
                 // 搜索
                 search: function () {
                     const that = this
+
                     console.log("search seller")
+                    const token = window.localStorage.getItem("ishopping-token")
+
+                    axios.defaults.headers.common = { Authorization: `${token}` }
                     axios
+
                         .get(api_url + "/admin/search_seller_id", {
                         params: {
                             shop_name:this.shop_name
@@ -125,7 +132,7 @@
                         .then(function (resp) {
                             // handle success
                             if (resp.data.code === 0) {
-                                that.seller_id = resp.data.data
+                                that.seller_id = resp.data.data.seller_id.seller_id
                                 that.seen = true
                             } else {
                                 console.log(resp.data.msg)
@@ -147,13 +154,14 @@
                         })
                 },
                 // 禁用
-                edit() {
+                edit(id) {
                     const that = this
                     axios({
                             method: "post",
+
                             url: api_url + "/admin/ban",
                             data: {
-                                user_id: parseInt(this.id),
+                                user_id: parseInt(id),
                             },
                         })
                         .then(function (resp) {
