@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"ishopping/src/jwt"
+	"ishopping/src/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -50,5 +51,19 @@ func AuthorizationHandler(c *gin.Context) {
 		return
 	}
 	c.Set("UserID", claims.UserID)
+	c.Next()
+}
+
+func AdminAuthHandler(c *gin.Context) {
+	uid := c.GetInt("UserID")
+	utype, err := service.GetUserTypeByUid(uid)
+	if err != nil{
+		forbiddenHandler(c, "can not get type")
+		return
+	}
+	if utype != 2{
+		forbiddenHandler(c, "you are not admin")
+		return
+	}
 	c.Next()
 }

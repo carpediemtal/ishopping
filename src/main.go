@@ -19,13 +19,6 @@ func main() {
 	r.GET("/api/index_category_channel", handler.VisitorViewHandler)
 	r.GET("/api/commodity_evaluation", handler.CommodityEvaluationHandler)
 
-	// release3 admin
-	r.GET("/api/admin/evaluation_list", handler.CommentsGetHandler)
-	r.POST("/api/admin/delete_evaluation", handler.CommentDeleteHandler)
-	r.POST("/api/admin/ban", handler.BanUserHandler)
-	r.POST("/api/admin/unban", handler.UnBanUserHandler)
-	r.GET("/api/admin/banned_user_list", handler.BannedUsersGetHandler)
-
 	auth := r.Group("/api")
 	auth.Use(handler.AuthorizationHandler)
 	auth.GET("/seller/order_list", handler.OrderListHandler)
@@ -40,13 +33,23 @@ func main() {
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
 	auth.GET("/userType", handler.UserTypeHandler)
 
-	auth.GET("/admin/search_seller_id", handler.SearchSellerIdHandler)
 	auth.POST("/buyer/evaluate", handler.BuyerEvaluateHandler)
 	auth.POST("/buyer/cart_add", handler.CartAddHandler)
 	auth.POST("/buyer/cart_delete", handler.CartDeleteHandler)
 	auth.GET("/buyer/Cart_get", handler.CartGetHandler)
 	auth.GET("/buyer/order_history", handler.OrderHistoryHandler)
 	auth.POST("buyer/cart_confirm", handler.CartConfirmHandler)
+
+	// release3 admin
+	admin := auth.Group("/admin", handler.AdminAuthHandler)
+	{
+		admin.GET("/evaluation_list", handler.CommentsGetHandler)
+		admin.POST("/delete_evaluation", handler.CommentDeleteHandler)
+		admin.POST("/ban", handler.BanUserHandler)
+		admin.POST("/unban", handler.UnBanUserHandler)
+		admin.GET("/banned_user_list", handler.BannedUsersGetHandler)
+		admin.GET("/search_seller_id", handler.SearchSellerIdHandler)
+	}
 
 	if err := r.Run(":7001"); err != nil {
 		log.Println(err)
