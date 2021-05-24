@@ -40,7 +40,7 @@ func main() {
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
 	auth.GET("/userType", handler.UserTypeHandler)
 
-	auth.GET("/api/admin/search_seller_id", handler.SearchSellerIdHandler)
+	auth.GET("/admin/search_seller_id", handler.SearchSellerIdHandler)
 	auth.POST("/buyer/evaluate", handler.BuyerEvaluateHandler)
 	auth.POST("/buyer/cart_add", handler.CartAddHandler)
 	auth.POST("/buyer/cart_delete", handler.CartDeleteHandler)
