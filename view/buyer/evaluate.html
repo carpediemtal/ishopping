@@ -110,8 +110,8 @@
             methods: {
                 submit() {
                     let params = {
-                        order_id: this.order_id,
-                        rate: this.rate,
+                        order_id: parseInt(this.order_id),
+                        rate: parseInt(this.rate),
                         content: this.content,
                     }
                     if (!params.rate) {
@@ -129,8 +129,8 @@
 
                     axios.defaults.headers.common = { Authorization: `${token}` }
                     axios({
-                        url: api_url + "buyer/evaluate",
-                        method: "get",
+                        url: api_url + "/buyer/evaluate",
+                        method: "post",
                         data: params
                     })
                         .then(function (res) {
