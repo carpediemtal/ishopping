@@ -64,15 +64,15 @@
                     </thead>
                     <tbody>
                         <tr v-if="seen">
-                            <td>{{ seller_id }}</td>
+                            <td>{{ user_id }}</td>
                             <th style="float: right;" >
-                            <td><button class="btn btn-primary ml-4 mb-2" @click="edit(seller_id)" >Ban</button> </td>
+                            <td><button class="btn btn-primary ml-4 mb-2" @click="edit(user_id)" >Ban</button> </td>
                             </th>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <footer class="pt-4 my-md-5 pt-md-5 borde   r-top">
                 <div class="row">
                     <div class="col-12 col-md">
                         <h5>Copyright&copy;2021</h5>
@@ -104,7 +104,7 @@
             data: {
                 shop_name: "",
                 seen: false,
-                seller_id: '',
+                user_id: '',
 
             },
             mounted() {
@@ -132,42 +132,33 @@
                         .then(function (resp) {
                             // handle success
                             if (resp.data.code === 0) {
-                                that.seller_id = resp.data.data.seller_id.seller_id
+                                that.user_id = resp.data.data.user_id
                                 that.seen = true
                             } else {
                                 console.log(resp.data.msg)
                             }
                         })
-                         // .get(`${api_url}/search_seller_id?shop_name=${this.shop_name}`)
-                         // .then(function (resp) {
-                         //     // handle success
-                         //     if (resp.data.code === 0) {
-                         //        this.id = resp.data.data
-                         //        // that.seen = true
-                         //     } else {
-                         //         console.log(resp.data.msg)
-                         //     }
-                         // })
+                       
                         .catch(function (cresp) {
                             // handle error
                             console.log(cresp.data.msg)
                         })
                 },
                 // 禁用
-                edit(id) {
+                edit(user_id) {
                     const that = this
                     axios({
                             method: "post",
 
                             url: api_url + "/admin/ban",
                             data: {
-                                user_id: parseInt(id),
+                                user_id: parseInt(user_id),
                             },
                         })
                         .then(function (resp) {
                             // handle success
                             if (resp.data.code === 0) {
-                                alert('ban successfully')
+                                alert('禁用成功')
                                 this.search()
                                 // that.ID = resp.data.data
                                 // this.sellerList = resp.data.data
