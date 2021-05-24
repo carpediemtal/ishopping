@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"ishopping/src/db"
+	"time"
 )
 
 type Cart struct {
@@ -55,6 +56,36 @@ func GetCountById(uid, cid int) (count int, err error) {
 	return
 }
 
+func CartToOrder(uid, cid int) (err error) {
+	count, err := GetCountById(uid, cid)
+	if err != nil {
+		return errors.New("no this record")
+	} else {
+		inventory, err := getInventoryByCid(cid)
+		if err != nil {
+			return errors.New("no this commodity")
+		} else if inventory < count {
+			return errors.New("in a short inventory")
+		} else {
+			timestamp := time.Now().Unix()
+			_, err = db.DB.Exec(`insert into purchase_order (status,uid, cid, create_time,modify_time,count) values (?, ?, ?, ?, ?, ?)`, 1, uid, cid, timestamp, timestamp, count)
+			if err != nil {
+				return errors.New("can't insert into order")
+			}
+			err = DecreaseInventoryByCid(cid, count)
+			if err != nil {
+				return err
+			}
+			err = CartDeleteCommodity(uid, cid)
+			if err != nil {
+				return err
+			}
+		}
+
+	}
+	return
+}
+
 func CartDeleteCommodity(uid, cid int) (err error) {
 	_, err = GetCountById(uid, cid)
 	if err != nil {
@@ -76,7 +107,7 @@ func CartGetCommodityByUid(uid int) (results []CartCommodity, err error) {
 			return results, errors.New("no this commodity")
 		}
 		row2 := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
-		if err = row2.Scan(&commodity.Thumbnail); err != nil {
+		if err = row2.Scan(&results[i].Thumbnail); err != nil {
 			results[i].Thumbnail = Image404
 		}
 	}
