@@ -72,15 +72,11 @@ func UpdateShopInfo(uid int, shopName, address, phoneNum string) (err error) {
 	return
 }
 
-type params struct {
-	Sid int `json:"seller_id"`
-}
-
-func GetSellerIdByShopName(shop_name string) (seller_id params, err error) {
-	row := db.DB.QueryRow("select sid from shop where shop_name = ?", shop_name)
-	err = row.Scan(&seller_id.Sid)
+func GetSellerIdByShopName(shopName string) (uid int, err error) {
+	row := db.DB.QueryRow("select uid from shop where shop_name = ?", shopName)
+	err = row.Scan(&uid)
 	if err != nil {
-		return seller_id, errors.New("shop_name not found")
+		return uid, errors.New("shop_name not found")
 	}
 	return
 }

@@ -16,6 +16,7 @@
 -  05-15 15:52：新增`buyer cart confirm`接口
 -  05-16 09:30：删除admin的login接口，所有用户统一用一个登录接口：`/api/login`
 -  05-16 15:07：新增`admin banned user list`接口
+-  05-25 00:07：修改接口`/api/admin/search_seller_id`，返回`user_id`
 
 
 # Visitor
@@ -401,9 +402,9 @@ list_evalution
 
 ### 返回
 
-| 字段名    | 类型 | 说明      |
-| --------- | ---- | --------- |
-| seller_id | int  | 卖家的 id |
+| 字段名  | 类型 | 说明      |
+| ------- | ---- | --------- |
+| user_id | int  | 卖家的 id |
 
 ## ban
 
