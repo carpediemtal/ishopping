@@ -77,7 +77,7 @@
                             <td>{{o.shop_name}}</td>
                             <td>{{o.order_status  == 1 ? '未发货' : o.order_status  == 2 ? '已发货' : '已确认收货'}}</td>
                             <td>
-                                <button v-if="o.order_status == 1"  @click="evaluate(o.order_id)" >evaluate</button>
+                                <button v-if="o.order_status == 2"  @click="evaluate(o.order_id)" >receipt</button>
                             </td>
                         </tr>
                     </tbody>
