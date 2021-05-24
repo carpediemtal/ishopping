@@ -71,13 +71,14 @@
                             <td>{{o.modify_time}}</td>
                             <td>{{o.pay_price}}</td>
                             <td>{{o.order_id}}</td>
-                            <td>{{o.item_img}}</td>
+<!--                            <td>{{o.item_img}}</td>-->
+                            <td><img :src="o.item_img" alt="" width="150" height="150"></td>
                             <td>{{o.item_num}}</td>
                             <td>{{o.commodity_id}}</td>
                             <td>{{o.shop_name}}</td>
                             <td>{{o.order_status  == 1 ? '未发货' : o.order_status  == 2 ? '已发货' : '已确认收货'}}</td>
                             <td>
-                                <button v-if="o.order_status == 2"  @click="evaluate(o.order_id)" >receipt</button>
+                                <button v-if="o.order_status == 2"  @click="evaluate(o.order_id)" >签收</button>
                             </td>
                         </tr>
                     </tbody>

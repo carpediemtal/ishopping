@@ -109,6 +109,7 @@
             },
             methods: {
                 submit() {
+
                     let params = {
                         order_id: parseInt(this.order_id),
                         rate: parseInt(this.rate),
@@ -144,7 +145,7 @@
                         .catch(function (error) {
                             console.log(error)
                         })
-
+                    window.location.href="order_history.html";
                 },
                 GetUrlParam(name) {
                     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
