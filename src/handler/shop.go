@@ -66,5 +66,5 @@ func SearchSellerIdHandler(c *gin.Context) {
 		JsonErr(c, err.Error())
 		return
 	}
-	JsonOK(c, gin.H{"seller_id": p})
+	JsonOK(c, gin.H{"user_id": p})
 }
