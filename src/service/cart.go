@@ -107,7 +107,7 @@ func CartGetCommodityByUid(uid int) (results []CartCommodity, err error) {
 			return results, errors.New("no this commodity")
 		}
 		row2 := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
-		if err = row2.Scan(&commodity.Thumbnail); err != nil {
+		if err = row2.Scan(&results[i].Thumbnail); err != nil {
 			results[i].Thumbnail = Image404
 		}
 	}
