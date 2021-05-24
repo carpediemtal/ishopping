@@ -129,7 +129,7 @@ func GetOrderHistoryByUid(uid int) (results []OrderHistory, err error) {
 			return results, errors.New("no this shop")
 		}
 		row3 := db.DB.QueryRow(`select meta_val from commodity_meta where cid = ? and meta_key = ?`, commodity.Cid, "thumbnail")
-		if err = row3.Scan(&commodity.Img); err != nil {
+		if err = row3.Scan(&results[i].Img); err != nil {
 			results[i].Img = Image404
 		}
 	}
