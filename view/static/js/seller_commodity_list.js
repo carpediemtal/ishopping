@@ -8,20 +8,20 @@ var commodity_list = new Vue({
             page_size:10,
             page_index:1,
             list:[
-                {commodity_id:0,name:"commodityname0",price:100,thumbnail:"...",sales:100},
+  /*               {commodity_id:0,name:"commodityname0",price:100,thumbnail:"...",sales:100},
                 {commodity_id:1,name:"commodityname1",price:200,thumbnail:"...",sales:100},
                 {commodity_id:2,name:"commodityname2",price:300,thumbnail:"...",sales:100},
                 {commodity_id:3,name:"commodityname3",price:400,thumbnail:"...",sales:100},
                 {commodity_id:4,name:"commodityname4",price:500,thumbnail:"...",sales:100},
                 {commodity_id:5,name:"commodityname5",price:600,thumbnail:"...",sales:100},
-                {commodity_id:6,name:"commodityname6",price:700,thumbnail:"...",sales:100},
+                {commodity_id:6,name:"commodityname6",price:700,thumbnail:"...",sales:100}, */
             ]
         }
     },
     methods:{
         detail:function(id){
             // window.location.replace(`"commodity_detail.html?cid=${id}"`);
-            window.location.href = `"commodity_detail.html?cid=${id}"`
+            window.location.href = `commodity_edit.html?cid=${id}`
 
         },
         getPage:function(){
@@ -29,7 +29,7 @@ var commodity_list = new Vue({
             const token = window.localStorage.getItem("ishopping-token")
             axios.defaults.headers.common = { Authorization: `${token}` }
             axios({
-                url: api_url + `"/seller/commodity_list?page_index=${that.cur}&page_size=${that.page_size}"`,
+                url: api_url + `/seller/commodity_list?page_index=${that.cur}&page_size=${that.page_size}`,
                 // url: `"http://ishopping.gq/api/seller/commodity_list?page_index=${that.cur}&page_size=${that.page_size}"`,
                 method: "get",
             }).then(function (res) {
@@ -60,13 +60,13 @@ var commodity_list = new Vue({
         const token = window.localStorage.getItem("ishopping-token")
         axios.defaults.headers.common = { Authorization: `${token}` }
         axios({
-            url: api_url + `"/seller/commodity_list?page_index=${that.page_index}&page_size=${that.page_size}"`,
+            url: api_url + `/seller/commodity_list?page_index=${that.page_index}&page_size=${that.page_size}`,
             // url: `"http://ishopping.gq/api/seller/commodity_list?page_index=${that.page_index}&page_size=${that.page_size}"`,
             method: "get",
         }).then(function (res) {
             that.hasOrder = true
             if (res.data.code == 0) {
-                that.list = commodity_list
+                that.list = res.data.data.commodity_list
             } else {
                 console.log(res.data.msg)
             }
