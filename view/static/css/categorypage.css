@@ -55,6 +55,7 @@ ul{
 }
 .listbody .goods-pic img{
     height: 190px;
+    width: 190px;
 }
 .listbody .goods-info{
     margin-left: 210px;
