@@ -24,6 +24,9 @@ func CommentsGetHandler(c *gin.Context) {
 	if err != nil {
 		JsonErr(c, err.Error())
 		return
+	}else if len(ans) == 0 {
+		JsonOKWithMsg(c, gin.H{"evaluation_list": ans}, "no comment found")
+		return
 	}
 	JsonOK(c, gin.H{"evaluation_list": ans})
 }

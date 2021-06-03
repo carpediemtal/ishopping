@@ -19,6 +19,16 @@ func JsonOK(c *gin.Context, data gin.H) {
 	c.Abort()
 }
 
+// 成功的返回(带消息)
+func JsonOKWithMsg(c *gin.Context, data gin.H, msg string) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  msg,
+		"data": data,
+	})
+	c.Abort()
+}
+
 // 错误的返回
 func JsonErr(c *gin.Context, msg string) {
 	c.JSON(http.StatusOK, gin.H{

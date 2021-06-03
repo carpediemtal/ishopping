@@ -76,9 +76,9 @@ func GetCommentListByPageAndPageSize(page_sizde, page int) (comments []SearchedC
 		comments = append(comments, comment)
 	}
 
-	if len(comments) == 0 {
-		err = errors.New("no comment found")
-	}
+	// if len(comments) == 0 {
+	// 	err = errors.New("no comment found")
+	// }
 	return
 }
 
