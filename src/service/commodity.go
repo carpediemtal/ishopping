@@ -31,7 +31,7 @@ type CommoditySearchResult struct {
 }
 
 func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
-	if err = db.DB.Select(&results, `select cid, name, price, sales from commodity`); err != nil {
+	if err = db.DB.Select(&results, `select cid, name, price, sales from ub_commodity`); err != nil {
 		return
 	}
 
@@ -56,7 +56,7 @@ type CommodityDetail struct {
 }
 
 func GetCommodityDetailByCid(cid int) (detail CommodityDetail, err error) {
-	row := db.DB.QueryRow(`select name, inventory, sales, price, caid from commodity where cid = ?`, cid)
+	row := db.DB.QueryRow(`select name, inventory, sales, price, caid from ub_commodity where cid = ?`, cid)
 	err = row.Scan(&detail.Name, &detail.Inventory, &detail.Sales, &detail.Price, &detail.Caid)
 	if err != nil {
 		return detail, errors.New("commodity_detail searching error")
@@ -97,37 +97,30 @@ type CommodityEdit struct {
 	EditType     int      `json:"edit_type"`
 }
 
-func GetCommodityByCid(cid int) (commodity Commodity, err error) {
-	row1 := db.DB.QueryRow("select * from commodity where cid = ?", cid)
-	err = row1.Scan(&commodity.Cid, &commodity.Sid, &commodity.Name, &commodity.Price, &commodity.Sales, &commodity.Inventory, &commodity.Caid)
-	return
-}
-
 func getSidByUid(uid int) (sid int, err error) {
-	log.Println("uid:", uid)
-	row := db.DB.QueryRow(`select sid from shop where uid = ?`, uid)
+	row := db.DB.QueryRow(`select sid from ub_shop where uid = ?`, uid)
 	err = row.Scan(&sid)
 	return
 }
 
 func getSidByCid(cid int) (sid int, err error) {
-	row := db.DB.QueryRow(`select sid from commodity where cid = ?`, cid)
+	row := db.DB.QueryRow(`select sid from ub_commodity where cid = ?`, cid)
 	err = row.Scan(&sid)
 	return
 }
 
 func getInventoryByCid(cid int) (inventory int, err error) {
-	row := db.DB.QueryRow(`select inventory from commodity where cid = ?`, cid)
+	row := db.DB.QueryRow(`select inventory from ub_commodity where cid = ?`, cid)
 	err = row.Scan(&inventory)
 	return
 }
 
 func DecreaseInventoryByCid(cid, count int) (err error) {
-	invetory, err := getInventoryByCid(cid)
+	inventory, err := getInventoryByCid(cid)
 	if err != nil {
 		return
 	}
-	if _, err := db.DB.Exec(`update commodity set inventory = ? where cid = ?`, invetory-count, cid); err != nil {
+	if _, err := db.DB.Exec(`update commodity set inventory = ? where cid = ?`, inventory-count, cid); err != nil {
 		return err
 	}
 	return
@@ -245,7 +238,7 @@ type CommodityList struct {
 }
 
 func GetCommodityList() (list []CommodityList, err error) {
-	err = db.DB.Select(&list, `select cid, name, price, sales from commodity`)
+	err = db.DB.Select(&list, `select cid, name, price, sales from ub_commodity`)
 	if err != nil {
 		return
 	}
