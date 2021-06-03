@@ -20,7 +20,7 @@ func LoginHandler(c *gin.Context) {
 
 	u, err := service.GetUserByUsername(p.Username)
 	if err != nil || u.Password != p.Password {
-		JsonErr(c, "incorrect username or password")
+		JsonErr(c, "incorrect username or password, or maybe you have been baned by admin")
 		return
 	}
 

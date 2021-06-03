@@ -97,11 +97,11 @@ func CartDeleteCommodity(uid, cid int) (err error) {
 }
 
 func CartGetCommodityByUid(uid int) (results []CartCommodity, err error) {
-	if err = db.DB.Select(&results, `select cid, count from cart where uid = ? order by cartid desc`, uid); err != nil {
+	if err = db.DB.Select(&results, `select cid, count from ub_cart where uid = ? order by cartid desc`, uid); err != nil {
 		return
 	}
 	for i, commodity := range results {
-		row1 := db.DB.QueryRow(`select name, price from commodity where cid = ?`, commodity.Cid)
+		row1 := db.DB.QueryRow(`select name, price from ub_commodity where cid = ?`, commodity.Cid)
 		//err = row1.Scan(&commodity.Name, &commodity.Price)
 		if err = row1.Scan(&results[i].Name, &results[i].Price); err != nil {
 			return results, errors.New("no this commodity")
@@ -119,7 +119,7 @@ func GetOrderHistoryByUid(uid int) (results []OrderHistory, err error) {
 		return
 	}
 	for i, commodity := range results {
-		row1 := db.DB.QueryRow(`select price, sid from commodity where cid = ?`, commodity.Cid)
+		row1 := db.DB.QueryRow(`select price, sid from ub_commodity where cid = ?`, commodity.Cid)
 		var sid int
 		if err = row1.Scan(&results[i].Price, &sid); err != nil {
 			return results, errors.New("no this commodity")

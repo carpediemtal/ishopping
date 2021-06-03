@@ -57,11 +57,11 @@ func AuthorizationHandler(c *gin.Context) {
 func AdminAuthHandler(c *gin.Context) {
 	uid := c.GetInt("UserID")
 	utype, err := service.GetUserTypeByUid(uid)
-	if err != nil{
+	if err != nil {
 		forbiddenHandler(c, "can not get type")
 		return
 	}
-	if utype != 2{
+	if utype != 2 {
 		forbiddenHandler(c, "you are not admin")
 		return
 	}

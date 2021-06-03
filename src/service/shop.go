@@ -31,20 +31,20 @@ func GetShopProfileById(uid int) (shop Shop, err error) {
 }
 
 func GetShopAddressById(uid int) (address string, err error) {
-	row := db.DB.QueryRow("select meta_val from user_meta  where uid = ? and meta_key= ?", uid, "shop_address")
+	row := db.DB.QueryRow("select meta_val from user_meta where uid = ? and meta_key= ?", uid, "shop_address")
 	err = row.Scan(&address)
 	return
 }
 
 func GetShopPhoneNumById(uid int) (phoneNum string, err error) {
-	row := db.DB.QueryRow("select meta_val from user_meta  where uid = ? and meta_key= ?", uid, "shop_phonenum")
+	row := db.DB.QueryRow("select meta_val from user_meta where uid = ? and meta_key= ?", uid, "shop_phonenum")
 	err = row.Scan(&phoneNum)
 	return
 }
 
 func GetShopNameById(uid int) (shopName string, err error) {
 	//row := db.DB.QueryRow("select meta_val from user_meta  where uid = ? and meta_key= ?", uid, "shop_name")
-	row := db.DB.QueryRow("select shop_name from shop where uid = ?", uid)
+	row := db.DB.QueryRow("select shop_name from ub_shop where uid = ?", uid)
 	err = row.Scan(&shopName)
 	return
 }
@@ -73,7 +73,7 @@ func UpdateShopInfo(uid int, shopName, address, phoneNum string) (err error) {
 }
 
 func GetSellerIdByShopName(shopName string) (uid int, err error) {
-	row := db.DB.QueryRow("select uid from shop where shop_name = ?", shopName)
+	row := db.DB.QueryRow("select uid from ub_shop where shop_name = ?", shopName)
 	err = row.Scan(&uid)
 	if err != nil {
 		return uid, errors.New("shop_name not found")

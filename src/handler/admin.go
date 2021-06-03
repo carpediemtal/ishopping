@@ -56,6 +56,7 @@ func BanUserHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError when ban user: "+err.Error())
 		return
 	}
+
 	err = service.BanUserByUid(p.Uid)
 	if err != nil {
 		JsonErr(c, "ban user error: "+err.Error())
@@ -74,6 +75,7 @@ func UnBanUserHandler(c *gin.Context) {
 		JsonErr(c, "BindJsonError when ban user: "+err.Error())
 		return
 	}
+
 	err = service.UnBanUserByUid(p.Uid)
 	if err != nil {
 		JsonErr(c, "unban user error: "+err.Error())

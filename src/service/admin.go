@@ -90,12 +90,24 @@ func DeleteCommentByCoid(coid int) (err error) {
 
 //根据用户id ban用户
 func BanUserByUid(uid int) (err error) {
+	row := db.DB.QueryRow(`select uid from user_ban where uid = ?`, uid)
+	var x int
+	if err = row.Scan(&x); err == nil {
+		return errors.New("the user has been disabled already")
+	}
+
 	_, err = db.DB.Exec("insert into user_ban (uid) values (?)", uid)
 	return
 }
 
 //根据用户id unban用户
 func UnBanUserByUid(uid int) (err error) {
+	row := db.DB.QueryRow(`select uid from user_ban where uid = ?`, uid)
+	var x int
+	if err = row.Scan(&x); err != nil {
+		return errors.New("the user is not disabled")
+	}
+
 	_, err = db.DB.Exec("delete from user_ban where uid = ?", uid)
 	return
 }
