@@ -123,6 +123,13 @@ func CartConfirmHandler(c *gin.Context) {
 
 	uid := c.GetInt("UserID")
 	for _, cid := range p.Cids {
+		err = service.ConfirmCartAndCommodity(uid, cid)
+		if err != nil {
+			JsonErr(c, "Cart confirm error: "+err.Error())
+			return
+		}
+	}
+	for _, cid := range p.Cids {
 		err = service.CartToOrder(uid, cid)
 		if err != nil {
 			JsonErr(c, "Cart confirm error: "+err.Error())

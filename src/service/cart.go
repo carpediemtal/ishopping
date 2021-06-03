@@ -33,19 +33,28 @@ type OrderHistory struct {
 }
 
 func CartAddCommodity(uid, cid, count int) (err error) {
+	inventory, _ := getInventoryByCid(cid)
 	var nowCount int
-	nowCount, err = GetCountById(uid, cid)
+	nowCount, err = GetCountById(uid, cid) //获取当前购物车中 该cid 商品的数量
 	if err == nil {
 		var caCount = nowCount + count
 		if caCount < 0 {
 			return errors.New("the count of commodity can't be a negative number")
 		} else if caCount == 0 {
 			err = CartDeleteCommodity(uid, cid)
+		} else if caCount > inventory {
+			return errors.New("the count of commodity is larger than the inventory of the commodity")
 		} else {
 			_, err = db.DB.Exec(`update cart set count = ? where cid = ? and uid = ?`, caCount, cid, uid)
 		}
-	} else {
-		_, err = db.DB.Exec(`insert into cart (cid, uid, count) values (?, ?, ?)`, cid, uid, count)
+	} else { //如果不存在当前cid的记录
+		if count <= 0 { //如果添加数量为负数，则不准添加进购物车
+			return errors.New("the count can't be a negative or a zero")
+		} else if inventory < count {
+			return errors.New("the count is larger than the inventory of the commodity")
+		} else {
+			_, err = db.DB.Exec(`insert into cart (cid, uid, count) values (?, ?, ?)`, cid, uid, count)
+		}
 	}
 	return err
 }
@@ -56,32 +65,39 @@ func GetCountById(uid, cid int) (count int, err error) {
 	return
 }
 
+func ConfirmCartAndCommodity(uid, cid int) (err error) {
+	count, err := GetCountById(uid, cid)
+	if err != nil {
+		return errors.New("no this record")
+	}
+	inventory, err := getInventoryByCid(cid)
+	if err != nil {
+		return errors.New("don't have this commodity")
+	}
+	if count > inventory {
+		return errors.New("in a short inventory")
+	}
+	return
+}
+
 func CartToOrder(uid, cid int) (err error) {
 	count, err := GetCountById(uid, cid)
 	if err != nil {
 		return errors.New("no this record")
 	} else {
-		inventory, err := getInventoryByCid(cid)
+		timestamp := time.Now().Unix()
+		_, err = db.DB.Exec(`insert into purchase_order (status,uid, cid, create_time,modify_time,count) values (?, ?, ?, ?, ?, ?)`, 1, uid, cid, timestamp, timestamp, count)
 		if err != nil {
-			return errors.New("no this commodity")
-		} else if inventory < count {
-			return errors.New("in a short inventory")
-		} else {
-			timestamp := time.Now().Unix()
-			_, err = db.DB.Exec(`insert into purchase_order (status,uid, cid, create_time,modify_time,count) values (?, ?, ?, ?, ?, ?)`, 1, uid, cid, timestamp, timestamp, count)
-			if err != nil {
-				return errors.New("can't insert into order")
-			}
-			err = DecreaseInventoryByCid(cid, count)
-			if err != nil {
-				return err
-			}
-			err = CartDeleteCommodity(uid, cid)
-			if err != nil {
-				return err
-			}
+			return errors.New("can't insert into order")
 		}
-
+		err = DecreaseInventoryByCid(cid, count)
+		if err != nil {
+			return err
+		}
+		err = CartDeleteCommodity(uid, cid)
+		if err != nil {
+			return err
+		}
 	}
 	return
 }
