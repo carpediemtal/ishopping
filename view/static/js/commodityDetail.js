@@ -80,7 +80,7 @@ const app = new Vue({
 											location.reload();
 										} else {
 											console.log(resp.data.msg);
-											alert("Error!");
+											alert(resp.data.msg);
 											location.reload();
 										}
 									})
