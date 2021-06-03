@@ -40,11 +40,7 @@ const app = new Vue({
                     url: `${api_url}/commodity_evaluation?commodity_id=${cid}`,
                 })
                     .then(function (resp) {
-                        if (resp.data.code === 0) {
-                            that.comments = resp.data.data.list;
-                        } else {
-                            alert("commodity's evalutions not found:" + resp.data.msg);
-                        }
+                        that.comments = resp.data.data.list;
                     })
                     .catch(function (resp) {
                         console.log(resp)
