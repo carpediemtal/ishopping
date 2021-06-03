@@ -10,6 +10,8 @@ var mainbody = new Vue({
         // {evaluation_id:4,buyer_id:44,buyer_name:'name4',commodity_id:444,commodity_name:'cname4',content:'If you wish to succeed, you should use persistence as your good friend, experience as your reference, prudence as your brother and hope as your sentry.'}]
     },
     mounted() {
+		const token = window.localStorage.getItem("ishopping-token")
+        axios.defaults.headers.common = { Authorization: `${token}` }
         var that = this
         // http://192.168.1.107:7001/api/admin/evaluation_list?page=1&page_size=10
         axios.get(api_url+'/admin/evaluation_list?page=1&page_size=10')

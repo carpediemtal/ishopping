@@ -189,7 +189,7 @@ func CommodityListHandler(c *gin.Context) {
 		return
 	}
 
-	if pageIndex*pageSize >= len(commodityList) {
+	if (pageIndex-1)*pageSize >= len(commodityList) {
 		JsonErr(c, "page out of range")
 		return
 	}

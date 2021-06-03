@@ -10,6 +10,8 @@ var mainbody = new Vue({
         // {user_id:44,name:'name4'}]
     },
     mounted() {
+		const token = window.localStorage.getItem("ishopping-token")
+        axios.defaults.headers.common = { Authorization: `${token}` }
         var that = this
         // 'http://192.168.1.107:7001/api/admin/banned_user_list?page=1&page_size=20'
         axios.get(api_url+'/admin/banned_user_list?page=1&page_size=20')
