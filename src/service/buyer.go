@@ -40,3 +40,25 @@ func BuyerEvaluateCommodity(uid, order_id, rate int, content string) (err error)
 	_, err = db.DB.Exec(`insert into comment (cid, uid, content, timestamp, rate) values (?, ?, ?, ?, ?)`, cid, uid, content, timestamp, rate)
 	return
 }
+
+func CommoditySignFor(oid int) (err error) {
+	_, err = db.DB.Exec(`update purchase_order set status = ?, modify_time = ? where oid = ?`, 3, time.Now().Unix(), oid)
+	return
+}
+
+func CommodityUpdateSales(oid int) (err error) {
+	row := db.DB.QueryRow(`select cid, count from purchase_order where oid = ?`, oid)
+	var cid, count int
+	if err = row.Scan(&cid, &count); err != nil {
+		return
+	}
+
+	row = db.DB.QueryRow(`select sales from commodity where cid = ?`, cid)
+	var sales int
+	if err = row.Scan(&sales); err != nil {
+		return
+	}
+
+	_, err = db.DB.Exec(`update commodity set sales = ? where cid = ?`, sales+count, cid)
+	return
+}

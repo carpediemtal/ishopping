@@ -31,6 +31,7 @@ func main() {
 	auth.GET("/buyer/information", handler.BuyerDetailHandler)
 	auth.POST("/buyer/information_modify", handler.UpdateBuyerInfoHandler)
 	auth.POST("/buyer/commodity_buy", handler.BuyCommodityToOrderHandler)
+	auth.POST("/buyer/commodity_sign_for", handler.CommoditySignForHandler)
 	auth.GET("/userType", handler.UserTypeHandler)
 
 	auth.POST("/buyer/evaluate", handler.BuyerEvaluateHandler)

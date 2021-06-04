@@ -201,3 +201,27 @@ func CommodityListHandler(c *gin.Context) {
 
 	JsonOK(c, gin.H{"commodity_list": commodityList})
 }
+
+func CommoditySignForHandler(c *gin.Context) {
+	type params struct {
+		Oid int `json:"order_id"`
+	}
+	var p params
+	err := c.BindJSON(&p)
+	if err != nil {
+		JsonErr(c, "BindJsonError: "+err.Error())
+		return
+	}
+
+	if err = service.CommoditySignFor(p.Oid); err != nil {
+		JsonErr(c, "commodity sign for error: "+err.Error())
+		return
+	}
+
+	if err = service.CommodityUpdateSales(p.Oid); err != nil {
+		JsonErr(c, "commodity update sales error: "+err.Error())
+		return
+	}
+
+	JsonOK(c, gin.H{})
+}
