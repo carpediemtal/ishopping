@@ -63,7 +63,12 @@
             </td>
             <td>{{ item.price }}</td>
             <td>
-                <div class="num"><span v-on:click="item.count--"> - </span><input type="text" name="" id="" v-model="item.count"><span v-on:click="item.count++"> + </span></div>
+                <div class="num">
+                    <span v-if="item.count>1"><a v-on:click="item.count--"> - </a></span>
+                    <span v-if="item.count==1"><a class="banclick"> - </a></span>
+                    <input type="text" name="" id="" v-model="item.count">
+                    <span v-on:click="item.count++"> + </span>
+                </div>
             </td>
             <td>{{ item.price * item.count }}</td>
             <td>
