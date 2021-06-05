@@ -45,7 +45,7 @@ func GetCommoditySearchResults() (results []CommoditySearchResult, err error) {
 }
 
 type CommodityDetail struct {
-	Caid         int      `json:"caid" map:"caid"`
+	Caid         int      `json:"category_id" map:"caid"`
 	Name         string   `json:"name" map:"name"`
 	Inventory    int      `json:"inventory" map:"inventory"`
 	Sales        int      `json:"sales" map:"sales"`
