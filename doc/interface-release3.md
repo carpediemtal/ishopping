@@ -86,6 +86,7 @@ list_item
 | introduction | string                 | 商品介绍   |
 | thumbnail    | string                 | 商品缩略图 |
 | images       | []string | 商品图片   |
+| category_id | int | 分类id |
 
 ## commodity evaluation list
 
