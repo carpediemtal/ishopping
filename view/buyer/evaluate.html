@@ -56,13 +56,13 @@
 
     <div class="evaluate">
         <div>
-            <input type="text" v-model="rate" placeholder="请输入评分（1-5）" name="" id="">
+            <input type="text" v-model="rate" placeholder="please enter your score（1-5）" name="" id="">
         </div>
         <div>
-            <textarea name="" v-model="content" placeholder="请输入您的评价" id="" cols="30" rows="10"></textarea>
+            <textarea name="" v-model="content" placeholder="please enter your evaluations" id="" cols="30" rows="10"></textarea>
         </div>
         <div>
-            <button @click="submit">提交</button>
+            <button @click="submit">submit</button>
         </div>
     </div>
 
@@ -116,11 +116,11 @@
                     content: this.content,
                 }
                 if (!params.rate) {
-                    alert('请输入评分')
+                    alert('please enter the score!')
                     return
                 }
                 if (!params.content) {
-                    alert('请输入评论内容')
+                    alert('please enter the content!')
                     return
                 }
                 console.log(params)
@@ -137,7 +137,7 @@
                     .then(function (res) {
                         that.hasOrder = true
                         if (res.data.code === 0) {
-                            alert('评论成功')
+                            alert('evaluate successfully')
                         } else {
                             console.log(res.data.msg)
                         }
