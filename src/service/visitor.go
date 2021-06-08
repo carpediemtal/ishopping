@@ -18,7 +18,7 @@ type SearchedCommodity struct {
 }
 
 //
-// 通过cid与meta_key查找meta_val
+/// 通过cid与meta_key查找meta_val
 func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err error) {
 	row := db.DB.QueryRow("select meta_val from commodity_meta where cid = ? and meta_key = ?", cid, metaKey)
 	err = row.Scan(&metaVal)
