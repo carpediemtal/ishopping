@@ -29,9 +29,9 @@ func GetCommodityExtraInfoByCid(cid int, metaKey string) (metaVal string, err er
 func GetCommodityListByCategoryAndPage(caid int, page int) (commodities []SearchedCommodity, err error) {
 	var rows *sql.Rows
 	if caid == 0 { // AllCategories
-		rows, err = db.DB.Query("select cid, name, price from commodity order by cid desc limit ?, ?", (page-1)*PageMaxLimits, PageMaxLimits)
+		rows, err = db.DB.Query("select cid, name, price from ub_commodity order by cid desc limit ?, ?", (page-1)*PageMaxLimits, PageMaxLimits)
 	} else { // Specific Category
-		rows, err = db.DB.Query("select cid, name, price from commodity where caid = ? order by cid desc limit ?, ?", caid, (page-1)*PageMaxLimits, PageMaxLimits)
+		rows, err = db.DB.Query("select cid, name, price from ub_commodity where caid = ? order by cid desc limit ?, ?", caid, (page-1)*PageMaxLimits, PageMaxLimits)
 	}
 	if err != nil {
 		return
