@@ -53,6 +53,7 @@
                     <thead>
                         <th>order id</th>
                         <th>commodity_id</th>
+                        <th>count</th>
                         <th>buyer name</th>
                         <th>buyer phone</th>
                         <th>buyer address</th>
@@ -63,6 +64,7 @@
                     <tbody v-for="o in orders">
                         <td>{{o.oid}}</td>
                         <td><a v-bind:href="['/commodity_detail.html?cid='+o.commodity_id]" target="_blank">{{o.commodity_id}}</a></td>
+                        <td>{{o.count}}</td>
                         <td>{{o.buyer_name}}</td>
                         <td>{{o.buyer_phone}}</td>
                         <td>{{o.buyer_address}}</td>
@@ -71,12 +73,6 @@
                             <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>
                             <button id="delivery" v-on:click="sendOrder(o.oid)" v-else>Delivery</button>
                         </td>
-                        <!-- <td id="status" >
-                    <p v-if="orderSended(o.delivery_id)">sended</p>
-                    <p v-if="orderReceived(o.delivery_id)">received</p>
-                    <p v-if="orderPayed(o.delivery_id) && !orderSended(o.delivery_id)">payed</p>
-                    <p v-if="orderUnpayed(o.delivery_id)">unpayed</p>
-                </td> -->
                     </tbody>
                 </table>
                 <h1 id="noOrder" v-else>Order list is empty!</h1>
@@ -113,19 +109,11 @@
                         res: 12,
                         total: 0,
                         hasOrder: false,
-
+                        // hasOrder:true,
                         orders: [
-                            //example
-                            // {
-                            //     oid: 100,
-                            //     total_price:100,
-                            //     delivery_id:-1     //>=0 deliveried  <0 not
-                            // },
-                            // {
-                            //     oid: 101,
-                            //     total_price:100,
-                            //     delivery_id:0     //>=0 deliveried  <0 not
-                            // },
+                            // example
+                            // {oid: 100,total_price:100,delivery_id:-1,count:2},
+                            // {oid: 101,total_price:100,delivery_id:0,count:1},
                         ],
                     }
                 },
