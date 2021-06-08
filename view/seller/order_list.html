@@ -70,7 +70,8 @@
                         <td>{{o.buyer_address}}</td>
                         <td>{{o.total_price}}</td>
                         <td>
-                            <p id="deliveryid" v-if="orderSended(o.delivery_id)">Deliveried</p>
+                            <p id="deliveryid" v-if="isSended(o.delivery_id)">Deliveried</p>
+                            <p id="" v-else-if="isSigned(o.delivery_id)">Signed</p>
                             <button id="delivery" v-on:click="sendOrder(o.oid)" v-else>Delivery</button>
                         </td>
                     </tbody>
@@ -109,11 +110,12 @@
                         res: 12,
                         total: 0,
                         hasOrder: false,
-                        // hasOrder:true,
+                        //hasOrder:true,
                         orders: [
                             // example
-                            // {oid: 100,total_price:100,delivery_id:-1,count:2},
-                            // {oid: 101,total_price:100,delivery_id:0,count:1},
+                            //{oid: 100,total_price:100,delivery_id:3,count:2},
+                            //{oid: 101,total_price:100,delivery_id:2,count:1},
+                            //{oid: 102,total_price:100,delivery_id:1,count:5},
                         ],
                     }
                 },
@@ -144,9 +146,12 @@
                                 console.log(error)
                             })
                     },
-                    orderSended: function (delivery_id) {
-                        return delivery_id >= 0
+                    isSended: function (delivery_id) {
+                        return delivery_id == 2
                     },
+                    isSigned:function(delivery_id){
+                        return delivery_id == 3
+                    }
                 },
                 mounted() {
                     const that = this
@@ -160,7 +165,7 @@
                             that.hasOrder = true
                             if (res.data.code == 0) {
                                 for (let i in res.data.data.order_list) {
-                                    res.data.data.order_list[i].delivery_id = -1
+                                    res.data.data.order_list[i].delivery_id = 1
                                     that.orders.push(res.data.data.order_list[i])
                                 }
                             } else {
@@ -177,7 +182,24 @@
                         .then(function (res) {
                             if (res.data.code == 0) {
                                 for (let i in res.data.data.order_list) {
-                                    res.data.data.order_list[i].delivery_id = 1
+                                    res.data.data.order_list[i].delivery_id = 2
+                                    that.orders.push(res.data.data.order_list[i])
+                                }
+                            } else {
+                                console.log(res.data.msg)
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
+                        axios({
+                        url: api_url + "/seller/order_list?order_status=3",
+                        method: "get",
+                    })
+                        .then(function (res) {
+                            if (res.data.code == 0) {
+                                for (let i in res.data.data.order_list) {
+                                    res.data.data.order_list[i].delivery_id = 3
                                     that.orders.push(res.data.data.order_list[i])
                                 }
                             } else {
