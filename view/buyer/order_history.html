@@ -67,8 +67,8 @@
                     </thead>
                     <tbody >
                         <tr v-for="o in orders" >
-                            <td>{{o.create_time}}</td>
-                            <td>{{o.modify_time}}</td>
+                            <td>{{o.create_time |formatDate}}</td>
+                            <td>{{o.modify_time |formatDate}}</td>
                             <td>{{o.pay_price}}</td>
                             <td>{{o.order_id}}</td>
 <!--                            <td>{{o.item_img}}</td>-->
@@ -123,6 +123,21 @@
                         orders: [
                         ],
                 },
+                filters: {
+				formatDate: function (value) {
+					let date = new Date(value*1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					return y + '-' + MM + '-' + d + ' ' + h + ':' + m;
+				},
+			},
 
                 mounted() {
 
