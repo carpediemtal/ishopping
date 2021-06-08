@@ -20,7 +20,7 @@ func GetOrderListByStatus(status, userID int) (orderList []Order, err error) {
 	if err != nil {
 		return
 	}
-	err = db.DB.Select(&orderList, `select oid, commodity.cid, price, buyer.name, buyer.phone_num, buyer.address, count from purchase_order, commodity, buyer where purchase_order.cid = commodity.cid and purchase_order.uid = buyer.uid and status = ? and sid = ?`, status, sid)
+	err = db.DB.Select(&orderList, `select oid, commodity.cid, price*count, buyer.name, buyer.phone_num, buyer.address, count from purchase_order, commodity, buyer where purchase_order.cid = commodity.cid and purchase_order.uid = buyer.uid and status = ? and sid = ?`, status, sid)
 	if err != nil {
 		return
 	}
