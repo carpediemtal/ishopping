@@ -183,7 +183,13 @@ func CommodityListHandler(c *gin.Context) {
 		return
 	}
 
-	commodityList, err := service.GetCommodityList()
+	uid := c.GetInt("UserID")
+	sid, err := service.GetSidByUid(uid)
+	if err != nil {
+		JsonErr(c, errors.New("get shop id failed, maybe you are not a seller").Error())
+		return
+	}
+	commodityList, err := service.GetCommodityList(sid)
 	if err != nil {
 		JsonErr(c, "get commodity list failed: "+err.Error())
 		return
@@ -196,6 +202,7 @@ func CommodityListHandler(c *gin.Context) {
 
 	var ans []service.CommodityList
 	for i, cnt := pageIndex*pageSize, 0; i < len(commodityList) && cnt < pageSize; i, cnt = i+1, cnt+1 {
+
 		ans = append(ans, commodityList[i])
 	}
 

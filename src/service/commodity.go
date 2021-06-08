@@ -237,8 +237,8 @@ type CommodityList struct {
 	Sales     int     `json:"sales" map:"sales"`
 }
 
-func GetCommodityList() (list []CommodityList, err error) {
-	err = db.DB.Select(&list, `select cid, name, price, sales from ub_commodity`)
+func GetCommodityList(sid int) (list []CommodityList, err error) {
+	err = db.DB.Select(&list, `select cid, name, price, sales from ub_commodity where sid = ?`, sid)
 	if err != nil {
 		return
 	}
@@ -249,4 +249,10 @@ func GetCommodityList() (list []CommodityList, err error) {
 		}
 	}
 	return list, nil
+}
+
+func GetSidByUid(uid int) (sid int, err error) {
+	row := db.DB.QueryRow(`select sid from ub_shop where uid = ?`, uid)
+	err = row.Scan(&sid)
+	return
 }
