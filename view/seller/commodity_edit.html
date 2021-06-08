@@ -76,7 +76,7 @@
                 </div> -->
                 <div class="form-group" v-if="isModifying">
                     <label for="name">Category ID</label>
-                    <select v-model="category_id">
+                    <select v-model="category_id" id="category">
                         <option v-for="option in options" v-bind:value="option.category_id">{{ option.category_name }}</option>
                     </select>
                 </div>
@@ -91,6 +91,7 @@
                         <div class="item-title label">thumbnails</div>
                         <div class="item-input">
                             <input type="text" id="small_img" placeholder="thumbnail" v-model="thumbnail" />
+                            <img :src="thumbnail" alt="" style="width: 100px; height: 100px;">
                         </div>
                     </div>
                 </div>
@@ -116,8 +117,11 @@
                         <div class="item-title label">detail_img</div>
                         <div class="item-input" id="detail_img">
                             <input type="text" id="1" class="detail_img" v-model="details[0]" />
+                            <img :src="details[0]" alt="" style="width: 100px; height: 100px;">
                             <input type="text" id="2" class="detail_img" v-model="details[1]"/>
+                            <img :src="details[1]" alt="" style="width: 100px; height: 100px;">
                             <input type="text" id="3" class="detail_img" v-model="details[2]"/>
+                            <img :src="details[2]" alt="" style="width: 100px; height: 100px;">
                         </div>
                     </div>
                 </div>
@@ -238,6 +242,7 @@
                                 that.introduction = resp.data.data.introduction
                                 that.thumbnail = resp.data.data.thumbnail
                                 that.details= resp.data.data.images
+                                that.category_id = resp.data.data.category_id
                             } else {
                                 console.log(resp.data.msg)
                             }
@@ -248,6 +253,7 @@
                         })
                         // var arr = ['1','2','3']
                         // this.details = arr
+                        $('#category').val(this.options[that.category_id])
                         $('#small_img').val(this.thumbnail)
                         for (var i =0; i < 3; i++) {
                             $("#" + String(i + 1)).val(this.details[i])
